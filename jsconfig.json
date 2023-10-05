@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "types": ["bun-types"]
+  },
+  "exclude": ["node_modules"]
+}
