@@ -2,7 +2,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
-    "types": ["bun-types"]
+    "types": ["bun-types"],
+    "strict": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    }
   },
   "exclude": ["node_modules"]
 }

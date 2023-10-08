@@ -6,25 +6,25 @@ describe('parseTemplateName', () => {
     [
       '{a}{{b}}',
       [
-        { token: 'a', isNode: true },
-        { token: '{b}', isNode: false },
+        { token: 'a', isExpression: true },
+        { token: '{b}', isExpression: false },
       ]
     ],
     [
       '{{{a}}}',
       [
-        { token: '{', isNode: false },
-        { token: 'a', isNode: true },
-        { token: '}', isNode: false }
+        { token: '{', isExpression: false },
+        { token: 'a', isExpression: true },
+        { token: '}', isExpression: false }
       ]
     ],
     [
       '{a}',
-      [{ token: 'a', isNode: true }],
+      [{ token: 'a', isExpression: true }],
     ],
     [
       '{{a',
-      [{ token: '{a', isNode: false }]
+      [{ token: '{a', isExpression: false }]
     ],
   ])('splits "%s"', (input, expected) => {
     const actual = parseTemplateName(input);
