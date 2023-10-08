@@ -6,8 +6,8 @@ import {
   InterpolationNode,
   IterationNode,
   TextNode
-} from '~/nodes';
-import { MetaTemplateInstance } from '~/MetaTemplateInstance';
+} from '~/syntaxNodes';
+import { MetaTemplateInstance } from './MetaTemplateInstance';
 
 /**
  * Meta template is a file with a special name, which is used to create one or multiple files
