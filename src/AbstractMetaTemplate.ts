@@ -21,6 +21,13 @@ export class AbstractMetaTemplate {
     private payload: Payload,
   ) {}
 
+  /** Returns list of particular templates for this meta template: name and payload */
+  protected getInstances() {
+    const nodes = this.parseName();
+    return this.getInstancesFromNodes(nodes, this.payload);
+  }
+
+  /** parses meta template name and returns array of syntax nodes */
   private parseName(): AbstractNode[] {
     return this.parseNameTokens().map(({ token, isExpression }) => {
       const isValid = /^( )*(#(if|each)( )+)?[a-z](\.?[a-z0-9])*( )*$/.test(token);
@@ -52,9 +59,8 @@ export class AbstractMetaTemplate {
     });
   }
 
-
-  /** Returns number of particular templates for this meta template: name and payload */
-  private getInstances(nodes: AbstractNode[], payload: Payload): MetaTemplateInstance[] {
+  /** recursively goes through list of nodes and creates list of meta template instances */
+  private getInstancesFromNodes(nodes: AbstractNode[], payload: Payload): MetaTemplateInstance[] {
     let nodeIndex = 0;
 
     do {
@@ -64,7 +70,7 @@ export class AbstractMetaTemplate {
         nodes.splice(nodeIndex, 1);
         const payloads = payload.getList(node.iterator);
         return payloads.reduce((templates, currPayload) => {
-          templates.push(...this.getInstances(nodes, currPayload))
+          templates.push(...this.getInstancesFromNodes(nodes, currPayload))
           return templates;
         }, [] as MetaTemplateInstance[]);
       }
@@ -72,7 +78,7 @@ export class AbstractMetaTemplate {
       if (node instanceof ConditionNode) {
         nodes.splice(nodeIndex, 1);
         if (node.checkCondition(payload)) {
-          return this.getInstances(nodes, payload);
+          return this.getInstancesFromNodes(nodes, payload);
         }
       }
 
