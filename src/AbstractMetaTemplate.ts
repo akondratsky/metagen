@@ -13,13 +13,17 @@ import { MetaTemplateInstance } from '~/MetaTemplateInstance';
  * Meta template is a file with a special name, which is used to create one or multiple files
  * according to the MetaGen syntax.
  */
-export class AbstractMetaTemplate {
+export abstract class AbstractMetaTemplate {
   constructor(
-    /** current template (file or folder) name */
-    private name: string,
+    /** parent folder for this meta template */
+    protected folder: string,
+    /** current meta template (file or folder) name */
+    protected name: string,
     /** root payload for this meta template */
     private payload: Payload,
   ) {}
+
+  abstract render(): void;
 
   /** Returns list of particular templates for this meta template: name and payload */
   protected getInstances() {
