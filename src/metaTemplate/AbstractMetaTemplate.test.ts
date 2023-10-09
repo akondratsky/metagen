@@ -15,6 +15,15 @@ describe('AbstractMetaTemplate', () => {
     }
   }
 
+  describe('text', () => {
+    it('"regular_file"', () => {
+      const template = new TestMetaTemplate('folder', 'regular_file', new Payload({}));
+      template.render();
+      expect(instances.length).toBe(1);
+      expect(instances[0].name).toBe('regular_file');
+    });
+  });
+
   describe('interpolation', () => {
     it('{name}', () => {
       const template = new TestMetaTemplate('folder', '{name}42', new Payload({
@@ -68,8 +77,11 @@ describe('AbstractMetaTemplate', () => {
         }]
       }));
       template.render();
-      console.log(instances.map(i => i.name));
       expect(instances.length).toBe(4);
-    })
+      expect(instances[0].name).toBe('me - eat');
+      expect(instances[1].name).toBe('me - sleep');
+      expect(instances[2].name).toBe('moms friend son - be rich');
+      expect(instances[3].name).toBe('moms friend son - travel');
+    });
   });
 });

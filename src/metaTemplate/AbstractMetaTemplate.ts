@@ -46,7 +46,6 @@ export abstract class AbstractMetaTemplate {
       if (node instanceof IterationNode) {
         nodes.splice(nodeIndex, 1);
         const payloads = payload.getPayloads(node.iterator);
-        console.log(JSON.stringify(payloads.map(p => p.getValue())));
         return payloads.reduce((templates, currPayload) => {
           templates.push(...this.getInstancesFromNodes([...nodes], payload.merge(currPayload)));
           return templates;

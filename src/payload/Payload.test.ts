@@ -28,7 +28,7 @@ describe('Payload', () => {
         ],
       };
       const payloads = new Payload(testObject).getPayloads('persons');
-      expect(payloads.length).toBe(2);
+      expect(payloads).toBeArrayOfSize(2);
       expect(payloads[0].getValue()).toBe(testObject.persons[0]);
       expect(payloads[1].getValue()).toBe(testObject.persons[1]);
     });

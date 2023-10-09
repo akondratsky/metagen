@@ -6,9 +6,11 @@ import { AbstractMetaTemplate } from './AbstractMetaTemplate';
 
 export class FileMetaTemplate extends AbstractMetaTemplate {
   public render(): FileNode[] {
-    const template = compile(readFileSync(join(this.folder, this.name), 'utf-8'));
-    const instances = this.getInstances();
-    // TODO: create files here
-    return [];
+    const renderTemplate = compile(readFileSync(join(this.folder, this.name), 'utf-8'));
+    return this.getInstances().map(({ name, payload }) => {
+      const file = new FileNode(this.folder, name);
+      file.content = renderTemplate(payload);
+      return file;
+    });
   }
 }
