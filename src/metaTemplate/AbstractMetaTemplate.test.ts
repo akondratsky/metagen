@@ -26,6 +26,25 @@ describe('AbstractMetaTemplate', () => {
     });
   });
 
+  describe('condition', () => {
+    it('"{#if condition}file", condition: true', () => {
+      const template = new TestMetaTemplate('folder', '{#if condition}file', new Payload({
+        condition: true,
+      }));
+      template.render();
+      expect(instances.length).toBe(1);
+      expect(instances[0].name).toBe('file');
+    });
+
+    it('"{#if condition}file", condition: false', () => {
+      const template = new TestMetaTemplate('folder', '{#if condition}file', new Payload({
+        condition: false,
+      }));
+      template.render();
+      expect(instances.length).toBe(0);
+    });
+  });
+
 
   describe('iterations', () => {
     it('{#each persons}{name}42', () => {
@@ -37,5 +56,20 @@ describe('AbstractMetaTemplate', () => {
       expect(instances[0].name).toBe('ivan42');
       expect(instances[1].name).toBe('anatoliy42');
     });
+
+    it('nested: "{#each persons}{#each skills}{name}_{skillName}"', () => {
+      const template = new TestMetaTemplate('folder', '{#each persons}{#each skills}{name} - {skillName}', new Payload({
+        persons: [{
+          name: 'me',
+          skills: [{ skillName: 'eat' }, { skillName: 'sleep' }],
+        }, {
+          name: 'moms friend son',
+          skills: [{ skillName: 'be rich'}, { skillName: 'travel' }],
+        }]
+      }));
+      template.render();
+      console.log(instances.map(i => i.name));
+      expect(instances.length).toBe(4);
+    })
   });
 });

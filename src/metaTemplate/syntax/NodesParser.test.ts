@@ -10,7 +10,7 @@ describe('NodesParser', () => {
   describe('parseName()', () => {
     describe('validates expressions', () => {
       it.each(
-        ['{a}', '{#if condition}', '{#each array}']
+        ['{a}', '{#if condition}', '{#each array}', '{skillName}']
       )('valid expression: "%s"', (name) => {
         expect(() => nodesParser.parse(name)).not.toThrow();
       });

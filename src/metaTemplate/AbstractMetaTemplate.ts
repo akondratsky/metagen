@@ -46,8 +46,9 @@ export abstract class AbstractMetaTemplate {
       if (node instanceof IterationNode) {
         nodes.splice(nodeIndex, 1);
         const payloads = payload.getPayloads(node.iterator);
+        console.log(JSON.stringify(payloads.map(p => p.getValue())));
         return payloads.reduce((templates, currPayload) => {
-          templates.push(...this.getInstancesFromNodes(nodes, currPayload));
+          templates.push(...this.getInstancesFromNodes([...nodes], payload.merge(currPayload)));
           return templates;
         }, [] as MetaTemplateInstance[]);
       }
@@ -55,7 +56,7 @@ export abstract class AbstractMetaTemplate {
       if (node instanceof ConditionNode) {
         nodes.splice(nodeIndex, 1);
         if (node.checkCondition(payload)) {
-          return this.getInstancesFromNodes(nodes, payload);
+          return this.getInstancesFromNodes([...nodes], payload);
         } else {
           return [];
         }

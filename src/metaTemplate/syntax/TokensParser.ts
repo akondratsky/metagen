@@ -18,7 +18,6 @@ export class TokensParser {
     const EXPRESSION_REGEX = '^' + EXPRESSION + '$';
 
     const lexisRegex = new RegExp(LEXIS, 'g');
-    // const expressionRegex = new RegExp(EXPRESSION, 'g');
     const unpairedTokenRegex = new RegExp('^(' + SINGLE_OPEN + '|' + SINGLE_CLOSE + ')$');
 
     const tokens = name.match(lexisRegex);

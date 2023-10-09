@@ -38,6 +38,10 @@ describe('TokenParser', () => {
         '{{a',
         [{ token: '{a', isExpression: false }]
       ],
+      [
+        '{skillName}',
+        [{ token: 'skillName', isExpression: true }]
+      ]
     ])('splits "%s"', (input, expected) => {
       const actual = tokenParser.parse(input);
       expect(actual).toEqual(expected);
