@@ -9,7 +9,8 @@ import {
 } from '~/syntaxNodes';
 import { IFileTreeNode } from '~/fileTree';
 import { MetaTemplateInstance } from './MetaTemplateInstance';
-import { Syntax } from './Syntax';
+import { container, inject } from 'tsyringe';
+import { NodesParser } from './syntax/NodesParser';
 
 /**
  * Meta template is a file with a special name, which is used to create one or multiple files
@@ -25,26 +26,22 @@ export abstract class AbstractMetaTemplate {
     private payload: Payload,
   ) {}
 
+  private readonly nodesParser = container.resolve(NodesParser);
+
   abstract render(): IFileTreeNode | IFileTreeNode[];
 
   /** Returns list of particular templates for this meta template: name and payload */
   protected getInstances() {
-    const nodes = Syntax.parseName(this.name);
+    const nodes = this.nodesParser.parse(this.name);
     return this.getInstancesFromNodes(nodes, this.payload);
   }
-
-
 
   /** recursively goes through list of nodes and creates list of meta template instances */
   private getInstancesFromNodes(nodes: AbstractNode[], payload: Payload): MetaTemplateInstance[] {
     let nodeIndex = 0;
 
-    console.log('===GET_INSTANCES_FROM_NODES', JSON.stringify(nodes));
-
     do {
       const node = nodes[nodeIndex];
-
-      console.log('===NODE_INDEX,NODE', nodeIndex, node);
 
       if (node instanceof IterationNode) {
         nodes.splice(nodeIndex, 1);
@@ -65,7 +62,6 @@ export abstract class AbstractMetaTemplate {
       }
 
       if (node instanceof InterpolationNode) {
-        console.log('===INTERPOLATION', node);
         node.interpolate(payload);
       }
 

@@ -1,8 +1,19 @@
-import { Syntax } from './Syntax';
+import { TokensParser } from './TokensParser';
 import { describe, test, expect } from 'bun:test';
 
-describe('Syntax', () => {
-  describe('parseNameTokens', () => {
+describe('TokenParser', () => {
+  const tokenParser = new TokensParser();
+  describe('parse()', () => {
+    test('splits "{#each persons}{#if musician}{name}42"', () => {
+      const actual = tokenParser.parse('{#each persons}{#if musician}{name}42');
+      expect(actual).toEqual([
+        { token: '#each persons', isExpression: true },
+        { token: '#if musician', isExpression: true },
+        { token: 'name', isExpression: true },
+        { token: '42', isExpression: false },
+      ]);
+    });
+
     test.each([
       [
         '{a}{{b}}',
@@ -28,7 +39,7 @@ describe('Syntax', () => {
         [{ token: '{a', isExpression: false }]
       ],
     ])('splits "%s"', (input, expected) => {
-      const actual = Syntax.parseNameTokens(input);
+      const actual = tokenParser.parse(input);
       expect(actual).toEqual(expected);
     });
 
@@ -38,11 +49,7 @@ describe('Syntax', () => {
       'aaa}}}',
       '{abc{sfd}as}'
     ])('throws an error for "%s"', (input) => {
-      expect(() => Syntax.parseNameTokens(input)).toThrow();
+      expect(() => tokenParser.parse(input)).toThrow();
     });
-  });
-
-  describe('parseName', () => {
-
   });
 });
