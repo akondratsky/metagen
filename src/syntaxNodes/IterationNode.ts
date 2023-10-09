@@ -10,6 +10,6 @@ export class IterationNode {
   ) {}
 
   get iterator() {
-    return 'object.persons';
+    return this.path;
   }
 }

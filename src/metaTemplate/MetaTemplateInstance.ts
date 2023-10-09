@@ -1,4 +1,4 @@
-import { Payload } from '~/Payload';
+import { Payload } from '~/payload';
 
 /**
  * Instances are created by meta templates after parsing MetaGen syntax

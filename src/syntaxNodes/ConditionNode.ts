@@ -1,4 +1,4 @@
-import { Payload } from '../Payload';
+import { Payload } from '../payload/Payload';
 import { AbstractNode } from './AbstractNode';
 
 /**
@@ -11,6 +11,6 @@ export class ConditionNode {
   ) {}
 
   public checkCondition(payload: Payload) {
-    return true;
+    return Boolean(payload.getValue(this.path));
   }
 }

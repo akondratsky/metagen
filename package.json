@@ -21,10 +21,12 @@
   },
   "homepage": "https://github.com/akondratsky/metagen#readme",
   "devDependencies": {
+    "@types/lodash": "4.14.199",
     "bun-types": "1.0.4",
     "jasmine": "5.1.0"
   },
   "dependencies": {
-    "handlebars": "4.7.8"
+    "handlebars": "4.7.8",
+    "lodash": "4.17.21"
   }
 }

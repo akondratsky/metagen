@@ -6,8 +6,8 @@ export class DirectoryNode extends AbstractFileTreeNode {
   public readonly isDirectory: boolean = true;
   private readonly children: IFileTreeNode[] = [];
 
-  public addNode(node: IFileTreeNode) {
-    this.children.push(node);
+  public addNodes(...nodes: IFileTreeNode[]) {
+    this.children.push(...nodes);
   }
 
   public *[Symbol.iterator](): Iterator<IFileTreeNode> {

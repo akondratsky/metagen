@@ -1,6 +1,5 @@
-import { Payload } from '../Payload';
+import { Payload } from '../payload/Payload';
 import { ITextNode } from './ITextNode';
-import { TextNode } from './TextNode';
 
 /**
  * Interpolates name from the given payload
@@ -14,7 +13,7 @@ export class InterpolationNode implements ITextNode {
   private interpolatedText: string | null = null;
 
   public interpolate(payload: Payload) {
-    this.interpolatedText = ''
+    this.interpolatedText = String(payload.getValue(this.path));
   }
 
   public get text() {
