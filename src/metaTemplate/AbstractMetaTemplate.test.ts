@@ -19,7 +19,7 @@ describe('AbstractMetaTemplate', () => {
     it('"regular_file"', () => {
       const template = new TestMetaTemplate('folder', 'regular_file', new Payload({}));
       template.render();
-      expect(instances.length).toBe(1);
+      expect(instances).toBeArrayOfSize(1);
       expect(instances[0].name).toBe('regular_file');
     });
   });
@@ -30,7 +30,7 @@ describe('AbstractMetaTemplate', () => {
         name: 'ivan',
       }));
       template.render();
-      expect(instances.length).toBe(1);
+      expect(instances).toBeArrayOfSize(1);
       expect(instances[0].name).toBe('ivan42');
     });
   });
@@ -41,7 +41,7 @@ describe('AbstractMetaTemplate', () => {
         condition: true,
       }));
       template.render();
-      expect(instances.length).toBe(1);
+      expect(instances).toBeArrayOfSize(1);
       expect(instances[0].name).toBe('file');
     });
 
@@ -50,7 +50,7 @@ describe('AbstractMetaTemplate', () => {
         condition: false,
       }));
       template.render();
-      expect(instances.length).toBe(0);
+      expect(instances).toBeArrayOfSize(0);
     });
   });
 
@@ -61,7 +61,7 @@ describe('AbstractMetaTemplate', () => {
         persons: [{ name: 'ivan' }, { name: 'anatoliy' }]
       }));
       template.render();
-      expect(instances.length).toBe(2);
+      expect(instances).toBeArrayOfSize(2);
       expect(instances[0].name).toBe('ivan42');
       expect(instances[1].name).toBe('anatoliy42');
     });
@@ -77,7 +77,7 @@ describe('AbstractMetaTemplate', () => {
         }]
       }));
       template.render();
-      expect(instances.length).toBe(4);
+      expect(instances).toBeArrayOfSize(4);
       expect(instances[0].name).toBe('me - eat');
       expect(instances[1].name).toBe('me - sleep');
       expect(instances[2].name).toBe('moms friend son - be rich');
