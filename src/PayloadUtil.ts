@@ -1,29 +1,30 @@
 import { get, merge } from 'lodash';
 import { JsonObject, JsonValue } from '~/json';
 
-export class PayloadUtil {
+export const PayloadUtil = {
   /** Returns value from payload by path */
-  public static getValue(payload: JsonObject, path: string): JsonValue {
+  getValue(payload: JsonObject, path: string): JsonValue {
     return structuredClone(get(payload, path));
-  }
+  },
 
   /** Return array of payloads, taken from current payload by path */
-  public static getPayloads(payload: JsonObject, path: string): JsonObject[] {
+  getPayloads(payload: JsonObject, path: string): JsonObject[] {
     const payloads = get(payload, path);
     if (!Array.isArray(payloads) || payloads.some(pld => typeof pld !== 'object')) {
       throw new Error(`Payload value by path "${path}" is not array of objects:\n ${JSON.stringify(payloads)}`);
     }
     return structuredClone(payloads) as JsonObject[];
-  }
+  },
 
-  public static merge(payloadA: JsonObject, payloadB: JsonObject): JsonObject {
+  merge(payloadA: JsonObject, payloadB: JsonObject): JsonObject {
     return merge(
       structuredClone(payloadA),
       structuredClone(payloadB),
     ) as JsonObject;
-  }
+  },
 
-  public static clone(payload: JsonObject): JsonObject {
+  clone(payload: JsonObject): JsonObject {
     return structuredClone(payload);
-  }
-}
+  },
+} as const;
+

@@ -1,13 +1,13 @@
 import { describe, it, expect, afterEach } from 'bun:test';
-import type { IFileTreeNode } from '~/fileTree';
 import type { JsonObject } from '~/json';
 import type { MetaTemplateInstance } from './MetaTemplateInstance';
 import { AbstractMetaTemplate } from './AbstractMetaTemplate';
+import { AbstractFileTreeNode } from '~/fileTree/AbstractFileTreeNode';
 
 describe('AbstractMetaTemplate', () => {
   let instances: MetaTemplateInstance[];
   class TestMetaTemplate extends AbstractMetaTemplate {
-    public render(payload: JsonObject): IFileTreeNode | IFileTreeNode[] {
+    public render(payload: JsonObject): AbstractFileTreeNode | AbstractFileTreeNode[] {
       instances = this.getInstances(payload);
       return [];
     }

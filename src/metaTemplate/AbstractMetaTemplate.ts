@@ -7,10 +7,10 @@ import {
   IterationNode,
   NodesParser,
 } from '~/syntax';
-import type { IFileTreeNode } from '~/fileTree';
 import type { JsonObject } from '~/json';
 import { PayloadUtil } from '~/PayloadUtil';
 import { MetaTemplateInstance } from './MetaTemplateInstance';
+import { AbstractFileTreeNode } from '~/fileTree/AbstractFileTreeNode';
 
 /**
  * Meta template is a file with a special name, which is used to create one or multiple files
@@ -26,7 +26,7 @@ export abstract class AbstractMetaTemplate {
 
   private readonly nodesParser = container.resolve(NodesParser);
 
-  abstract render(payload: JsonObject): IFileTreeNode | IFileTreeNode[];
+  abstract render(payload: JsonObject): AbstractFileTreeNode | AbstractFileTreeNode[];
 
   /** Returns list of particular templates for this meta template: name and payload */
   protected getInstances(payload: JsonObject): MetaTemplateInstance[] {
