@@ -20,13 +20,14 @@ describe('FileMetaTemplate', () => {
 
     const testCases: FileMetaTemplateTestCase[] = [
       {
+        // test case #1
         templateName: 'filename',
         template: '{{value}}',
         payload: { value: 42 },
         output: [{ name: 'filename', content: '42' }]
       },
       {
-        // test case #1
+        // test case #2
         templateName: '{#each persons}{name}.txt',
         template: '{{name}} content',
         payload: { persons: [{ name: 'ivan' }, { name: 'anatoliy' }] },
@@ -36,7 +37,7 @@ describe('FileMetaTemplate', () => {
         ],
       },
       {
-        // test case #2
+        // test case #3
         templateName: '{#each persons}{#include musician}{name}.txt',
         template: '{{name}} {{#if musician}}is a musician{{/if}}',
         payload: {
@@ -45,7 +46,7 @@ describe('FileMetaTemplate', () => {
         output: [{ name: 'ivan.txt', content: 'ivan is a musician' }]
       },
       {
-        // test case #1
+        // test case #4
         templateName: '{#each a}{#each b}{name}.txt',
         template: '{{name}}',
         payload: {
