@@ -8,7 +8,7 @@
       - ExtrapolationNode
       - TextNode
       - ExtrapolationNode
-- FileNode {#if isList}list.ts
+- FileNode {#include isList}list.ts
   - ConditionNode list.ts
 - FileNode index.ts
 

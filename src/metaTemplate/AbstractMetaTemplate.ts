@@ -31,7 +31,7 @@ export abstract class AbstractMetaTemplate {
   abstract render(): IFileTreeNode | IFileTreeNode[];
 
   /** Returns list of particular templates for this meta template: name and payload */
-  protected getInstances() {
+  protected getInstances(): MetaTemplateInstance[] {
     const nodes = this.nodesParser.parse(this.name);
     return this.getInstancesFromNodes(nodes, this.payload);
   }
@@ -47,7 +47,8 @@ export abstract class AbstractMetaTemplate {
         nodes.splice(nodeIndex, 1);
         const payloads = payload.getPayloads(node.iterator);
         return payloads.reduce((templates, currPayload) => {
-          templates.push(...this.getInstancesFromNodes([...nodes], payload.merge(currPayload)));
+          const templatePayload = payload.merge(currPayload);
+          templates.push(...this.getInstancesFromNodes([...nodes], templatePayload));
           return templates;
         }, [] as MetaTemplateInstance[]);
       }
@@ -75,6 +76,6 @@ export abstract class AbstractMetaTemplate {
       .map(({ text }) => text)
       .join('');
 
-    return [new MetaTemplateInstance(templateName, payload)];
+    return [new MetaTemplateInstance(templateName, new Payload(payload))];
   }
 }

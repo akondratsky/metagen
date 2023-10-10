@@ -3,7 +3,7 @@ import { AbstractNode } from './AbstractNode';
 
 /**
  * Includes or excludes file from the output using the boolean value
- * @example '{#if isPublic}'
+ * @example '{#include isPublic}'
  */
 export class ConditionNode {
   constructor(

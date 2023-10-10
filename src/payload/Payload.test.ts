@@ -6,7 +6,13 @@ describe('Payload', () => {
     it('returns root value if path is not provided', () => {
       const testObject = { a: 42 };
       const payload = new Payload(testObject);
-      expect(payload.getValue()).toBe(testObject);
+      expect(payload.getValue()).toEqual(testObject);
+    });
+
+    it('clones payload in constructor', () => {
+      const testObject = { a: 42 };
+      const payload = new Payload(testObject);
+      expect(payload.getValue()).not.toBe(testObject);
     });
 
     it('returns value by path', () => {
@@ -29,8 +35,8 @@ describe('Payload', () => {
       };
       const payloads = new Payload(testObject).getPayloads('persons');
       expect(payloads).toBeArrayOfSize(2);
-      expect(payloads[0].getValue()).toBe(testObject.persons[0]);
-      expect(payloads[1].getValue()).toBe(testObject.persons[1]);
+      expect(payloads[0].getValue()).toEqual(testObject.persons[0]);
+      expect(payloads[1].getValue()).toEqual(testObject.persons[1]);
     });
 
     it('throws an error if value is not array', () => {

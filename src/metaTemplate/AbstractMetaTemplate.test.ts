@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'bun:test';
+import { describe, it, expect, afterEach } from 'bun:test';
 import { Payload } from '~/payload';
 import { AbstractMetaTemplate } from './AbstractMetaTemplate';
 import { IFileTreeNode } from '~/fileTree';
@@ -7,13 +7,16 @@ import { MetaTemplateInstance } from './MetaTemplateInstance';
 
 describe('AbstractMetaTemplate', () => {
   let instances: MetaTemplateInstance[];
-
   class TestMetaTemplate extends AbstractMetaTemplate {
     render(): IFileTreeNode | IFileTreeNode[] {
       instances = this.getInstances();
       return [];
     }
   }
+
+  afterEach(() => {
+    instances = [];
+  });
 
   describe('text', () => {
     it('"regular_file"', () => {
@@ -36,8 +39,8 @@ describe('AbstractMetaTemplate', () => {
   });
 
   describe('condition', () => {
-    it('"{#if condition}file", condition: true', () => {
-      const template = new TestMetaTemplate('folder', '{#if condition}file', new Payload({
+    it('"{#include condition}file", condition: true', () => {
+      const template = new TestMetaTemplate('folder', '{#include condition}file', new Payload({
         condition: true,
       }));
       template.render();
@@ -45,8 +48,8 @@ describe('AbstractMetaTemplate', () => {
       expect(instances[0].name).toBe('file');
     });
 
-    it('"{#if condition}file", condition: false', () => {
-      const template = new TestMetaTemplate('folder', '{#if condition}file', new Payload({
+    it('"{#include condition}file", condition: false', () => {
+      const template = new TestMetaTemplate('folder', '{#include condition}file', new Payload({
         condition: false,
       }));
       template.render();
@@ -54,8 +57,23 @@ describe('AbstractMetaTemplate', () => {
     });
   });
 
-
   describe('iterations', () => {
+    it('merges payloads', () => {
+      const persons = [{ name: 'ivan' }, { name: 'anatoliy' }];
+      const template = new TestMetaTemplate('folder', '{#each persons}{name}42', new Payload({ persons }));
+      template.render();
+      expect(instances).toBeArrayOfSize(2);
+      expect(instances[0].payload.getValue()).toEqual({
+        persons,
+        name: 'ivan'
+      });
+      expect(instances[1].payload.getValue()).toEqual({
+        persons,
+        name: 'anatoliy'
+      });
+    });
+
+
     it('{#each persons}{name}42', () => {
       const template = new TestMetaTemplate('folder', '{#each persons}{name}42', new Payload({
         persons: [{ name: 'ivan' }, { name: 'anatoliy' }]

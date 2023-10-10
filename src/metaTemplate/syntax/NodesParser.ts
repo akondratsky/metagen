@@ -15,7 +15,7 @@ export class NodesParser {
         return new TextNode(token);
       }
 
-      const isValid = /^( )*(#(if|each)( )+)?[a-z](\.?[a-z0-9])*( )*$/i.test(token);
+      const isValid = /^( )*(#(include|each)( )+)?[a-z](\.?[a-z0-9])*( )*$/i.test(token);
       if (!isValid) {
         throw new Error(`Invalid token "${token}" in template name "${name}"`);
       }
@@ -27,7 +27,7 @@ export class NodesParser {
       }
 
       const [operator, path] = statement;
-      if (operator === '#if') {
+      if (operator === '#include') {
         return new ConditionNode(path);
       }
       if (operator === '#each') {
