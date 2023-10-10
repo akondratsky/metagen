@@ -1,4 +1,4 @@
-import { FolderMetaTemplate } from '~/metaTemplate';
+import { DirectoryMetaTemplate } from '~/metaTemplate';
 import { describe, test, expect } from 'bun:test';
 import { FileTreeObject, DirectoryObject, FileObject } from '~/FileTreeObject';
 
@@ -13,9 +13,9 @@ const file = (name: string, content: string): FileObject => ({
   content,
 });
 
-  describe.skip('FolderMetaTemplate', () => {
+  describe.skip('DirectoryMetaTemplate', () => {
     test('./template1', () => {
-      const template = new FolderMetaTemplate(import.meta.dir, 'template1');
+      const template = new DirectoryMetaTemplate(import.meta.dir, 'template1');
       const output = template.renderToJson({
         person: 'ivan'
       });
@@ -27,7 +27,7 @@ const file = (name: string, content: string): FileObject => ({
     });
 
     test('./template2', () => {
-      const template = new FolderMetaTemplate(import.meta.dir, 'template2');
+      const template = new DirectoryMetaTemplate(import.meta.dir, 'template2');
       const output = template.renderToJson({
         persons: [
           { name: 'ivan', isMusician: true, song: 'strangers in the night' },

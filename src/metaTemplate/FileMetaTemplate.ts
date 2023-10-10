@@ -8,10 +8,10 @@ import { AbstractMetaTemplate } from './AbstractMetaTemplate';
 
 export class FileMetaTemplate extends AbstractMetaTemplate {
   public renderToNodes(payload: JsonObject): FileNode[] {
-    const renderTemplate = hbs.compile(fs.readFileSync(join(this.folder, this.name), 'utf-8'));
+    const renderTemplate = hbs.compile(fs.readFileSync(join(this.directory, this.name), 'utf-8'));
 
     return this.getInstances(payload).map(({ name, payload: instancePayload }) => {
-      const file = new FileNode(this.folder, name);
+      const file = new FileNode(this.directory, name);
       file.content = renderTemplate(instancePayload);
       return file;
     });

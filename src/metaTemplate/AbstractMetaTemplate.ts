@@ -20,7 +20,7 @@ import { FileTreeObject } from '~/FileTreeObject';
 export abstract class AbstractMetaTemplate {
   constructor(
     /** parent folder for this meta template */
-    protected folder: string,
+    protected directory: string,
     /** current meta template (file or folder) name */
     protected name: string,
   ) {}

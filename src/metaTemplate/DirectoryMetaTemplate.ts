@@ -10,17 +10,17 @@ import { DirectoryObject } from '~/FileTreeObject';
  * Implements meta template for folders.
  * Generates list of folders to creates, renders file meta templates in it.
  */
-export class FolderMetaTemplate extends AbstractMetaTemplate {
+export class DirectoryMetaTemplate extends AbstractMetaTemplate {
   public renderToNodes(payload: JsonObject): DirectoryNode {
-    const output = new DirectoryNode(this.folder, this.name);
-    const directory = join(this.folder, this.name);
+    const output = new DirectoryNode(this.directory, this.name);
+    const directory = join(this.directory, this.name);
     
     this.getInstances(payload).forEach(({ name, payload: instancePayload }) => {
-      const currentFolder = join(this.folder, name);
+      const currentFolder = join(this.directory, name);
 
       fs.readdirSync(directory).forEach((templateFilename) => {
         if (fs.statSync(join(directory, templateFilename)).isDirectory()) {
-          const directoryTemplate = new FolderMetaTemplate(currentFolder, templateFilename);
+          const directoryTemplate = new DirectoryMetaTemplate(currentFolder, templateFilename);
           output.addNodes(...directoryTemplate.renderToNodes(instancePayload))
         } else {
           const fileTemplate = new FileMetaTemplate(currentFolder, templateFilename);

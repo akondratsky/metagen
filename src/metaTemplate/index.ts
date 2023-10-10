@@ -1,1 +1,1 @@
-export { FolderMetaTemplate } from './FolderMetaTemplate';
+export { DirectoryMetaTemplate } from './DirectoryMetaTemplate';
