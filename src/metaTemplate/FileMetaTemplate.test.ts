@@ -2,7 +2,6 @@ import { FileMetaTemplate } from './FileMetaTemplate';
 import { describe, test, expect, spyOn } from 'bun:test';
 
 import fs from 'node:fs';
-import { Payload } from '~/payload';
 import { JsonObject } from '~/json';
 
 const readFileSyncStub = spyOn(fs, 'readFileSync');
@@ -67,7 +66,7 @@ describe('FileMetaTemplate', () => {
     testCases.forEach(({ templateName, template, output, payload }) => {
       test(templateName, () => {
         readFileSyncStub.mockReturnValue(template);
-        const files = new FileMetaTemplate('root', templateName, new Payload(payload)).render();
+        const files = new FileMetaTemplate('root', templateName).render(payload);
         expect(files).toBeArrayOfSize(output.length);
         output.forEach(({ name, content }, index) => {
           expect(files[index].name).toBe(name);

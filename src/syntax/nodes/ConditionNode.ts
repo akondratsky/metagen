@@ -1,5 +1,5 @@
-import { Payload } from '../payload/Payload';
-import { AbstractNode } from './AbstractNode';
+import { JsonObject } from '~/json';
+import { PayloadUtil } from '~/PayloadUtil';
 
 /**
  * Includes or excludes file from the output using the boolean value
@@ -10,7 +10,7 @@ export class ConditionNode {
     private readonly path: string,
   ) {}
 
-  public checkCondition(payload: Payload) {
-    return Boolean(payload.getValue(this.path));
+  public checkCondition(payload: JsonObject) {
+    return Boolean(PayloadUtil.getValue(payload, this.path));
   }
 }

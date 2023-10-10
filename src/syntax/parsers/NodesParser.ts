@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '~/syntaxNodes';
+import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '~/syntax';
 import { TokensParser } from './TokensParser';
 
 @injectable()

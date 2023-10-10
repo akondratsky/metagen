@@ -1,4 +1,4 @@
-import { Payload } from '~/payload';
+import type { JsonObject } from '~/json';
 
 /**
  * Instances are created by meta templates after parsing MetaGen syntax
@@ -6,6 +6,6 @@ import { Payload } from '~/payload';
 export class MetaTemplateInstance {
   constructor(
     public name: string,
-    public payload: Payload,
+    public payload: JsonObject,
   ) {}
 }

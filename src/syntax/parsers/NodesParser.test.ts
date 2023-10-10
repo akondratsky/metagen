@@ -1,8 +1,7 @@
 import { container } from 'tsyringe';
 import { describe, it, expect } from 'bun:test';
-import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '~/syntaxNodes';
+import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '~/syntax';
 import { NodesParser } from './NodesParser';
-import { Payload } from '~/payload';
 
 describe('NodesParser', () => {
   const nodesParser = container.resolve(NodesParser);
@@ -51,14 +50,12 @@ describe('NodesParser', () => {
 
       it('ConditionNode', () => {
         const [node] = nodesParser.parse('{#include condition}') as ConditionNode[];
-        const payload = new Payload({ condition: true });
-        expect(node.checkCondition(payload)).toBe(true);
+        expect(node.checkCondition({ condition: true })).toBe(true);
       });
 
       it('InterpolationNode', () => {
         const [node] = nodesParser.parse('{value}') as InterpolationNode[];
-        const payload = new Payload({ value: '77' });
-        node.interpolate(payload);
+        node.interpolate({ value: '77' });
         expect(node.text).toBe('77');
       });
 

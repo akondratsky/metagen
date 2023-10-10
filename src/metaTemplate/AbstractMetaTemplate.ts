@@ -1,16 +1,16 @@
-import { Payload } from '~/payload';
+import { container } from 'tsyringe';
 import {
   AbstractNode,
   ConditionNode,
   ITextNode,
   InterpolationNode,
   IterationNode,
-  TextNode
-} from '~/syntaxNodes';
-import { IFileTreeNode } from '~/fileTree';
+  NodesParser,
+} from '~/syntax';
+import type { IFileTreeNode } from '~/fileTree';
+import type { JsonObject } from '~/json';
+import { PayloadUtil } from '~/PayloadUtil';
 import { MetaTemplateInstance } from './MetaTemplateInstance';
-import { container, inject } from 'tsyringe';
-import { NodesParser } from './syntax/NodesParser';
 
 /**
  * Meta template is a file with a special name, which is used to create one or multiple files
@@ -22,22 +22,20 @@ export abstract class AbstractMetaTemplate {
     protected folder: string,
     /** current meta template (file or folder) name */
     protected name: string,
-    /** root payload for this meta template */
-    private payload: Payload,
   ) {}
 
   private readonly nodesParser = container.resolve(NodesParser);
 
-  abstract render(): IFileTreeNode | IFileTreeNode[];
+  abstract render(payload: JsonObject): IFileTreeNode | IFileTreeNode[];
 
   /** Returns list of particular templates for this meta template: name and payload */
-  protected getInstances(): MetaTemplateInstance[] {
+  protected getInstances(payload: JsonObject): MetaTemplateInstance[] {
     const nodes = this.nodesParser.parse(this.name);
-    return this.getInstancesFromNodes(nodes, this.payload);
+    return this.getInstancesFromNodes(nodes, payload);
   }
 
   /** recursively goes through list of nodes and creates list of meta template instances */
-  private getInstancesFromNodes(nodes: AbstractNode[], payload: Payload): MetaTemplateInstance[] {
+  private getInstancesFromNodes(nodes: AbstractNode[], payload: JsonObject): MetaTemplateInstance[] {
     let nodeIndex = 0;
 
     do {
@@ -45,9 +43,9 @@ export abstract class AbstractMetaTemplate {
 
       if (node instanceof IterationNode) {
         nodes.splice(nodeIndex, 1);
-        const payloads = payload.getPayloads(node.iterator);
+        const payloads = PayloadUtil.getPayloads(payload, node.iterator);
         return payloads.reduce((templates, currPayload) => {
-          const templatePayload = payload.merge(currPayload);
+          const templatePayload = PayloadUtil.merge(payload, currPayload);
           templates.push(...this.getInstancesFromNodes([...nodes], templatePayload));
           return templates;
         }, [] as MetaTemplateInstance[]);
@@ -76,6 +74,6 @@ export abstract class AbstractMetaTemplate {
       .map(({ text }) => text)
       .join('');
 
-    return [new MetaTemplateInstance(templateName, new Payload(payload))];
+    return [new MetaTemplateInstance(templateName, PayloadUtil.clone(payload))];
   }
 }
