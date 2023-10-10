@@ -1,3 +1,5 @@
+import { FileTreeObject } from '~/FileTreeObject';
+
 export abstract class AbstractFileTreeNode {
   constructor(
     public readonly folder: string,
@@ -6,4 +8,6 @@ export abstract class AbstractFileTreeNode {
 
   abstract isDirectory: boolean;
   abstract [Symbol.iterator](): Iterator<AbstractFileTreeNode>;
+  abstract toJson(): FileTreeObject;
 }
+

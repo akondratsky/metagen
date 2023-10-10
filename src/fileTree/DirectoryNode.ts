@@ -1,3 +1,4 @@
+import { DirectoryObject } from '~/FileTreeObject';
 import { AbstractFileTreeNode } from './AbstractFileTreeNode';
 
 export class DirectoryNode extends AbstractFileTreeNode {
@@ -13,5 +14,13 @@ export class DirectoryNode extends AbstractFileTreeNode {
     for (const node of this.children) {
       yield* node;
     }
+  }
+
+  public toJson(): DirectoryObject {
+    return {
+      isDirectory: true,
+      name: this.name,
+      children: this.children.map(child => child.toJson()),
+    };
   }
 }

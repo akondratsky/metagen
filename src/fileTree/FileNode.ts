@@ -1,3 +1,4 @@
+import { FileObject } from '~/FileTreeObject';
 import { AbstractFileTreeNode } from './AbstractFileTreeNode';
 
 export class FileNode extends AbstractFileTreeNode {
@@ -6,5 +7,13 @@ export class FileNode extends AbstractFileTreeNode {
 
   public *[Symbol.iterator](): Iterator<AbstractFileTreeNode> {
     yield this;
+  }
+
+  public toJson(): FileObject {
+    return {
+      isDirectory: false,
+      content: this.content,
+      name: this.name,
+    };
   }
 }

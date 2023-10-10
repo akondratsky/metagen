@@ -17,4 +17,14 @@ describe('FileNode', () => {
     const node = new FileNode('folder', 'name');
     expect([...node]).toEqual([node]);
   });
+
+  it('can be converted to valid Json object', () => {
+    const node = new FileNode('folder', 'name');
+    node.content = '42';
+    expect(node.toJson()).toEqual({
+      isDirectory: false,
+      name: 'name',
+      content: '42',
+    });
+  });
 });
