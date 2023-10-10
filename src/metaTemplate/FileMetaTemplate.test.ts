@@ -3,7 +3,7 @@ import { describe, test, expect, spyOn } from 'bun:test';
 
 import fs from 'node:fs';
 import { Payload } from '~/payload';
-import { PayloadObject } from '~/payload/types';
+import { JsonObject } from '~/json';
 
 const readFileSyncStub = spyOn(fs, 'readFileSync');
 
@@ -14,7 +14,7 @@ describe('FileMetaTemplate', () => {
     type FileMetaTemplateTestCase = {
       templateName: string;
       template: string;
-      payload: PayloadObject;
+      payload: JsonObject;
       output: Array<{ name: string, content: string }>
     };
 

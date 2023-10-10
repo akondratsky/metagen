@@ -1,14 +1,15 @@
-import { FolderMetaTemplate } from '~/metaTemplate/FolderMetaTemplate';
+import { FolderMetaTemplate } from '~/metaTemplate';
 import { describe, it } from 'bun:test';
 import { join } from 'node:path';
 import { Payload } from '~/payload';
 
-describe.skip('Integration case #1', () => {
+describe('integration test case #1', () => {
   it('works', () => {
-    const template = new FolderMetaTemplate(join(__dirname, 'template'), '', new Payload({
+    const template = new FolderMetaTemplate(import.meta.dir, 'template', new Payload({
       person: 'ivan'
     }));
 
-    console.log(template.render());
+    const files = template.render();
+
   });
 });

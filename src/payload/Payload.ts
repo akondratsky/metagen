@@ -1,20 +1,20 @@
 import { get, merge } from 'lodash';
-import type { PayloadObject, PayloadValue } from './types';
+import type { JsonObject, JsonValue } from '~/json';
 
 /**
  * Template payload used to render filenames from meta templates and files content from templates
  */
 export class Payload {
   constructor(
-    private readonly payload: PayloadObject | Payload
+    private readonly payload: JsonObject | Payload
   ) {
     if (typeof payload !== 'object') {
       throw new Error(`Incorrect payload type: ${payload}`);
     }
-    this.payload = structuredClone(payload instanceof Payload ? payload.getValue() as PayloadObject : payload);
+    this.payload = structuredClone(payload instanceof Payload ? payload.getValue() as JsonObject : payload);
   }
 
-  public getValue(path?: string): PayloadValue {
+  public getValue(path?: string): JsonValue {
     return path
       ? get(this.payload, path)
       : this.payload;
@@ -26,7 +26,7 @@ export class Payload {
     if (!Array.isArray(list)) {
       throw new Error(`Payload value by path "${path}" is not array`);
     }
-    return list.map(payload => new Payload(payload as PayloadObject));
+    return list.map(payload => new Payload(payload as JsonObject));
   }
 
   /** Returns result of merging current payload with another */
@@ -34,7 +34,7 @@ export class Payload {
     return new Payload(merge(
       structuredClone(this.getValue()),
       structuredClone(payload.getValue()
-    ) as PayloadObject));
+    ) as JsonObject));
   }
 }
 

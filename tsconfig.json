@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es6",
+    "module": "ESNext",
+    "target": "ESNext",
     "types": ["bun-types"],
     "strict": true,
     "paths": {
       "~/*": ["./src/*"]
     },
+    "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
