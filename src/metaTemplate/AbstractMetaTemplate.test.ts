@@ -1,15 +1,19 @@
 import { describe, it, expect, afterEach } from 'bun:test';
 import type { JsonObject } from '~/json';
+import { AbstractFileTreeNode } from '~/fileTree/AbstractFileTreeNode';
+import type { FileTreeObject } from '~/FileTreeObject';
 import type { MetaTemplateInstance } from './MetaTemplateInstance';
 import { AbstractMetaTemplate } from './AbstractMetaTemplate';
-import { AbstractFileTreeNode } from '~/fileTree/AbstractFileTreeNode';
 
 describe('AbstractMetaTemplate', () => {
   let instances: MetaTemplateInstance[];
   class TestMetaTemplate extends AbstractMetaTemplate {
-    public render(payload: JsonObject): AbstractFileTreeNode | AbstractFileTreeNode[] {
+    public renderToNodes(payload: JsonObject): AbstractFileTreeNode | AbstractFileTreeNode[] {
       instances = this.getInstances(payload);
       return [];
+    }
+    public renderToJson(payload: JsonObject): FileTreeObject {
+      throw new Error();
     }
   }
 
@@ -20,7 +24,7 @@ describe('AbstractMetaTemplate', () => {
   describe('text', () => {
     it('"regular_file"', () => {
       const template = new TestMetaTemplate('folder', 'regular_file');
-      template.render({});
+      template.renderToNodes({});
       expect(instances).toBeArrayOfSize(1);
       expect(instances[0].name).toBe('regular_file');
     });
@@ -29,7 +33,7 @@ describe('AbstractMetaTemplate', () => {
   describe('interpolation', () => {
     it('{name}', () => {
       const template = new TestMetaTemplate('folder', '{name}42');
-      template.render({ name: 'ivan' });
+      template.renderToNodes({ name: 'ivan' });
       expect(instances).toBeArrayOfSize(1);
       expect(instances[0].name).toBe('ivan42');
     });
@@ -38,14 +42,14 @@ describe('AbstractMetaTemplate', () => {
   describe('condition', () => {
     it('"{#include condition}file", condition: true', () => {
       const template = new TestMetaTemplate('folder', '{#include condition}file');
-      template.render({ condition: true });
+      template.renderToNodes({ condition: true });
       expect(instances).toBeArrayOfSize(1);
       expect(instances[0].name).toBe('file');
     });
 
     it('"{#include condition}file", condition: false', () => {
       const template = new TestMetaTemplate('folder', '{#include condition}file');
-      template.render({ condition: false });
+      template.renderToNodes({ condition: false });
       expect(instances).toBeArrayOfSize(0);
     });
   });
@@ -54,7 +58,7 @@ describe('AbstractMetaTemplate', () => {
     it('merges payloads', () => {
       const persons = [{ name: 'ivan' }, { name: 'anatoliy' }];
       const template = new TestMetaTemplate('folder', '{#each persons}{name}42');
-      template.render({ persons });
+      template.renderToNodes({ persons });
       expect(instances).toBeArrayOfSize(2);
       expect(instances[0]).toEqual({
         name: 'ivan42',
@@ -75,7 +79,7 @@ describe('AbstractMetaTemplate', () => {
 
     it('{#each persons}{name}42', () => {
       const template = new TestMetaTemplate('folder', '{#each persons}{name}42');
-      template.render({
+      template.renderToNodes({
         persons: [{ name: 'ivan' }, { name: 'anatoliy' }]
       });
       expect(instances).toBeArrayOfSize(2);
@@ -85,7 +89,7 @@ describe('AbstractMetaTemplate', () => {
 
     it('nested: "{#each persons}{#each skills}{name}_{skillName}"', () => {
       const template = new TestMetaTemplate('folder', '{#each persons}{#each skills}{name} - {skillName}');
-      template.render({
+      template.renderToNodes({
         persons: [{
           name: 'me',
           skills: [{ skillName: 'eat' }, { skillName: 'sleep' }],

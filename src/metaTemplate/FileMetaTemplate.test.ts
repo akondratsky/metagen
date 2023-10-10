@@ -9,7 +9,7 @@ const readFileSyncStub = spyOn(fs, 'readFileSync');
 
 
 describe('FileMetaTemplate', () => {
-  describe('render()', () => {
+  describe('renderToNodes()', () => {
     type FileMetaTemplateTestCase = {
       templateName: string;
       template: string;
@@ -66,13 +66,35 @@ describe('FileMetaTemplate', () => {
     testCases.forEach(({ templateName, template, output, payload }) => {
       test(templateName, () => {
         readFileSyncStub.mockReturnValue(template);
-        const files = new FileMetaTemplate('root', templateName).render(payload);
-        expect(files).toBeArrayOfSize(output.length);
+        const fileNodes = new FileMetaTemplate('root', templateName).renderToNodes(payload);
+        expect(fileNodes).toBeArrayOfSize(output.length);
         output.forEach(({ name, content }, index) => {
-          expect(files[index].name).toBe(name);
-          expect(files[index].content).toBe(content);
+          expect(fileNodes[index].name).toBe(name);
+          expect(fileNodes[index].content).toBe(content);
         });
       })
     });
+  });
+
+  describe('renderToJson()', () => {
+    test('{#each a}{#each b}{name}.txt', () => {
+      readFileSyncStub.mockReturnValue('{{name}}');
+
+      const payload = {
+        a: [
+          { b: [{ name: '1' }, { name: '2' }] },
+          { b: [{ name: '3' }, { name: '4' }] }
+        ]
+      };
+
+      const fileNodes = new FileMetaTemplate('root', '{#each a}{#each b}{name}.txt').renderToJson(payload);
+      
+      expect(fileNodes).toEqual([
+        { isDirectory: false, name: '1.txt', content: '1' },
+        { isDirectory: false, name: '2.txt', content: '2' },
+        { isDirectory: false, name: '3.txt', content: '3' },
+        { isDirectory: false, name: '4.txt', content: '4' },
+      ])
+    })
   });
 });

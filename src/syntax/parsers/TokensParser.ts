@@ -28,7 +28,7 @@ export class TokensParser {
 
     const result = tokens.map((token) => {
       if (unpairedTokenRegex.test(token)) {
-        throw new Error('');
+        throw new Error(`Unpaired token has been met: "${name}"`);
       }
 
       const isExpression = new RegExp(EXPRESSION_REGEX, 'g').test(token);
