@@ -11,8 +11,6 @@ import { PayloadUtil } from '~/PayloadUtil';
 import { AbstractFileTreeNode } from '~/fileTree/AbstractFileTreeNode';
 import { FileTreeObject } from '~/FileTreeObject';
 import { MetaTemplateInstance } from './MetaTemplateInstance';
-import { IRenderable } from './IRenderable';
-
 
 
 /**
@@ -21,7 +19,7 @@ import { IRenderable } from './IRenderable';
  * 
  * Responsibility: get instances, render them
  */
-export abstract class AbstractMetaTemplate implements IRenderable {
+export abstract class AbstractMetaTemplate {
   constructor(
     /** parent folder for this meta template */
     protected directory: string,
