@@ -1,12 +1,8 @@
-import { inject, injectable } from 'tsyringe';
 import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '~/syntax';
 import { TokensParser } from './TokensParser';
 
-@injectable()
 export class NodesParser {
-  constructor(
-    @inject(TokensParser) private readonly tokensParser: TokensParser,
-  ) { }
+  private readonly tokensParser = new TokensParser();
 
   /** parses meta template name and returns array of syntax nodes */
   public parse(name: string): AbstractNode[] {

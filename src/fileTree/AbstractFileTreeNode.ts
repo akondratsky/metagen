@@ -2,7 +2,7 @@ import { FileTreeObject } from '~/FileTreeObject';
 
 export abstract class AbstractFileTreeNode {
   constructor(
-    public readonly directory: string,
+    public readonly dir: string,
     public readonly name: string,
   ){} 
 

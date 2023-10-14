@@ -12,25 +12,25 @@ describe('FileMetaTemplate', () => {
   describe('renderToNodes()', () => {
     type FileMetaTemplateTestCase = {
       templateName: string;
-      template: string;
+      templateContent: string;
       payload: JsonObject;
-      output: Array<{ name: string, content: string }>
+      expectedNodes: Array<{ name: string, content: string }>
     };
 
     const testCases: FileMetaTemplateTestCase[] = [
       {
         // test case #1
         templateName: 'filename',
-        template: '{{value}}',
+        templateContent: '{{value}}',
         payload: { value: 42 },
-        output: [{ name: 'filename', content: '42' }]
+        expectedNodes: [{ name: 'filename', content: '42' }]
       },
       {
         // test case #2
         templateName: '{#each persons}{name}.txt',
-        template: '{{name}} content',
+        templateContent: '{{name}} content',
         payload: { persons: [{ name: 'ivan' }, { name: 'anatoliy' }] },
-        output: [
+        expectedNodes: [
           { name: 'ivan.txt', content: 'ivan content' },
           { name: 'anatoliy.txt', content: 'anatoliy content' },
         ],
@@ -38,23 +38,23 @@ describe('FileMetaTemplate', () => {
       {
         // test case #3
         templateName: '{#each persons}{#include musician}{name}.txt',
-        template: '{{name}} {{#if musician}}is a musician{{/if}}',
+        templateContent: '{{name}} {{#if musician}}is a musician{{/if}}',
         payload: {
           persons: [{ name: 'ivan', musician: true }, { name: 'anatoliy', musician: false }]
         },
-        output: [{ name: 'ivan.txt', content: 'ivan is a musician' }]
+        expectedNodes: [{ name: 'ivan.txt', content: 'ivan is a musician' }]
       },
       {
         // test case #4
         templateName: '{#each a}{#each b}{name}.txt',
-        template: '{{name}}',
+        templateContent: '{{name}}',
         payload: {
           a: [
             { b: [{ name: '1' }, { name: '2' }] },
             { b: [{ name: '3' }, { name: '4' }] }
           ]
         },
-        output: [
+        expectedNodes: [
           { name: '1.txt', content: '1' },
           { name: '2.txt', content: '2' },
           { name: '3.txt', content: '3' },
@@ -63,14 +63,18 @@ describe('FileMetaTemplate', () => {
       },
     ];
 
-    testCases.forEach(({ templateName, template, output, payload }) => {
+    testCases.forEach(({ templateName, templateContent, expectedNodes, payload }) => {
       test(templateName, () => {
-        readFileSyncStub.mockReturnValue(template);
-        const fileNodes = new FileMetaTemplate('root', templateName).renderToNodes(payload);
-        expect(fileNodes).toBeArrayOfSize(output.length);
-        output.forEach(({ name, content }, index) => {
+        readFileSyncStub.mockReturnValue(templateContent);
+
+        const fileNodes = new FileMetaTemplate('./template', templateName).renderToNodes('./output', payload);
+
+        expect(fileNodes).toBeArrayOfSize(expectedNodes.length);
+
+        expectedNodes.forEach(({ name, content }, index) => {
           expect(fileNodes[index].name).toBe(name);
           expect(fileNodes[index].content).toBe(content);
+          expect(fileNodes[index].dir).toBe('./output');
         });
       })
     });
@@ -86,8 +90,8 @@ describe('FileMetaTemplate', () => {
           { b: [{ name: '3' }, { name: '4' }] }
         ]
       };
-
-      const fileNodes = new FileMetaTemplate('root', '{#each a}{#each b}{name}.txt').renderToJson(payload);
+      const metaTemplate = new FileMetaTemplate('root', '{#each a}{#each b}{name}.txt');
+      const fileNodes = metaTemplate.renderToJson('./expectedNodes', payload);
       
       expect(fileNodes).toEqual([
         { isDirectory: false, name: '1.txt', content: '1' },

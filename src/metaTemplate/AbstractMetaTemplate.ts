@@ -1,4 +1,3 @@
-import { container } from 'tsyringe';
 import {
   AbstractNode,
   ConditionNode,
@@ -9,15 +8,20 @@ import {
 } from '~/syntax';
 import type { JsonObject } from '~/json';
 import { PayloadUtil } from '~/PayloadUtil';
-import { MetaTemplateInstance } from './MetaTemplateInstance';
 import { AbstractFileTreeNode } from '~/fileTree/AbstractFileTreeNode';
 import { FileTreeObject } from '~/FileTreeObject';
+import { MetaTemplateInstance } from './MetaTemplateInstance';
+import { IRenderable } from './IRenderable';
+
+
 
 /**
  * Meta template is a file with a special name, which is used to create one or multiple files
  * according to the MetaGen syntax.
+ * 
+ * Responsibility: get instances, render them
  */
-export abstract class AbstractMetaTemplate {
+export abstract class AbstractMetaTemplate implements IRenderable {
   constructor(
     /** parent folder for this meta template */
     protected directory: string,
@@ -25,19 +29,22 @@ export abstract class AbstractMetaTemplate {
     protected name: string,
   ) {}
 
-  private readonly nodesParser = container.resolve(NodesParser);
 
-  abstract renderToNodes(payload: JsonObject): AbstractFileTreeNode | AbstractFileTreeNode[];
-  abstract renderToJson(payload: JsonObject): FileTreeObject | FileTreeObject[];
+  private readonly nodesParser = new NodesParser();
+
+  abstract renderToNodes(outputDir: string, payload: JsonObject): AbstractFileTreeNode | AbstractFileTreeNode[];
+  abstract renderToJson(outputDir: string, payload: JsonObject): FileTreeObject | FileTreeObject[];
+
 
   /** Returns list of particular templates for this meta template: name and payload */
-  protected getInstances(payload: JsonObject): MetaTemplateInstance[] {
+  protected getInstances(outputDir: string, payload: JsonObject): MetaTemplateInstance[] {
     const nodes = this.nodesParser.parse(this.name);
-    return this.getInstancesFromNodes(nodes, payload);
+    return this.getInstancesFromNodes(outputDir, nodes, payload);
   }
 
+
   /** recursively goes through list of nodes and creates list of meta template instances */
-  private getInstancesFromNodes(nodes: AbstractNode[], payload: JsonObject): MetaTemplateInstance[] {
+  private getInstancesFromNodes(outputDir: string, nodes: AbstractNode[], payload: JsonObject): MetaTemplateInstance[] {
     let nodeIndex = 0;
 
     do {
@@ -48,7 +55,7 @@ export abstract class AbstractMetaTemplate {
         const payloads = PayloadUtil.getPayloads(payload, node.iterator);
         return payloads.reduce((templates, currPayload) => {
           const templatePayload = PayloadUtil.merge(payload, currPayload);
-          templates.push(...this.getInstancesFromNodes([...nodes], templatePayload));
+          templates.push(...this.getInstancesFromNodes(outputDir, [...nodes], templatePayload));
           return templates;
         }, [] as MetaTemplateInstance[]);
       }
@@ -56,7 +63,7 @@ export abstract class AbstractMetaTemplate {
       if (node instanceof ConditionNode) {
         nodes.splice(nodeIndex, 1);
         if (node.checkCondition(payload)) {
-          return this.getInstancesFromNodes([...nodes], payload);
+          return this.getInstancesFromNodes(outputDir, [...nodes], payload);
         } else {
           return [];
         }
@@ -76,6 +83,18 @@ export abstract class AbstractMetaTemplate {
       .map(({ text }) => text)
       .join('');
 
-    return [new MetaTemplateInstance(templateName, PayloadUtil.clone(payload))];
+    return [
+      new MetaTemplateInstance({
+        template: {
+          dir: this.directory,
+          name: this.name,
+        },
+        output: {
+          dir: outputDir,
+          name: templateName,
+        },
+        payload:PayloadUtil.clone(payload)
+      }),
+    ];
   }
 }

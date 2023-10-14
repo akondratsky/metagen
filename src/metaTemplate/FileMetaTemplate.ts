@@ -7,18 +7,18 @@ import { FileObject } from '~/FileTreeObject';
 import { AbstractMetaTemplate } from './AbstractMetaTemplate';
 
 export class FileMetaTemplate extends AbstractMetaTemplate {
-  public renderToNodes(payload: JsonObject): FileNode[] {
+  public renderToNodes(outputDir: string, payload: JsonObject): FileNode[] {
     const renderTemplate = hbs.compile(fs.readFileSync(join(this.directory, this.name), 'utf-8'));
 
-    return this.getInstances(payload).map(({ name, payload: instancePayload }) => {
-      const file = new FileNode(this.directory, name);
-      file.content = renderTemplate(instancePayload);
+    return this.getInstances(outputDir, payload).map(({ template, output, payload: filePayload }) => {
+      const file = new FileNode(output.dir, output.name);
+      file.content = renderTemplate(filePayload);
       return file;
     });
   }
 
-  public renderToJson(payload: JsonObject): FileObject[] {
-    return this.renderToNodes(payload)
+  public renderToJson(outputDir: string, payload: JsonObject): FileObject[] {
+    return this.renderToNodes(outputDir, payload)
       .map(node => node.toJson());
   }
 }

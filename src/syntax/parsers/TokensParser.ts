@@ -1,6 +1,3 @@
-import { injectable } from 'tsyringe';
-
-@injectable()
 export class TokensParser {
   /**
    * Parses meta template name and finds expression tokens in it, returns array of text and expression tokens

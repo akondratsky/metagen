@@ -1,10 +1,9 @@
-import { container } from 'tsyringe';
 import { describe, it, expect } from 'bun:test';
 import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '~/syntax';
 import { NodesParser } from './NodesParser';
 
 describe('NodesParser', () => {
-  const nodesParser = container.resolve(NodesParser);
+  const nodesParser = new NodesParser();
 
   describe('parseName()', () => {
     describe('validates expressions', () => {
