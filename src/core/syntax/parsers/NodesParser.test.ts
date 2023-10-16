@@ -13,7 +13,7 @@ describe('NodesParser', () => {
           '{#includeif condition}',
           '{#each array}',
           '{skillName}',
-          // '{obj.arr[0].value}'
+          '{obj.arr[0].value}'
         ]
       )('valid expression: "%s"', (name) => {
         expect(() => nodesParser.parse(name)).not.toThrow();

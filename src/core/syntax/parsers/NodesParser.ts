@@ -11,7 +11,14 @@ export class NodesParser {
         return new TextNode(token);
       }
 
-      const isValid = /^( )*(#(includeif|each)( )+)?[a-z](\.?[a-z0-9])*( )*$/i.test(token);
+      const KEYWORD = '#(includeif|each)';
+      const VAR_NAME = '[a-z]{1}[a-z0-9]*';
+      const INDEX = '(\\[[0-9]+\\])';
+      const VARIABLE = `${VAR_NAME}(${INDEX}|(\\.${VAR_NAME}))*`;
+      const VALIDATION_REGEX = `^( )*(${KEYWORD}( )+)?${VARIABLE}( )*$`;
+
+      const isValid = new RegExp(VALIDATION_REGEX, 'i').test(token);
+      
       if (!isValid) {
         throw new Error(`Invalid token "${token}" in template name "${name}"`);
       }

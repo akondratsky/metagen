@@ -107,7 +107,7 @@ describe('MetaTemplate', () => {
     ])
   });
 
-  test.skip('./template4', () => {
+  test('./template4', () => {
     const templatePath = join(import.meta.dir, 'template4');
     const inputTree = fsTreeReader.read(templatePath);
 
