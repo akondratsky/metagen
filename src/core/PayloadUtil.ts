@@ -1,5 +1,5 @@
 import { get, merge } from 'lodash';
-import { JsonObject, JsonValue } from '~/json';
+import { JsonObject, JsonValue } from './json';
 
 export const PayloadUtil = {
   /** Returns value from payload by path */

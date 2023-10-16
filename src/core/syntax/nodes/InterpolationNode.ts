@@ -1,6 +1,6 @@
-import { JsonObject } from '~/json';
+import { JsonObject } from '../../json';
 import { ITextNode } from './ITextNode';
-import { PayloadUtil } from '~/PayloadUtil';
+import { PayloadUtil } from '../../PayloadUtil';
 
 /**
  * Interpolates name from the given payload

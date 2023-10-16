@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'bun:test';
-import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '~/syntax';
+import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
 import { NodesParser } from './NodesParser';
 
 describe('NodesParser', () => {

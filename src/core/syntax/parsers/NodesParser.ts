@@ -1,4 +1,4 @@
-import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '~/syntax';
+import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
 import { TokensParser } from './TokensParser';
 
 export class NodesParser {

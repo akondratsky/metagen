@@ -1,0 +1,109 @@
+import { AbstractNode, ConditionNode, ITextNode, InterpolationNode, IterationNode, NodesParser } from './syntax';
+import { Tree } from './Tree';
+import { JsonObject } from './json';
+import { PayloadUtil } from './PayloadUtil';
+import hbs from 'handlebars';
+
+type Template = {
+  filename: string;
+  payload: JsonObject;
+}
+
+export class MetaTemplateCore {
+  constructor(
+    private readonly metaTemplate: Tree,
+  ) {}
+
+  private readonly nodesParser = new NodesParser();
+
+
+  public renderTree(payload: JsonObject): Tree[] {
+    if (this.metaTemplate.isDirectory) {
+      const result: Tree[] = [];
+      this.metaTemplate.children.forEach((child) => {
+        result.push(...this.renderMetaTemplate(child, payload));
+      });
+      return result;
+    }
+    return this.renderMetaTemplate(this.metaTemplate, payload);
+  }
+
+  public renderJson(payload: JsonObject): Array<JsonObject> {
+    return this.renderTree(payload).map(tree => tree.toJson());
+  }
+
+  // render nodes into root
+  private renderMetaTemplate(metaTemplate: Tree, metaPayload: JsonObject): Tree[] {
+    const result: Tree[] = [];
+    const templates = this.getTemplates(metaTemplate.name, metaPayload);
+
+    if (metaTemplate.isDirectory) {
+      templates.forEach(({ filename, payload }) => {
+        const directory = new Tree.Directory(filename);
+        metaTemplate.children.forEach((childMetaTemplate) => {
+          directory.children.push(
+            ...this.renderMetaTemplate(childMetaTemplate, payload),
+          );
+        });
+        result.push(directory);
+      });
+    } else {
+      const render = hbs.compile(metaTemplate.content);
+      templates.forEach(({ filename, payload }) => {
+        const file = new Tree.File(filename);
+        file.content = render(payload)
+        result.push(file);
+      });
+    }
+
+    return result;
+  }
+
+
+  private getTemplates(metaTemplateName: string, payload: JsonObject): Template[] {
+    const nodes = this.nodesParser.parse(metaTemplateName);
+    return this.getTemplatesByNodes(nodes, payload);
+  }
+
+  private getTemplatesByNodes(nodes: AbstractNode[], payload: JsonObject): Template[] {
+    let nodeIndex = 0;
+
+    do {
+      const node = nodes[nodeIndex];
+
+      if (node instanceof IterationNode) {
+        nodes.splice(nodeIndex, 1);
+        const payloads = PayloadUtil.getPayloads(payload, node.iterator);
+        return payloads.reduce((templates, currPayload) => {
+          const templatePayload = PayloadUtil.merge(payload, currPayload);
+          templates.push(...this.getTemplatesByNodes([...nodes], templatePayload));
+          return templates;
+        }, [] as Template[]);
+      }
+
+      if (node instanceof ConditionNode) {
+        nodes.splice(nodeIndex, 1);
+        if (node.checkCondition(payload)) {
+          return this.getTemplatesByNodes([...nodes], payload);
+        } else {
+          return [];
+        }
+      }
+
+      if (node instanceof InterpolationNode) {
+        node.interpolate(payload);
+      }
+
+      // TextNode does not require special action
+      
+      nodeIndex++;
+      continue;
+    } while (nodeIndex < nodes.length);
+
+    const filename = (nodes as ITextNode[])
+      .map(({ text }) => text)
+      .join('');
+
+    return [{ filename, payload }];
+  }
+}

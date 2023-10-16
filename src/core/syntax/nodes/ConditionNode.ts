@@ -1,5 +1,5 @@
-import { JsonObject } from '~/json';
-import { PayloadUtil } from '~/PayloadUtil';
+import { JsonObject } from '../../json';
+import { PayloadUtil } from '../../PayloadUtil';
 
 /**
  * Includes or excludes file from the output using the boolean value

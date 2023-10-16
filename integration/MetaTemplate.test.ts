@@ -1,31 +1,38 @@
-import { MetaTemplate } from '~/metaTemplate/MetaTemplate';
+import { JsonObject, MetaTemplateCore, Tree } from '~/core';
 import { describe, test, expect } from 'bun:test';
-import { FileTreeObject, DirectoryObject, FileObject } from '~/FileTreeObject';
+import { FsTreeReader } from '~/FsTreeReader';
 import { join } from 'node:path';
 
-const directory = (name: string, ...objects: FileTreeObject[]): DirectoryObject => ({
+const directory = (name: string, ...objects: JsonObject[]): JsonObject => ({
   name,
   isDirectory: true,
   children: objects,
 });
-const file = (name: string, content: string): FileObject => ({
+const file = (name: string, content: string): JsonObject => ({
   isDirectory: false,
   name,
   content,
 });
 
+const toJson = (trees: Tree[]) => trees.map(tree => tree.toJson());
+
 describe('MetaTemplate', () => {
+  const fsTreeReader = new FsTreeReader();
+
   /**
    * {person}.hbs
    * file.hbs
    */
   test('./template1', () => {
     const templatePath = join(import.meta.dir, 'template1');
-    const template = new MetaTemplate(templatePath);
+    const inputTree = fsTreeReader.read(templatePath);
 
-    const output = template.renderToJson({
+    const template = new MetaTemplateCore(inputTree);
+
+    const output = template.renderJson({
       person: 'ivan'
     });
+
 
     expect(output).toEqual([
       file('ivan.hbs', 'ivan content'),
@@ -40,8 +47,10 @@ describe('MetaTemplate', () => {
    */
   test('./template2', () => {
     const templatePath = join(import.meta.dir, 'template2');
-    const template = new MetaTemplate(templatePath);
-    const output = template.renderToJson({
+    const inputTree = fsTreeReader.read(templatePath);
+
+    const template = new MetaTemplateCore(inputTree);
+    const output = template.renderJson({
       persons: [
         { name: 'ivan', isMusician: true, song: 'strangers in the night' },
         { name: 'anatoliy', isMusician: false },
@@ -61,16 +70,17 @@ describe('MetaTemplate', () => {
     ]);
   });
 
-  /**
-   * {#each persons}
-   * └── {#each skills}{skillName}.txt
-   * index.txt
-   */
+  // /**
+  //  * {#each persons}
+  //  * └── {#each skills}{skillName}.txt
+  //  * index.txt
+  //  */
   test('./template3', () => {
     const templatePath = join(import.meta.dir, 'template3');
-    const template = new MetaTemplate(templatePath);
+    const inputTree = fsTreeReader.read(templatePath);
+    const template = new MetaTemplateCore(inputTree);
 
-    const output = template.renderToJson({
+    const output = template.renderJson({
       persons: [
         {
           name: 'John',
