@@ -1,9 +1,78 @@
 # metagen
 
-## Development
+## Syntax
 
-This project uses [Bun](https://bun.sh/docs).
+### Interpolation
+Template:
+```
+.
+├── {name}.txt
+└── report-{company}.md
+```
+Payload:
+```json
+{ "name": "Chris", "company": "Chresla" }
+```
+Output:
+```
+.
+├── Chris.txt
+└── report-Chresla.md
+```
 
-## Glossary
+### Conditional inclusion
+Template
+```
+.
+├── {#includeif isValentineDay}postcard.txt
+└── {#includeif isLovelyPerson}present.txt
+```
+Payload
+```json
+{ "isValentineDay": true, "isLovelyPerson": false }
+```
+Output:
+```
+.
+└── postcard.txt
+```
 
-- Meta template is a conventionally named file, which is used for creating other files with MetaGen engine
+### Iterate values
+Template:
+```
+.
+└── {#each person}.txt
+```
+Payload:
+```json
+{ "persons": ["alex", "john"]}
+```
+Output:
+```
+.
+├── alex.txt
+└── john.txt
+```
+### Iterate objects
+
+Template:
+```
+.
+└── {#each persons}{name}{#includeif isMusician}.txt
+```
+Payload:
+```json
+{
+  "persons": [
+    { "name": "ivan", isMusician: true },
+    { "name": "anatoliy", isMusician: false }
+  ]
+}
+```
+Output:
+```
+.
+└── ivan.txt
+```
+
+

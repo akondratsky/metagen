@@ -20,9 +20,9 @@ describe('PayloadUtil', () => {
       expect(() => PayloadUtil.getPayloads(payload, 'a')).toThrow();
     });
 
-    it('throws an error if one of value in the array by path is not an object', () => {
+    it('not throws an error if one of value in the array by path is not an object', () => {
       const payload = { a: ['value'] };
-      expect(() => PayloadUtil.getPayloads(payload, 'a')).toThrow();
+      expect(() => PayloadUtil.getPayloads(payload, 'a')).not.toThrow();
     });
 
     it('returns array of payloads by path', () => {

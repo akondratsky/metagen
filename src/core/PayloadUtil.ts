@@ -8,9 +8,9 @@ export const PayloadUtil = {
   },
 
   /** Return array of payloads, taken from current payload by path */
-  getPayloads(payload: JsonObject, path: string): JsonObject[] {
+  getPayloads(payload: JsonObject, path: string): JsonValue[] {
     const payloads = get(payload, path);
-    if (!Array.isArray(payloads) || payloads.some(pld => typeof pld !== 'object')) {
+    if (!Array.isArray(payloads)) {
       throw new Error(`Payload value by path "${path}" is not array of objects:\n ${JSON.stringify(payloads)}`);
     }
     return structuredClone(payloads) as JsonObject[];

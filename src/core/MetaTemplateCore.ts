@@ -1,4 +1,4 @@
-import { AbstractNode, ConditionNode, ITextNode, InterpolationNode, IterationNode, NodesParser } from './syntax';
+import { AbstractNode, ConditionNode, ITextNode, InterpolationNode, IterationNode, NodesParser, TextNode } from './syntax';
 import { Tree } from './Tree';
 import { JsonObject } from './json';
 import { PayloadUtil } from './PayloadUtil';
@@ -74,11 +74,19 @@ export class MetaTemplateCore {
       if (node instanceof IterationNode) {
         nodes.splice(nodeIndex, 1);
         const payloads = PayloadUtil.getPayloads(payload, node.iterator);
-        return payloads.reduce((templates, currPayload) => {
-          const templatePayload = PayloadUtil.merge(payload, currPayload);
-          templates.push(...this.getTemplatesByNodes([...nodes], templatePayload));
-          return templates;
-        }, [] as Template[]);
+        const templates: Template[] = [];
+
+        payloads.forEach((currentPayload) => {
+          if (typeof currentPayload === 'object') {
+            const templatePayload = PayloadUtil.merge(payload, currentPayload as JsonObject);
+            templates.push(...this.getTemplatesByNodes([...nodes], templatePayload));
+          } else {
+            const currentNode = new TextNode(String(currentPayload));
+            templates.push(...this.getTemplatesByNodes([currentNode, ...nodes], payload));
+          }
+        });
+
+        return templates;
       }
 
       if (node instanceof ConditionNode) {

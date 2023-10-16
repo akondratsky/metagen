@@ -123,4 +123,20 @@ describe('MetaTemplate', () => {
       file('42.txt', ''),
     ]);
   });
+
+  test('./template5', () => {
+    const templatePath = join(import.meta.dir, 'template5');
+    const inputTree = fsTreeReader.read(templatePath);
+    const template = new MetaTemplateCore(inputTree);
+
+    const output = template.renderJson({
+      names: ['alex', 'john', 'optimus prime'],
+    });
+
+    expect(output).toEqual([
+      file('alex', ''),
+      file('john', ''),
+      file('optimus prime', ''),
+    ]);
+  });
 });
