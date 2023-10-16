@@ -3,7 +3,7 @@ import { PayloadUtil } from '../../PayloadUtil';
 
 /**
  * Includes or excludes file from the output using the boolean value
- * @example '{#include isPublic}'
+ * @example '{#includeif isPublic}'
  */
 export class ConditionNode {
   constructor(

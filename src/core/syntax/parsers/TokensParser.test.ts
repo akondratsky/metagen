@@ -4,11 +4,11 @@ import { describe, test, expect } from 'bun:test';
 describe('TokenParser', () => {
   const tokenParser = new TokensParser();
   describe('parse()', () => {
-    test('splits "{#each persons}{#include musician}{name}42"', () => {
-      const actual = tokenParser.parse('{#each persons}{#include musician}{name}42');
+    test('splits "{#each persons}{#includeif musician}{name}42"', () => {
+      const actual = tokenParser.parse('{#each persons}{#includeif musician}{name}42');
       expect(actual).toEqual([
         { token: '#each persons', isExpression: true },
-        { token: '#include musician', isExpression: true },
+        { token: '#includeif musician', isExpression: true },
         { token: 'name', isExpression: true },
         { token: '42', isExpression: false },
       ]);

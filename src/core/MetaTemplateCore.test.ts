@@ -34,7 +34,7 @@ describe('MetaTemplateCore', () => {
       },
       {
         // test case #3
-        templateName: '{#each persons}{#include musician}{name}.txt',
+        templateName: '{#each persons}{#includeif musician}{name}.txt',
         templateContent: '{{name}} {{#if musician}}is a musician{{/if}}',
         payload: {
           persons: [{ name: 'ivan', musician: true }, { name: 'anatoliy', musician: false }]
@@ -131,8 +131,8 @@ describe('MetaTemplateCore', () => {
     });
   
     describe('condition', () => {
-      test('"{#include condition}file", condition: true', () => {
-        const templateTree = new Tree.File('{#include condition}file');
+      test('"{#includeif condition}file", condition: true', () => {
+        const templateTree = new Tree.File('{#includeif condition}file');
         const template = new MetaTemplateCore(templateTree);
         const output = template.renderJson({ condition: true });
         expect(output).toEqual([{
@@ -142,8 +142,8 @@ describe('MetaTemplateCore', () => {
         }]);
       });
   
-      test('"{#include condition}file", condition: false', () => {
-        const templateTree = new Tree.File('{#include condition}file');
+      test('"{#includeif condition}file", condition: false', () => {
+        const templateTree = new Tree.File('{#includeif condition}file');
         const template = new MetaTemplateCore(templateTree);
         const output = template.renderJson({ condition: false });
         expect(output).toEqual([]);

@@ -27,11 +27,7 @@ describe('FsTreeReader', () => {
         isDirectory: true,
         children: [
           {
-            name: "musicians.hbs",
-            isDirectory: false,
-            content: "{{title}}\n{{#each persons}}\n{{this.name}}\n{{/each}}"
-          }, {
-            name: "{#each persons}{#include isMusician}{name} notes",
+            name: "{#each persons}{#includeif isMusician}{name} notes",
             isDirectory: true,
             children: [
               {
@@ -40,7 +36,12 @@ describe('FsTreeReader', () => {
                 content: "la-la-la!"
               }
             ]
-          }
+          },
+          {
+            name: "musicians.hbs",
+            isDirectory: false,
+            content: "{{title}}\n{{#each persons}}\n{{this.name}}\n{{/each}}"
+          }, 
         ]
       });
     });

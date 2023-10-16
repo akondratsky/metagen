@@ -14,8 +14,6 @@ const file = (name: string, content: string): JsonObject => ({
   content,
 });
 
-const toJson = (trees: Tree[]) => trees.map(tree => tree.toJson());
-
 describe('MetaTemplate', () => {
   const fsTreeReader = new FsTreeReader();
 
@@ -41,7 +39,7 @@ describe('MetaTemplate', () => {
   });
 
   /**
-   * {#each persons}{#include isMusician}{name} notes
+   * {#each persons}{#includeif isMusician}{name} notes
    * └── {song}.hbs
    * musicians.hbs
    */
@@ -50,6 +48,7 @@ describe('MetaTemplate', () => {
     const inputTree = fsTreeReader.read(templatePath);
 
     const template = new MetaTemplateCore(inputTree);
+
     const output = template.renderJson({
       persons: [
         { name: 'ivan', isMusician: true, song: 'strangers in the night' },
@@ -60,13 +59,13 @@ describe('MetaTemplate', () => {
     });
 
     expect(output).toEqual([
-      file('musicians.hbs', 'list of musicians\nivan\nanatoliy\njohn\n'),
       directory('ivan notes',
         file('strangers in the night.hbs', 'la-la-la!')
       ),
       directory('john notes',
-          file('venom.hbs', 'la-la-la!')
+        file('venom.hbs', 'la-la-la!')
       ),
+      file('musicians.hbs', 'list of musicians\nivan\nanatoliy\njohn\n'),
     ]);
   });
 
@@ -86,7 +85,7 @@ describe('MetaTemplate', () => {
           name: 'John',
           surname: 'Johnson',
           skills: [{ skillName: 'fly' }, { skillName: 'flee' }],
-        }, 
+        },
         {
           name: 'Isabella',
           surname: 'Sold',
@@ -97,14 +96,31 @@ describe('MetaTemplate', () => {
 
     expect(output).toEqual([
       directory('John',
-      file('fly.txt', 'Mr/Ms Johnson has mastered his/her skill: fly'),
-      file('flee.txt', 'Mr/Ms Johnson has mastered his/her skill: flee'),
+        file('fly.txt', 'Mr/Ms Johnson has mastered his/her skill: fly'),
+        file('flee.txt', 'Mr/Ms Johnson has mastered his/her skill: flee'),
       ),
       directory('Isabella',
-      file('dance.txt', 'Mr/Ms Sold has mastered his/her skill: dance'),
-      file('swim.txt', 'Mr/Ms Sold has mastered his/her skill: swim'),
+        file('dance.txt', 'Mr/Ms Sold has mastered his/her skill: dance'),
+        file('swim.txt', 'Mr/Ms Sold has mastered his/her skill: swim'),
       ),
       file('index.txt', '-'),
     ])
+  });
+
+  test.skip('./template4', () => {
+    const templatePath = join(import.meta.dir, 'template4');
+    const inputTree = fsTreeReader.read(templatePath);
+
+    const template = new MetaTemplateCore(inputTree);
+
+    const output = template.renderJson({
+      obj: {
+        arr: [{ value: '42' }]
+      }
+    });
+
+    expect(output).toEqual([
+      file('42.txt', ''),
+    ]);
   });
 });

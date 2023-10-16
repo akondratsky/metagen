@@ -8,7 +8,13 @@ describe('NodesParser', () => {
   describe('parseName()', () => {
     describe('validates expressions', () => {
       it.each(
-        ['{a}', '{#include condition}', '{#each array}', '{skillName}']
+        [
+          '{a}',
+          '{#includeif condition}',
+          '{#each array}',
+          '{skillName}',
+          // '{obj.arr[0].value}'
+        ]
       )('valid expression: "%s"', (name) => {
         expect(() => nodesParser.parse(name)).not.toThrow();
       });
@@ -25,8 +31,8 @@ describe('NodesParser', () => {
         expect(node).toBeInstanceOf(TextNode);
       });
   
-      it('ConditionalNode for expressions "{#include condition}"', () => {
-        const [node] = nodesParser.parse('{#include condition}');
+      it('ConditionalNode for expressions "{#includeif condition}"', () => {
+        const [node] = nodesParser.parse('{#includeif condition}');
         expect(node).toBeInstanceOf(ConditionNode);
       });
   
@@ -48,7 +54,7 @@ describe('NodesParser', () => {
       });
 
       it('ConditionNode', () => {
-        const [node] = nodesParser.parse('{#include condition}') as ConditionNode[];
+        const [node] = nodesParser.parse('{#includeif condition}') as ConditionNode[];
         expect(node.checkCondition({ condition: true })).toBe(true);
       });
 
@@ -65,7 +71,7 @@ describe('NodesParser', () => {
     });
 
     it('parses complex names', () => {
-      const [iteration, condition, interpolation, text] = nodesParser.parse('{#each persons}{#include musician}{name}42');
+      const [iteration, condition, interpolation, text] = nodesParser.parse('{#each persons}{#includeif musician}{name}42');
       expect(iteration).toBeInstanceOf(IterationNode);
       expect(condition).toBeInstanceOf(ConditionNode);
       expect(interpolation).toBeInstanceOf(InterpolationNode);
