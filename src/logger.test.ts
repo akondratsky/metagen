@@ -1,5 +1,5 @@
 import { logger } from './logger';
-import { describe, it, expect, spyOn, afterEach, jest } from 'bun:test';
+import { describe, it, expect, spyOn, afterEach, jest, afterAll } from 'bun:test';
 
 const logSpy = spyOn(console, 'log');
 const errorSpy = spyOn(console, 'error');
@@ -8,6 +8,9 @@ describe('logger', () => {
   afterEach(() => {
     logSpy.mockReset();
     errorSpy.mockReset();
+  });
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
   
   it('prints errors', () => {

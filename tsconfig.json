@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "module": "ESNext",
+    "composite": true,
     "target": "ESNext",
     "types": ["bun-types"],
     "strict": true,
+    "outDir": "./dist",
     "paths": {
       "~/*": ["./src/*"]
     },
@@ -12,5 +14,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "exclude": ["node_modules"]
+  "references": [
+    {
+      "path": "tsconfig.lib.json"
+    },
+    {
+      "path": "tsconfig.test.json"
+    }
+  ]
 }

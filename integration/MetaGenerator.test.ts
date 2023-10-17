@@ -1,16 +1,23 @@
 import { MetaGenerator } from '~/MetaGenerator';
-import { describe, test, expect, spyOn, jest } from 'bun:test';
+import { describe, test, expect, spyOn, jest, afterAll, beforeAll } from 'bun:test';
 import { directory, file } from './fixtures';
 import { logger } from '~/logger';
 import fs from 'node:fs';
 import { FsTreeReader } from '~/FsTreeReader';
 
 
-spyOn(logger, 'error').mockImplementation(jest.fn());
 
 process.chdir(import.meta.dir);
 
 describe('MetaGenerator', () => {
+  beforeAll(() => {
+    spyOn(logger, 'error').mockImplementation(jest.fn());
+  });
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
+
   test('generates json output', () =>{
     const generator = new MetaGenerator('./template1');
     const outputs = generator.generate({

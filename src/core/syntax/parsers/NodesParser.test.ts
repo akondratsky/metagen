@@ -1,12 +1,18 @@
-import { describe, it, expect, spyOn, jest } from 'bun:test';
+import { describe, it, expect, spyOn, jest, afterAll, beforeAll } from 'bun:test';
 import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
 import { NodesParser } from './NodesParser';
 import { HbsFlagNode } from '../nodes/HbsFlagNode';
 import { logger } from '~/logger';
 
-spyOn(logger, 'error').mockImplementation(jest.fn());
 
 describe('NodesParser', () => {
+  beforeAll(() => {
+    spyOn(logger, 'error').mockImplementation(jest.fn());
+  });
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   const nodesParser = new NodesParser();
 
   describe('parseName()', () => {

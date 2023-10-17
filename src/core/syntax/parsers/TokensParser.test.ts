@@ -1,10 +1,16 @@
 import { TokensParser } from './TokensParser';
-import { describe, test, expect, spyOn, jest } from 'bun:test';
+import { describe, test, expect, spyOn, jest, beforeAll, afterAll } from 'bun:test';
 import { logger } from '~/logger';
 
-spyOn(logger, 'error').mockImplementation(jest.fn());
 
 describe('TokenParser', () => {
+  beforeAll(() => {
+    spyOn(logger, 'error').mockImplementation(jest.fn());
+  });
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   const tokenParser = new TokensParser();
   describe('parse()', () => {
     test('splits "{#each persons}{#includeif musician}{name}42"', () => {
