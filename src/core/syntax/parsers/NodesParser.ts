@@ -1,3 +1,4 @@
+import { logger } from '~/logger';
 import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
 import { HbsFlagNode } from '../nodes/HbsFlagNode';
 import { TokensParser } from './TokensParser';
@@ -5,9 +6,17 @@ import { TokensParser } from './TokensParser';
 export class NodesParser {
   private readonly tokensParser = new TokensParser();
 
+  private validationError(name: string, token: string) {
+    const message = `Invalid token "${token}" in template name "${name}"`
+    logger.error(message);
+    return new Error(message);
+  }
+
   /** parses meta template name and returns array of syntax nodes */
   public parse(name: string): AbstractNode[] {
     return this.tokensParser.parse(name).map(({ token, isExpression }) => {
+      logger.debug(`mapping token to a node: "${token}"`)
+
       if (!isExpression) {
         return new TextNode(token);
       }
@@ -23,7 +32,7 @@ export class NodesParser {
 
       const isValid = new RegExp(VALIDATION_REGEX, 'i').test(token);
       if (!isValid) {
-        throw new Error(`Invalid token "${token}" in template name "${name}"`);
+        throw this.validationError(name, token);
       }
 
       const statement = token.trim().replace(/ +/g, ' ').split(' ');
@@ -43,8 +52,7 @@ export class NodesParser {
         return new IterationNode(path);
       }
 
-      // TODO: more detailed error
-      throw new Error(`Unhandled error during token processing: "${token}"`);
+      throw this.validationError(name, token);
     });
   }
 }

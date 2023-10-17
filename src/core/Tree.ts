@@ -4,25 +4,25 @@
  * there is no method overrides which may implement different methods for different argument types. It means, that we
  * need to figure out the type of out object and switch methods manually. 
  */
-import { JsonObject } from '~/core/json';
+import { JsonArray, JsonObject } from '~/core/json';
 
 export class Tree {
   constructor(
     public name: string,
     public readonly isDirectory: boolean,
-  ) {}
+  ) { }
 
   #children: Tree[] = [];
   #content: string = '';
 
   public static Directory = class TreeDirectory extends Tree {
-    constructor (name: string) {
+    constructor(name: string) {
       super(name, true);
     }
   }
 
   public static File = class TreeFile extends Tree {
-    constructor (name: string) {
+    constructor(name: string) {
       super(name, false);
     }
   }
@@ -61,15 +61,22 @@ export class Tree {
     return this.#content;
   }
 
-  public toJson(): JsonObject {
-    return {
-      isDirectory: this.isDirectory,
-      name: this.name,
-      ...(this.isDirectory ? {
-        children: this.children.map(child => child.toJson()),
-      } : {
-        content: this.content,
-      }),
+  public static toJson(trees: Tree | Tree[]): JsonObject | JsonObject[] {
+    if (Array.isArray(trees)) {
+      return trees.map(tree => tree.toJson()) as JsonObject[];
     }
+    return {
+      isDirectory: trees.isDirectory,
+      name: trees.name,
+      ...(trees.isDirectory ? {
+        children: trees.children.map(child => child.toJson()),
+      } : {
+        content: trees.content,
+      }),
+    };
+  }
+
+  public toJson(): JsonObject {
+    return Tree.toJson(this) as JsonObject;
   }
 }

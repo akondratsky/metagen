@@ -1,9 +1,13 @@
+import { logger } from '~/logger';
+
 export class TokensParser {
   /**
    * Parses meta template name and finds expression tokens in it, returns array of text and expression tokens
    * @param {string} name Meta template name
    */
   public parse(name: string): Array<{ token: string, isExpression: boolean }> {
+    logger.debug(`parsing name for tokens: "${name}"`);
+
     const SINGLE_OPEN = '\\{';
     const SINGLE_CLOSE = '\\}';
     const DOUBLE_OPEN = '\\{\\{';
@@ -20,12 +24,14 @@ export class TokensParser {
     const tokens = name.match(lexisRegex);
 
     if (!tokens || !tokens.length) {
+      logger.error(`No tokens parsed in the name: "${name}"`);
       throw new Error('Invalid argument');
     }
 
     const result = tokens.map((token) => {
       if (unpairedTokenRegex.test(token)) {
-        throw new Error(`Unpaired token has been met: "${name}"`);
+        logger.error(`Unpaired token has been met in the name: "${name}"`);
+        throw new Error(`Unpaired token has been met in the name: "${name}"`);
       }
 
       const isExpression = new RegExp(EXPRESSION_REGEX, 'g').test(token);

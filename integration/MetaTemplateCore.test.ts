@@ -1,18 +1,9 @@
-import { JsonObject, MetaTemplateCore, Tree } from '~/core';
+import { JsonObject, MetaTemplateCore } from '~/core';
 import { describe, test, expect } from 'bun:test';
 import { FsTreeReader } from '~/FsTreeReader';
 import { join } from 'node:path';
+import { directory, file } from './fixtures';
 
-const directory = (name: string, ...objects: JsonObject[]): JsonObject => ({
-  name,
-  isDirectory: true,
-  children: objects,
-});
-const file = (name: string, content: string): JsonObject => ({
-  isDirectory: false,
-  name,
-  content,
-});
 
 describe('MetaTemplate', () => {
   const fsTreeReader = new FsTreeReader();

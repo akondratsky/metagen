@@ -4,6 +4,7 @@ import { JsonObject } from './json';
 import { PayloadUtil } from './PayloadUtil';
 import hbs from 'handlebars';
 import { HbsFlagNode } from './syntax/nodes/HbsFlagNode';
+import { logger } from '~/logger';
 
 type Template = {
   filename: string;
@@ -33,17 +34,23 @@ export class MetaTemplateCore {
     return this.renderTree(payload).map(tree => tree.toJson());
   }
 
-  // render nodes into root
   private renderMetaTemplate(metaTemplate: Tree, metaPayload: JsonObject): Tree[] {
+    logger.debug(`rendering meta template "${metaTemplate.name}"`);
+
     const result: Tree[] = [];
     const nodes = this.nodesParser.parse(metaTemplate.name);
     const isHbs = nodes.some(node => node instanceof HbsFlagNode);
+
+    logger.debug(`handlebars templating ${isHbs ? 'enabled' : 'disabled'}`);
+    logger.debug(`generating template instances for meta template "${metaTemplate.name}":`);
     const templates = this.getTemplatesByNodes(nodes, metaPayload);
 
     if (metaTemplate.isDirectory) {
+      logger.debug(`meta template "${metaTemplate.name}" is a directory, iterating children...`);
       templates.forEach(({ filename, payload }) => {
         const directory = new Tree.Directory(filename);
         metaTemplate.children.forEach((childMetaTemplate) => {
+          logger.debug(`"${metaTemplate.name}" meta template, child found: "${childMetaTemplate.name}"`);
           directory.children.push(
             ...this.renderMetaTemplate(childMetaTemplate, payload),
           );
@@ -51,12 +58,13 @@ export class MetaTemplateCore {
         result.push(directory);
       });
     } else {
-
+      logger.debug(`meta template "${metaTemplate.name}" is a file, rendering...`);
       const render = isHbs
         ? hbs.compile(metaTemplate.content)
-        : () => metaTemplate.content
-;
+        : () => metaTemplate.content;
+
       templates.forEach(({ filename, payload }) => {
+        logger.debug(`rendering "${filename}" with payload ${JSON.stringify(payload)}`)
         const file = new Tree.File(filename);
         file.content = render(payload)
         result.push(file);
@@ -118,6 +126,7 @@ export class MetaTemplateCore {
       .map(({ text }) => text)
       .join('');
 
+    logger.debug(`- "${filename}" with payload "${JSON.stringify(payload)}"`)
     return [{ filename, payload }];
   }
 }

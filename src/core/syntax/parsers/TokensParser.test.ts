@@ -1,5 +1,8 @@
 import { TokensParser } from './TokensParser';
-import { describe, test, expect } from 'bun:test';
+import { describe, test, expect, spyOn, jest } from 'bun:test';
+import { logger } from '~/logger';
+
+spyOn(logger, 'error').mockImplementation(jest.fn());
 
 describe('TokenParser', () => {
   const tokenParser = new TokensParser();
