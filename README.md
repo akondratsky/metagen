@@ -1,11 +1,9 @@
 # metagen
 
 ## Syntax
-
 ### Interpolation
-Template:
+Template
 ```
-.
 ├── {name}.txt
 └── report-{company}.md
 ```
@@ -15,7 +13,6 @@ Payload:
 ```
 Output:
 ```
-.
 ├── Chris.txt
 └── report-Chresla.md
 ```
@@ -23,7 +20,6 @@ Output:
 ### Conditional inclusion
 Template
 ```
-.
 ├── {#includeif isValentineDay}postcard.txt
 └── {#includeif isLovelyPerson}present.txt
 ```
@@ -33,14 +29,12 @@ Payload
 ```
 Output:
 ```
-.
 └── postcard.txt
 ```
 
 ### Iterate values
-Template:
+Template
 ```
-.
 └── {#each person}.txt
 ```
 Payload:
@@ -49,15 +43,13 @@ Payload:
 ```
 Output:
 ```
-.
 ├── alex.txt
 └── john.txt
 ```
 ### Iterate objects
 
-Template:
+Template
 ```
-.
 └── {#each persons}{name}{#includeif isMusician}.txt
 ```
 Payload:
@@ -71,8 +63,21 @@ Payload:
 ```
 Output:
 ```
-.
 └── ivan.txt
 ```
 
-
+### Templating
+Files marked with flag `#hbs` will be rendered with `handlebars`.
+Template
+```├── {#hbs}{name}.txt
+└── icon.txt
+```
+Payload:
+```json
+{ "name": "Chris" }
+```
+Output:
+```├── Chris.txt
+└── report-Chresla.md
+```
+File `Chris.txt` will be passed through handlebars templating engine, file `icon.png` will be copied directly.

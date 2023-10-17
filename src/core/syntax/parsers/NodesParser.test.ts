@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'bun:test';
 import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
 import { NodesParser } from './NodesParser';
+import { HbsFlagNode } from '../nodes/HbsFlagNode';
 
 describe('NodesParser', () => {
   const nodesParser = new NodesParser();
@@ -13,7 +14,8 @@ describe('NodesParser', () => {
           '{#includeif condition}',
           '{#each array}',
           '{skillName}',
-          '{obj.arr[0].value}'
+          '{obj.arr[0].value}',
+          '{#hbs}gg'
         ]
       )('valid expression: "%s"', (name) => {
         expect(() => nodesParser.parse(name)).not.toThrow();
@@ -71,7 +73,8 @@ describe('NodesParser', () => {
     });
 
     it('parses complex names', () => {
-      const [iteration, condition, interpolation, text] = nodesParser.parse('{#each persons}{#includeif musician}{name}42');
+      const [hbs, iteration, condition, interpolation, text] = nodesParser.parse('{#hbs}{#each persons}{#includeif musician}{name}42');
+      expect(hbs).toBeInstanceOf(HbsFlagNode);
       expect(iteration).toBeInstanceOf(IterationNode);
       expect(condition).toBeInstanceOf(ConditionNode);
       expect(interpolation).toBeInstanceOf(InterpolationNode);

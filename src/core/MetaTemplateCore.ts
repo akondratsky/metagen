@@ -3,6 +3,7 @@ import { Tree } from './Tree';
 import { JsonObject } from './json';
 import { PayloadUtil } from './PayloadUtil';
 import hbs from 'handlebars';
+import { HbsFlagNode } from './syntax/nodes/HbsFlagNode';
 
 type Template = {
   filename: string;
@@ -35,7 +36,9 @@ export class MetaTemplateCore {
   // render nodes into root
   private renderMetaTemplate(metaTemplate: Tree, metaPayload: JsonObject): Tree[] {
     const result: Tree[] = [];
-    const templates = this.getTemplates(metaTemplate.name, metaPayload);
+    const nodes = this.nodesParser.parse(metaTemplate.name);
+    const isHbs = nodes.some(node => node instanceof HbsFlagNode);
+    const templates = this.getTemplatesByNodes(nodes, metaPayload);
 
     if (metaTemplate.isDirectory) {
       templates.forEach(({ filename, payload }) => {
@@ -48,7 +51,11 @@ export class MetaTemplateCore {
         result.push(directory);
       });
     } else {
-      const render = hbs.compile(metaTemplate.content);
+
+      const render = isHbs
+        ? hbs.compile(metaTemplate.content)
+        : () => metaTemplate.content
+;
       templates.forEach(({ filename, payload }) => {
         const file = new Tree.File(filename);
         file.content = render(payload)
@@ -59,17 +66,16 @@ export class MetaTemplateCore {
     return result;
   }
 
-
-  private getTemplates(metaTemplateName: string, payload: JsonObject): Template[] {
-    const nodes = this.nodesParser.parse(metaTemplateName);
-    return this.getTemplatesByNodes(nodes, payload);
-  }
-
   private getTemplatesByNodes(nodes: AbstractNode[], payload: JsonObject): Template[] {
     let nodeIndex = 0;
 
     do {
       const node = nodes[nodeIndex];
+
+      if (node instanceof HbsFlagNode) {
+        nodes.splice(nodeIndex, 1);
+        continue;
+      }
 
       if (node instanceof IterationNode) {
         nodes.splice(nodeIndex, 1);

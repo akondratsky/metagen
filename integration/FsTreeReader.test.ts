@@ -7,13 +7,13 @@ describe('FsTreeReader', () => {
   const fsTreeReader = new FsTreeReader();
   
   describe('read()', () => {
-    test('./template1/{person}.hbs', () => {
+    test('./template1/{#hbs}{person}.hbs', () => {
       const tree = fsTreeReader.read(
-        join(import.meta.dir, './template1/{person}.hbs'),
+        join(import.meta.dir, './template1/{#hbs}{person}.hbs'),
       );
       expect(tree.toJson()).toEqual({
         isDirectory: false,
-        name: '{person}.hbs',
+        name: '{#hbs}{person}.hbs',
         content: '{{ person }} content',
       })
     });
@@ -38,7 +38,7 @@ describe('FsTreeReader', () => {
             ]
           },
           {
-            name: "musicians.hbs",
+            name: "{#hbs}musicians.hbs",
             isDirectory: false,
             content: "{{title}}\n{{#each persons}}\n{{this.name}}\n{{/each}}"
           }, 
