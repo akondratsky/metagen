@@ -1,4 +1,4 @@
-import { logger } from '~/logger';
+import { logger } from '../../../logger';
 import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
 import { HbsFlagNode } from '../nodes/HbsFlagNode';
 import { TokensParser } from './TokensParser';

@@ -1,4 +1,4 @@
-import type { JsonObject } from '~/core';
+import type { JsonObject } from './core';
 
 export const directory = (name: string, ...objects: JsonObject[]): JsonObject => ({
   name,

@@ -5,10 +5,8 @@
     "target": "ESNext",
     "types": ["bun-types"],
     "strict": true,
+    "baseUrl": "./src",
     "outDir": "./dist",
-    "paths": {
-      "~/*": ["./src/*"]
-    },
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "experimentalDecorators": true,

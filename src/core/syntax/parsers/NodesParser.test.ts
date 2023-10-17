@@ -2,7 +2,7 @@ import { describe, it, expect, spyOn, jest, afterAll, beforeAll } from 'bun:test
 import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
 import { NodesParser } from './NodesParser';
 import { HbsFlagNode } from '../nodes/HbsFlagNode';
-import { logger } from '~/logger';
+import { logger } from '../../../logger';
 
 
 describe('NodesParser', () => {

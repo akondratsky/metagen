@@ -4,7 +4,7 @@
  * there is no method overrides which may implement different methods for different argument types. It means, that we
  * need to figure out the type of out object and switch methods manually. 
  */
-import { JsonArray, JsonObject } from '~/core/json';
+import { JsonObject } from './json';
 
 export class Tree {
   constructor(

@@ -1,13 +1,13 @@
-import { MetaGenerator } from '~/MetaGenerator';
 import { describe, test, expect, spyOn, jest, afterAll, beforeAll } from 'bun:test';
-import { directory, file } from './fixtures';
-import { logger } from '~/logger';
 import fs from 'node:fs';
-import { FsTreeReader } from '~/FsTreeReader';
+import { directory, file } from './fixtures.test';
+
+import { MetaGenerator } from './MetaGenerator';
+import { logger } from './logger';
+import { FsTreeReader } from './FsTreeReader';
 
 
-
-process.chdir(import.meta.dir);
+process.chdir('./integration');
 
 describe('MetaGenerator', () => {
   beforeAll(() => {
@@ -33,10 +33,11 @@ describe('MetaGenerator', () => {
   });
 
   test('checks if destination is a folder', () => {
+    console.log(process.cwd());
     const generator = new MetaGenerator('./template1');
     expect(
-      () => generator.generate({ destination: './fixtures.ts', payload:  {} })
-    ).toThrow('MetaGenerator destination path is not a folder: ./fixtures.ts');
+      () => generator.generate({ destination: './stub.txt', payload:  {} })
+    ).toThrow('MetaGenerator destination path is not a folder: ./stub.txt');
   });
 
   test('checks if destination folder exists', () => {

@@ -20,7 +20,8 @@
     "url": "https://github.com/akondratsky/metagen/issues"
   },
   "scripts": {
-    "test": "bun test"
+    "test": "bun test",
+    "build": "tsc --project tsconfig.lib.json"
   },
   "homepage": "https://github.com/akondratsky/metagen#readme",
   "devDependencies": {

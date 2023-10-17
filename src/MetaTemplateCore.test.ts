@@ -1,8 +1,8 @@
-import { MetaTemplateCore } from '~/core';
+import { MetaTemplateCore } from './core';
 import { describe, test, expect } from 'bun:test';
-import { FsTreeReader } from '~/FsTreeReader';
 import { join } from 'node:path';
-import { directory, file } from './fixtures';
+import { FsTreeReader } from './FsTreeReader';
+import { directory, file } from './fixtures.test';
 
 
 describe('MetaTemplate', () => {
@@ -13,7 +13,7 @@ describe('MetaTemplate', () => {
    * file.hbs
    */
   test('./template1', () => {
-    const templatePath = join(import.meta.dir, 'template1');
+    const templatePath = join(import.meta.dir, '../integration', 'template1');
     const inputTree = fsTreeReader.read(templatePath);
 
     const template = new MetaTemplateCore(inputTree);
@@ -35,7 +35,7 @@ describe('MetaTemplate', () => {
    * musicians.hbs
    */
   test('./template2', () => {
-    const templatePath = join(import.meta.dir, 'template2');
+    const templatePath = join(import.meta.dir, '../integration', 'template2');
     const inputTree = fsTreeReader.read(templatePath);
 
     const template = new MetaTemplateCore(inputTree);
@@ -66,7 +66,7 @@ describe('MetaTemplate', () => {
   //  * index.txt
   //  */
   test('./template3', () => {
-    const templatePath = join(import.meta.dir, 'template3');
+    const templatePath = join(import.meta.dir, '../integration', 'template3');
     const inputTree = fsTreeReader.read(templatePath);
     const template = new MetaTemplateCore(inputTree);
 
@@ -99,7 +99,7 @@ describe('MetaTemplate', () => {
   });
 
   test('./template4', () => {
-    const templatePath = join(import.meta.dir, 'template4');
+    const templatePath = join(import.meta.dir, '../integration', 'template4');
     const inputTree = fsTreeReader.read(templatePath);
 
     const template = new MetaTemplateCore(inputTree);
@@ -116,7 +116,7 @@ describe('MetaTemplate', () => {
   });
 
   test('./template5', () => {
-    const templatePath = join(import.meta.dir, 'template5');
+    const templatePath = join(import.meta.dir, '../integration', 'template5');
     const inputTree = fsTreeReader.read(templatePath);
     const template = new MetaTemplateCore(inputTree);
 

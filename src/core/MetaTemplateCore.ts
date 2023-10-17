@@ -1,10 +1,18 @@
-import { AbstractNode, ConditionNode, ITextNode, InterpolationNode, IterationNode, NodesParser, TextNode } from './syntax';
+import {
+  AbstractNode,
+  ConditionNode,
+  ITextNode,
+  InterpolationNode,
+  IterationNode,
+  NodesParser,
+  TextNode,
+  HbsFlagNode
+} from './syntax';
 import { Tree } from './Tree';
-import { JsonObject } from './json';
+import type { JsonObject } from './json';
 import { PayloadUtil } from './PayloadUtil';
 import hbs from 'handlebars';
-import { HbsFlagNode } from './syntax/nodes/HbsFlagNode';
-import { logger } from '~/logger';
+import { logger } from '../logger';
 
 type Template = {
   filename: string;

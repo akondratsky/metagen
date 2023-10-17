@@ -1,5 +1,5 @@
-import { FsTreeReader } from '~/FsTreeReader';
-import { JsonArray, JsonObject, MetaTemplateCore, Tree } from '~/core';
+import { FsTreeReader } from './FsTreeReader';
+import { JsonObject, MetaTemplateCore, Tree } from './core';
 import fs from 'node:fs';
 import path from 'node:path';
 import { logger } from './logger';
