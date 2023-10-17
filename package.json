@@ -19,6 +19,9 @@
   "bugs": {
     "url": "https://github.com/akondratsky/metagen/issues"
   },
+  "scripts": {
+    "test": "bun test"
+  },
   "homepage": "https://github.com/akondratsky/metagen#readme",
   "devDependencies": {
     "@types/lodash": "4.14.199",
