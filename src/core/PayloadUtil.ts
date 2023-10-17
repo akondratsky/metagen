@@ -1,4 +1,6 @@
-import { get, merge } from 'lodash';
+import get from 'lodash/get';
+import merge from 'lodash/merge';
+
 import { JsonObject, JsonValue } from './json';
 
 export const PayloadUtil = {

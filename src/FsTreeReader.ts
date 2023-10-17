@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, parse } from 'node:path';
+import path from 'node:path';
 import { Tree } from '~/core';
 
 export class FsTreeReader {
@@ -8,7 +8,7 @@ export class FsTreeReader {
       throw new Error(`FsTreeReader: "${filePath}" does not exist`);
     }
 
-    const { base: name } = parse(filePath);
+    const { base: name } = path.parse(filePath);
 
     const isDirectory = statSync(filePath).isDirectory();
 
@@ -16,7 +16,7 @@ export class FsTreeReader {
       const directory = new Tree.Directory(name)
       readdirSync(filePath).forEach((childPath) => {
         directory.children.push(
-          this.read(join(filePath, childPath)),
+          this.read(path.join(filePath, childPath)),
         );
       });
       return directory;

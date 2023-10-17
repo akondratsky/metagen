@@ -1,7 +1,7 @@
 import { FsTreeReader } from '~/FsTreeReader';
 import { JsonArray, JsonObject, MetaTemplateCore, Tree } from '~/core';
 import fs from 'node:fs';
-import { join } from 'node:path';
+import path from 'node:path';
 import { logger } from './logger';
 
 type Options = {
@@ -54,7 +54,7 @@ export class MetaGenerator {
   }
 
   private writeTree(node: Tree, destination: string) {
-    const filename = join(destination, node.name);
+    const filename = path.join(destination, node.name);
     logger.debug(`writing ${filename}`);
     
     if (node.isDirectory) {
