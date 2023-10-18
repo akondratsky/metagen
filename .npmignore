@@ -1,0 +1,6 @@
+.vscode
+*.tsbuildinfo
+integration
+node_modules
+src
+tsconfig.*

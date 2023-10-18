@@ -1,9 +1,7 @@
 {
   "name": "metagen",
-  "version": "0.0.1",
+  "version": "0.0.1-1",
   "description": "File tree template engine",
-  "main": "index.js",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/akondratsky/metagen.git"
@@ -21,13 +19,16 @@
   },
   "scripts": {
     "test": "bun test",
-    "build": "tsc --project tsconfig.lib.json"
+    "build": "rimraf ./dist && bun run build:tsc && bun ./dist.ts",
+    "build:tsc": "bun run build:tsc:esm && bun run build:tsc:cjs",
+    "build:tsc:esm": "tsc --project tsconfig.lib.esm.json",
+    "build:tsc:cjs": "tsc --project tsconfig.lib.cjs.json"
   },
   "homepage": "https://github.com/akondratsky/metagen#readme",
   "devDependencies": {
     "@types/lodash": "4.14.199",
     "bun-types": "1.0.4",
-    "jasmine": "5.1.0"
+    "rimraf": "5.0.5"
   },
   "dependencies": {
     "handlebars": "4.7.8",
