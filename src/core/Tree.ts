@@ -5,6 +5,7 @@
  * need to figure out the type of out object and switch methods manually. 
  */
 import { JsonObject } from './json';
+import path from 'node:path';
 
 export class Tree {
   constructor(
@@ -76,7 +77,33 @@ export class Tree {
     };
   }
 
+  public static toList(trees: Tree[], destination: string): string[] {
+    const getFiles = (tree: Tree, destination: string): string[] => {
+      const currentPath = path.join(destination, tree.name);
+      const files = [];
+      if (tree.isDirectory) {
+        files.push(currentPath + path.sep);
+        tree.children.forEach((child) => {
+          files.push(...getFiles(child, currentPath));
+        });
+      } else {
+        files.push(currentPath);
+      }
+      return files;
+    }
+
+    return trees.reduce((list, tree) => {
+      list.push(...getFiles(tree, destination));
+      return list;
+    }, [] as string[])
+  }
+
+
+
+
   public toJson(): JsonObject {
     return Tree.toJson(this) as JsonObject;
   }
+
+
 }

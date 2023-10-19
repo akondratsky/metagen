@@ -33,17 +33,21 @@ export class MetaGenerator {
     logger.isVerbose = isVerbose ?? false;
 
     if (!fs.existsSync(destination)) {
-      throw this.error(`MetaGenerator destination path does not exist: ${destination}`);
+      throw this.error(`MetaGenerator: destination path does not exist: "${destination}"`);
     }
 
     if (!fs.statSync(destination).isDirectory()) {
-      throw this.error(`MetaGenerator destination path is not a folder: ${destination}`);
+      throw this.error(`MetaGenerator: destination path is not a folder: "${destination}"`);
     }
 
     const templateTree = this.fsTreeReader.read(this.templatePath);
     const template = new MetaTemplateCore(templateTree);
     const trees = template.renderTree(payload);
     const json = Tree.toJson(trees) as JsonObject[];
+    const files = Tree.toList(trees, destination);
+
+    console.log('Next files will be created:\n');
+    files.forEach((file) => console.log(file));
     
     if (!isDryRun) {
       logger.debug(`writing result to the disk`);
@@ -53,7 +57,9 @@ export class MetaGenerator {
     return { trees, json };
   }
 
-  private writeTree(node: Tree, destination: string) {
+
+
+  protected writeTree(node: Tree, destination: string) {
     const filename = path.join(destination, node.name);
     logger.debug(`writing ${filename}`);
     

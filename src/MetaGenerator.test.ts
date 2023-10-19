@@ -5,6 +5,7 @@ import { directory, file } from './fixtures.test';
 import { MetaGenerator } from './MetaGenerator';
 import { logger } from './logger';
 import { FsTreeReader } from './FsTreeReader';
+import { Tree } from './core';
 
 
 process.chdir('./integration');
@@ -18,7 +19,7 @@ describe('MetaGenerator', () => {
   });
 
 
-  test('generates json output', () =>{
+  test('generates json output', () => {
     const generator = new MetaGenerator('./template1');
     const outputs = generator.generate({
       destination: '.',
@@ -36,16 +37,16 @@ describe('MetaGenerator', () => {
     console.log(process.cwd());
     const generator = new MetaGenerator('./template1');
     expect(
-      () => generator.generate({ destination: './stub.txt', payload:  {} })
-    ).toThrow('MetaGenerator destination path is not a folder: ./stub.txt');
+      () => generator.generate({ destination: './stub.txt', payload: {} })
+    ).toThrow('MetaGenerator: destination path is not a folder: "./stub.txt"');
   });
 
   test('checks if destination folder exists', () => {
     const generator = new MetaGenerator('./template1');
 
     expect(
-      () => generator.generate({ destination: './non-existing-folder', payload:  {} })
-    ).toThrow('MetaGenerator destination path does not exist: ./non-existing-folder')
+      () => generator.generate({ destination: './non-existing-folder', payload: {} })
+    ).toThrow('MetaGenerator: destination path does not exist: "./non-existing-folder"')
   });
 
   test('writes files to output', () => {
@@ -75,7 +76,7 @@ describe('MetaGenerator', () => {
     expect(output).toEqual(
       directory('test_output',
         file('musicians.hbs', 'helloworld\nromeo\njuliette\n'),
-        directory('romeo notes', 
+        directory('romeo notes',
           file('jingle bells.hbs', 'la-la-la!'),
         ),
       ),
