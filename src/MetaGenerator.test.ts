@@ -1,11 +1,11 @@
 import { describe, test, expect, spyOn, jest, afterAll, beforeAll } from 'bun:test';
 import fs from 'node:fs';
-import { directory, file } from './fixtures.test';
+import { directory, file, sortChildren, sortTreeRecursively } from './fixtures.test';
 
 import { MetaGenerator } from './MetaGenerator';
 import { logger } from './logger';
 import { FsTreeReader } from './FsTreeReader';
-import { Tree } from './core';
+import { JsonArray, Tree } from './core';
 
 
 process.chdir('./integration');
@@ -27,10 +27,10 @@ describe('MetaGenerator', () => {
       isDryRun: true,
     });
 
-    expect(outputs.json).toEqual([
+    expect(sortChildren(outputs.json)).toEqual(sortChildren([
       file('john.hbs', 'john content'),
       file('file.hbs', ''),
-    ]);
+    ]));
   });
 
   test('checks if destination is a folder', () => {
@@ -73,13 +73,13 @@ describe('MetaGenerator', () => {
 
     fs.rmSync(destination, { force: true, recursive: true });
 
-    expect(output).toEqual(
+    expect(sortTreeRecursively(output)).toEqual(sortTreeRecursively(
       directory('test_output',
         file('musicians.hbs', 'helloworld\nromeo\njuliette\n'),
         directory('romeo notes',
           file('jingle bells.hbs', 'la-la-la!'),
         ),
       ),
-    );
+    ));
   });
 });

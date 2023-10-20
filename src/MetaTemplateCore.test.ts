@@ -2,7 +2,7 @@ import { MetaTemplateCore } from './core';
 import { describe, test, expect } from 'bun:test';
 import { join } from 'node:path';
 import { FsTreeReader } from './FsTreeReader';
-import { directory, file } from './fixtures.test';
+import { directory, file, sortChildren } from './fixtures.test';
 
 
 describe('MetaTemplate', () => {
@@ -23,10 +23,10 @@ describe('MetaTemplate', () => {
     });
 
 
-    expect(output).toEqual([
+    expect(sortChildren(output)).toEqual(sortChildren([
       file('ivan.hbs', 'ivan content'),
       file('file.hbs', ''),
-    ]);
+    ]));
   });
 
   /**
@@ -49,15 +49,17 @@ describe('MetaTemplate', () => {
       title: 'list of musicians'
     });
 
-    expect(output).toEqual([
-      directory('ivan notes',
-        file('strangers in the night.hbs', 'la-la-la!')
-      ),
-      directory('john notes',
-        file('venom.hbs', 'la-la-la!')
-      ),
-      file('musicians.hbs', 'list of musicians\nivan\nanatoliy\njohn\n'),
-    ]);
+    expect(sortChildren(output)).toEqual(sortChildren(
+      [
+        directory('ivan notes',
+          file('strangers in the night.hbs', 'la-la-la!')
+        ),
+        directory('john notes',
+          file('venom.hbs', 'la-la-la!')
+        ),
+        file('musicians.hbs', 'list of musicians\nivan\nanatoliy\njohn\n'),
+      ]
+    ));
   });
 
   // /**
@@ -124,10 +126,10 @@ describe('MetaTemplate', () => {
       names: ['alex', 'john', 'optimus prime'],
     });
 
-    expect(output).toEqual([
+    expect(sortChildren(output)).toEqual(sortChildren([
       file('alex', ''),
       file('john', ''),
       file('optimus prime', ''),
-    ]);
+    ]));
   });
 });

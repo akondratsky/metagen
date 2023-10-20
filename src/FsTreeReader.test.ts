@@ -2,6 +2,7 @@ import { describe, test, expect } from 'bun:test';
 import { join } from 'node:path';
 import { Tree } from './core';
 import { FsTreeReader } from './FsTreeReader';
+import { sortTreeRecursively } from './fixtures.test';
 
 describe('FsTreeReader', () => {
   const fsTreeReader = new FsTreeReader();
@@ -22,7 +23,7 @@ describe('FsTreeReader', () => {
       const root = fsTreeReader.read(
         join(import.meta.dir, '../integration', 'template2')
       ) as Tree;
-      expect(root.toJson()).toEqual({
+      expect(sortTreeRecursively(root.toJson())).toEqual(sortTreeRecursively({
         name: "template2",
         isDirectory: true,
         children: [
@@ -43,7 +44,7 @@ describe('FsTreeReader', () => {
             content: "{{title}}\n{{#each persons}}\n{{this.name}}\n{{/each}}"
           }, 
         ]
-      });
+      }));
     });
   });
 });
