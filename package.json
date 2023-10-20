@@ -25,7 +25,8 @@
     "build": "rimraf ./dist && bun run build:tsc && bun ./dist.ts",
     "build:tsc": "bun run build:tsc:esm && bun run build:tsc:cjs",
     "build:tsc:esm": "tsc --project tsconfig.lib.esm.json",
-    "build:tsc:cjs": "tsc --project tsconfig.lib.cjs.json"
+    "build:tsc:cjs": "tsc --project tsconfig.lib.cjs.json",
+    "prepare": "husky install"
   },
   "homepage": "https://github.com/akondratsky/metagen#readme",
   "devDependencies": {
@@ -33,7 +34,8 @@
     "bun-types": "1.0.4",
     "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
-    "rimraf": "5.0.5"
+    "rimraf": "5.0.5",
+    "husky": "^8.0.0"
   },
   "dependencies": {
     "commander": "11.1.0",
