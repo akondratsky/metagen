@@ -1,20 +1,41 @@
 on:
   pull_request:  
 
+name: Review Workflow
+
 jobs:
   review:
     name: Review
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v1
-      - uses: actions/setup-node@v3
+      # prepare env
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          version: 1.0.7
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: 18
           registry-url: 'https://registry.npmjs.org'
-      - run: bun install
-        name: Install
-      - run: bun test
-        name: Test
-      - run: bun run build
-        name: Build
+      
+      # library check
+      - name: Install
+        run: bun install
+      - name: Test
+        run: bun test
+      - name: Build
+        run: bun run build
+
+      # documentation check
+      - name: Install
+        working-directory: ./docs
+        run: bun install
+      - name: Type check
+        working-directory: ./docs
+        run: bun run typecheck
+      - name: Build
+        working-directory: ./docs
+        run: bun run build

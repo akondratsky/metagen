@@ -3,14 +3,16 @@ on:
     branches:
       - main
 
+name: Release-Please Workflow
+run-name: "release-please #${{ github.run_number }}"
+
 permissions:
   contents: write
   pull-requests: write
 
-name: release-please
-
 jobs:
   release-please:
+    name: Release-Please
     runs-on: ubuntu-latest
     steps:
       - uses: google-github-actions/release-please-action@v3
