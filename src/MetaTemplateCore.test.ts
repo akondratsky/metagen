@@ -132,4 +132,18 @@ describe('MetaTemplate', () => {
       file('optimus prime', ''),
     ]));
   });
+
+  test('./template6', () => {
+    const templatePath = join(import.meta.dir, '../integration', 'template6');
+    const inputTree = fsTreeReader.read(templatePath);
+    const template = new MetaTemplateCore(inputTree);
+
+    const output = template.renderJson({
+      value: 'test failed',
+    });
+
+    expect(output).toEqual([
+      file('file.hbs', '{{value}}'),
+    ]);
+  });
 });

@@ -6,7 +6,7 @@ import {
   IterationNode,
   NodesParser,
   TextNode,
-  HbsFlagNode
+  CopyFlagNode
 } from './syntax';
 import { Tree } from './Tree';
 import type { JsonObject } from './json';
@@ -47,9 +47,9 @@ export class MetaTemplateCore {
 
     const result: Tree[] = [];
     const nodes = this.nodesParser.parse(metaTemplate.name);
-    const isHbs = nodes.some(node => node instanceof HbsFlagNode);
+    const isCopy = nodes.some(node => node instanceof CopyFlagNode);
 
-    logger.debug(`handlebars templating ${isHbs ? 'enabled' : 'disabled'}`);
+    logger.debug(`handlebars templating ${isCopy ? 'disabled' : 'enabled'}`);
     logger.debug(`generating template instances for meta template "${metaTemplate.name}":`);
     const templates = this.getTemplatesByNodes(nodes, metaPayload);
 
@@ -67,9 +67,9 @@ export class MetaTemplateCore {
       });
     } else {
       logger.debug(`meta template "${metaTemplate.name}" is a file, rendering...`);
-      const render = isHbs
-        ? hbs.compile(metaTemplate.content)
-        : () => metaTemplate.content;
+      const render = isCopy
+        ? () => metaTemplate.content
+        : hbs.compile(metaTemplate.content);
 
       templates.forEach(({ filename, payload }) => {
         logger.debug(`rendering "${filename}" with payload ${JSON.stringify(payload)}`)
@@ -88,7 +88,7 @@ export class MetaTemplateCore {
     do {
       const node = nodes[nodeIndex];
 
-      if (node instanceof HbsFlagNode) {
+      if (node instanceof CopyFlagNode) {
         nodes.splice(nodeIndex, 1);
         continue;
       }

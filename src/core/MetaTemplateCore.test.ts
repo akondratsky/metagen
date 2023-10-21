@@ -17,14 +17,14 @@ describe('MetaTemplateCore', () => {
     const testCases: FileMetaTemplateTestCase[] = [
       {
         // test case #1
-        templateName: '{#hbs}filename',
+        templateName: 'filename',
         templateContent: '{{value}}',
         payload: { value: 42 },
         expectedNodes: [{ name: 'filename', content: '42' }]
       },
       {
         // test case #2
-        templateName: '{#hbs}{#each persons}{name}.txt',
+        templateName: '{#each persons}{name}.txt',
         templateContent: '{{name}} content',
         payload: { persons: [{ name: 'ivan' }, { name: 'anatoliy' }] },
         expectedNodes: [
@@ -34,7 +34,7 @@ describe('MetaTemplateCore', () => {
       },
       {
         // test case #3
-        templateName: '{#hbs}{#each persons}{#includeif musician}{name}.txt',
+        templateName: '{#each persons}{#includeif musician}{name}.txt',
         templateContent: '{{name}} {{#if musician}}is a musician{{/if}}',
         payload: {
           persons: [{ name: 'ivan', musician: true }, { name: 'anatoliy', musician: false }]
@@ -43,7 +43,7 @@ describe('MetaTemplateCore', () => {
       },
       {
         // test case #4
-        templateName: '{#hbs}{#each a}{#each b}{name}.txt',
+        templateName: '{#each a}{#each b}{name}.txt',
         templateContent: '{{name}}',
         payload: {
           a: [
@@ -79,14 +79,14 @@ describe('MetaTemplateCore', () => {
       });
     });
 
-    test('{#hbs}{#each a}{#each b}{name}.txt', () => {
+    test('{#each a}{#each b}{name}.txt', () => {
       const payload = {
         a: [
           { b: [{ name: '1' }, { name: '2' }] },
           { b: [{ name: '3' }, { name: '4' }] }
         ]
       };
-      const inputFile = new Tree.File('{#hbs}{#each a}{#each b}{name}.txt');
+      const inputFile = new Tree.File('{#each a}{#each b}{name}.txt');
       inputFile.content = '{{name}}';
 
       const metaTemplate = new MetaTemplateCore(inputFile);
@@ -153,8 +153,8 @@ describe('MetaTemplateCore', () => {
     describe('iterations', () => {
       const persons = [{ name: 'ivan' }, { name: 'anatoliy' }];
       
-      test('{#hbs}{#each persons}{name}42', () => {
-        const templateTree = new Tree.File('{#hbs}{#each persons}{name}42')
+      test('{#each persons}{name}42', () => {
+        const templateTree = new Tree.File('{#each persons}{name}42')
         templateTree.content = '{{name}}';
 
         const template = new MetaTemplateCore(templateTree);

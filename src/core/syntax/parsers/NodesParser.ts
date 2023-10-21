@@ -1,6 +1,6 @@
 import { logger } from '../../../logger';
 import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
-import { HbsFlagNode } from '../nodes/HbsFlagNode';
+import { CopyFlagNode } from '../nodes/CopyFlagNode';
 import { TokensParser } from './TokensParser';
 
 export class NodesParser {
@@ -26,7 +26,7 @@ export class NodesParser {
       const INDEX = '(\\[[0-9]+\\])';
       const VARIABLE = `${VAR_NAME}(${INDEX}|(\\.${VAR_NAME}))*`;
       const EXPRESSION = `(${OPERATOR}( )+)?${VARIABLE}`;
-      const KEYWORD = '#hbs';
+      const KEYWORD = '#copy';
       // can start and end with spaces
       const VALIDATION_REGEX = `^( )*(${KEYWORD}|${EXPRESSION})( )*$`;
 
@@ -38,8 +38,8 @@ export class NodesParser {
       const statement = token.trim().replace(/ +/g, ' ').split(' ');
 
       if (statement.length === 1) {
-        if (statement[0] === '#hbs') {
-          return new HbsFlagNode();
+        if (statement[0] === '#copy') {
+          return new CopyFlagNode();
         }
         return new InterpolationNode(statement[0]);
       }

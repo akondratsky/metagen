@@ -56,8 +56,8 @@ Payload:
 ```json
 {
   "persons": [
-    { "name": "ivan", isMusician: true },
-    { "name": "anatoliy", isMusician: false }
+    { "name": "ivan", "isMusician": true },
+    { "name": "anatoliy", "isMusician": false }
   ]
 }
 ```
@@ -67,17 +67,17 @@ Output:
 ```
 
 ### Templating
-Files marked with flag `#hbs` will be rendered with `handlebars`.
+Files marked with flag `#copy` will not be rendered with `handlebars` but just copied.
 Template
-```├── {#hbs}{name}.txt
-└── icon.txt
+```
+└── {#copy}{name}.txt
 ```
 Payload:
 ```json
 { "name": "Chris" }
 ```
 Output:
-```├── Chris.txt
-└── report-Chresla.md
 ```
-File `Chris.txt` will be passed through handlebars templating engine, file `icon.png` will be copied directly.
+└── Chris.txt
+```
+File `Chris.txt` will not be passed through handlebars templating engine, file `icon.png` will be copied directly.

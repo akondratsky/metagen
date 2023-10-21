@@ -8,13 +8,13 @@ describe('FsTreeReader', () => {
   const fsTreeReader = new FsTreeReader();
   
   describe('read()', () => {
-    test('./template1/{#hbs}{person}.hbs', () => {
+    test('./template1/{person}.hbs', () => {
       const tree = fsTreeReader.read(
-        join(import.meta.dir, '../integration', './template1/{#hbs}{person}.hbs'),
+        join(import.meta.dir, '../integration', './template1/{person}.hbs'),
       );
       expect(tree.toJson()).toEqual({
         isDirectory: false,
-        name: '{#hbs}{person}.hbs',
+        name: '{person}.hbs',
         content: '{{ person }} content',
       })
     });
@@ -23,7 +23,12 @@ describe('FsTreeReader', () => {
       const root = fsTreeReader.read(
         join(import.meta.dir, '../integration', 'template2')
       ) as Tree;
-      expect(sortTreeRecursively(root.toJson())).toEqual(sortTreeRecursively({
+
+      const actual = sortTreeRecursively(root.toJson());
+
+        console.log('------------')
+
+      const expected = sortTreeRecursively({
         name: "template2",
         isDirectory: true,
         children: [
@@ -39,12 +44,15 @@ describe('FsTreeReader', () => {
             ]
           },
           {
-            name: "{#hbs}musicians.hbs",
+            name: "musicians.hbs",
             isDirectory: false,
             content: "{{title}}\n{{#each persons}}\n{{this.name}}\n{{/each}}"
           }, 
         ]
-      }));
+      });
+
+      expect(actual).toEqual(expected);
     });
+
   });
 });

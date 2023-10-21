@@ -1,6 +1,4 @@
-import { expect } from 'bun:test';
-import sortBy from 'lodash/sortBy';
-import type { JsonArray, JsonObject } from './core';
+import type { JsonObject } from './core';
 
 export const directory = (name: string, ...objects: JsonObject[]): JsonObject => ({
   name,
@@ -15,9 +13,12 @@ export const file = (name: string, content: string): JsonObject => ({
 });
 
 
-export const sortChildren = (children: JsonObject[]) => sortBy(children as JsonObject[], child => child.name);
+export const sortChildren = (children: JsonObject[]) => children.sort((a, b) => {
+  return (a.name as string).localeCompare(b.name as string);
+});
 
 export const sortTreeRecursively = (tree: JsonObject): JsonObject => {
+  console.log('sorting: ', tree.name);
   const result: JsonObject = {
     isDirectory: tree.isDirectory,
     name: tree.name  
@@ -26,7 +27,8 @@ export const sortTreeRecursively = (tree: JsonObject): JsonObject => {
   if (!tree.isDirectory) {
     result.content = tree.content;
   } else {
-    result.children = sortChildren(tree.children as JsonObject[]).map(child => sortTreeRecursively(child));
+    const sorted = sortChildren(tree.children as JsonObject[]);
+    result.children = sorted.map(child => sortTreeRecursively(child));
   }
 
   return result;

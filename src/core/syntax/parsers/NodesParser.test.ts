@@ -1,7 +1,7 @@
 import { describe, it, expect, spyOn, jest, afterAll, beforeAll } from 'bun:test';
 import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
 import { NodesParser } from './NodesParser';
-import { HbsFlagNode } from '../nodes/HbsFlagNode';
+import { CopyFlagNode } from '../nodes/CopyFlagNode';
 import { logger } from '../../../logger';
 
 
@@ -24,7 +24,7 @@ describe('NodesParser', () => {
           '{#each array}',
           '{skillName}',
           '{obj.arr[0].value}',
-          '{#hbs}gg'
+          'gg'
         ]
       )('valid expression: "%s"', (name) => {
         expect(() => nodesParser.parse(name)).not.toThrow();
@@ -82,8 +82,8 @@ describe('NodesParser', () => {
     });
 
     it('parses complex names', () => {
-      const [hbs, iteration, condition, interpolation, text] = nodesParser.parse('{#hbs}{#each persons}{#includeif musician}{name}42');
-      expect(hbs).toBeInstanceOf(HbsFlagNode);
+      const [copy, iteration, condition, interpolation, text] = nodesParser.parse('{#copy}{#each persons}{#includeif musician}{name}42');
+      expect(copy).toBeInstanceOf(CopyFlagNode);
       expect(iteration).toBeInstanceOf(IterationNode);
       expect(condition).toBeInstanceOf(ConditionNode);
       expect(interpolation).toBeInstanceOf(InterpolationNode);
