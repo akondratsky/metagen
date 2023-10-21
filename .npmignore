@@ -1,6 +1,2 @@
-.vscode
+# this file is copied into ./dist
 *.tsbuildinfo
-integration
-node_modules
-src
-tsconfig.*

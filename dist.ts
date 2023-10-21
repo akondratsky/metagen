@@ -20,4 +20,7 @@ const packageJson = {
   },
 };
 
+delete packageJson.devDependencies;
+delete packageJson.scripts;
+
 fs.writeFileSync('./dist/package.json', JSON.stringify(packageJson, null, 2), 'utf-8');
