@@ -4,7 +4,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import styles from './index.module.css';
-
+import Link from '@docusaurus/Link';
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
@@ -15,7 +15,7 @@ export default function Home(): JSX.Element {
       description="Description will go into a meta tag in <head />"
     >
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
-        <div className="container">
+        <div className={clsx('container', styles.container)}>
           <h1 className="hero__title">
             {siteConfig.title}
           </h1>
@@ -23,6 +23,11 @@ export default function Home(): JSX.Element {
             {siteConfig.tagline}
           </p>
           <img style={{ marginTop: 30 }} width={300} src="img/logo.png" />
+
+          <Link to="/docs/intro" className={clsx(styles.button, styles.glowOnHover)}>
+            DOCUMENTATION
+          </Link>
+
         </div>
       </header>
       <main>

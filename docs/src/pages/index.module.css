@@ -10,6 +10,28 @@
   overflow: hidden;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button {
+  border: none;
+  border-radius: 0.5rem;
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  color: #000;
+  background-color: #fff;
+}
+
+@keyframes slidebg {
+  to {
+    background-position:20vw;
+  }
+}
+
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2rem;
