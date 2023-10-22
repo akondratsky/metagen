@@ -5,9 +5,13 @@ import path from 'node:path';
 import { logger } from './logger';
 
 type Options = {
+  /** output folder */
   destination: string;
+  /** payload (context) to render templates in JSON format */
   payload: JsonObject;
+  /** dry run mode */
   isDryRun?: boolean;
+  /** enable debugging mode (detailed output) */
   isVerbose?: boolean;
 };
 
@@ -19,6 +23,7 @@ type Output = {
 
 export class MetaGenerator {
   constructor(
+    /** Meta template folder */
     private readonly templatePath: string,
   ) {}
 

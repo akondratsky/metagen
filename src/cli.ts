@@ -3,7 +3,7 @@ import { MetaGenerator } from './MetaGenerator';
 import fs from 'node:fs';
 
 if (parseInt(process.version.slice(1), 10) < 18) {
-  console.error('NodeJS 18+ is required to run MetaGen');
+  console.error('NodeJS 18+ is required to run Metagen');
   process.exit(1);
 }
 
@@ -22,7 +22,7 @@ program
   .name('metagen')
 
   .description(
-    'Generates files and folders with MetaGen template engine\n' +
+    'Generates files and folders with Metagen template engine\n' +
     'https://github.com/akondratsky/metagen'
   )
   .usage('-t <template-directory> -p <payload-json-file> -o <output-directory>')

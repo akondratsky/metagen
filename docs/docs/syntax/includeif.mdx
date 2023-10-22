@@ -1,0 +1,40 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# #includeif
+
+The **#includeif** node represents a condition when current file should be included into the result.
+
+<Tabs>
+<TabItem value="input" label="Input">
+
+```
+{#includeif isNew}new-file.js
+{#includeif isOld}old-file.js
+```
+
+</TabItem>
+<TabItem value="payload" label="Payload">
+
+```json
+{
+  "isNew": true,
+  "isOld": false,
+}
+```
+
+</TabItem>
+<TabItem value="output" label="Output">
+
+```
+new-file.js
+```
+
+</TabItem>
+</Tabs>
+
+

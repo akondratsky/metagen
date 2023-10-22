@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'MetaGen',
+  title: 'Metagen',
   tagline: 'Reflect on your experience. Empower your effectiveness.',
   favicon: 'img/favicon.ico',
 
@@ -57,7 +57,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'MetaGen',
+        title: 'Metagen',
         logo: {
           alt: 'metagen logo',
           src: 'img/logo.png',
@@ -77,36 +77,8 @@ const config = {
         ],
       },
       footer: {
-        style: 'dark',
-        links: [
-          // {
-          //   title: 'Docs',
-          //   items: [
-          //     {
-          //       label: 'Tutorial',
-          //       to: '/docs/intro',
-          //     },
-          //   ],
-          // },
-          // {
-          //   title: 'Community',
-          //   items: [
-          //     {
-          //       label: 'Stack Overflow',
-          //       href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-          //     },
-          //   ],
-          // },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
-              },
-            ],
-          },
-        ],
+        // style: 'light',
+        links: [],
         copyright: `Copyright © ${new Date().getFullYear()} Aleksandr Kondratskii. This project is licensed under the MIT License`,
       },
       prism: {
