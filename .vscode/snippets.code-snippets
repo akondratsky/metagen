@@ -1,0 +1,41 @@
+{
+	"tabs": {
+		"scope": "md,mdx",
+		"prefix": "tabs",
+		"body": [
+			"import Tabs from '@theme/Tabs';",
+			"import TabItem from '@theme/TabItem';",
+			"",
+		]
+	},
+	"example": {
+		"scope": "md,mdx",
+		"prefix": "example",
+		"body": [
+			"<Tabs>",
+			"<TabItem value=\"input\" label=\"Input\">",
+			"",
+			"```",
+			"$1",
+			"```",
+			"",
+			"</TabItem>",
+			"<TabItem value=\"payload\" label=\"Payload\">",
+			"",
+			"```json",
+			"$2",
+			"```",
+			"",
+			"</TabItem>",
+			"<TabItem value=\"output\" label=\"Output\">",
+			"",
+			"```",
+			"$3",
+			"```",
+			"",
+			"</TabItem>",
+			"</Tabs>",
+			"",
+		]
+	}
+}

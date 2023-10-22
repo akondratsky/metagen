@@ -1,0 +1,38 @@
+on:
+  release: 
+    types: published
+  workflow_dispatch: 
+
+name: Deploy Docs Workflow
+run-name: "Docs Deployment #${{github.run_number}}"
+
+permissions:
+  contents: write
+
+jobs:
+  gh-pages-deploy:
+    name: Deploy Docs
+    runs-on: ubuntu-latest
+    steps:
+      # setup env
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          version: 1.0.7
+      
+      # prepare docusarius project
+      - name: Install
+        working-directory: ./docs
+        run: bun install
+      - name: Build
+        working-directory: ./docs
+        run: bun run build
+      
+      # deploy gh pages
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ github.token }}
+          publish_dir: ./docs/build
