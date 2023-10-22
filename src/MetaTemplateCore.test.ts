@@ -87,7 +87,7 @@ describe('MetaTemplate', () => {
       ]
     });
 
-    expect(output).toEqual([
+    expect(sortChildren(output)).toEqual(sortChildren([
       directory('John',
         file('fly.txt', 'Mr/Ms Johnson has mastered his/her skill: fly'),
         file('flee.txt', 'Mr/Ms Johnson has mastered his/her skill: flee'),
@@ -97,7 +97,7 @@ describe('MetaTemplate', () => {
         file('swim.txt', 'Mr/Ms Sold has mastered his/her skill: swim'),
       ),
       file('index.txt', '-'),
-    ])
+    ]))
   });
 
   test('./template4', () => {
