@@ -1,0 +1,84 @@
+---
+sidebar_position: 1
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Overview
+
+
+
+## What is Metagen
+
+Metagen is a simple templating engine which helps to automate creation of entire modules with files, folders and subfolders, from a special meta template, and a payload. It also uses an input payload to render files content with the [Handlerbars](https://handlebarsjs.com/guide/#what-is-handlebars).
+
+
+
+
+## How to Install
+
+<Tabs>
+<TabItem value="npm" label="npm">
+
+```shell
+npm i -g @metagen/core
+```
+
+</TabItem>
+<TabItem value="yarn" label="yarn">
+
+```shell
+yarn add -g @metagen/core
+```
+
+</TabItem>
+<TabItem value="pnpm" label="pnpm">
+
+```shell
+pnpm add -g @metagen/core
+```
+
+</TabItem>
+<TabItem value="bun" label="bun">
+
+```shell
+bun add -g @metagen/core
+```
+
+</TabItem>
+</Tabs>
+
+
+## CLI
+
+Metagen can render templates by running CLI command. Usage:
+
+```shell
+metagen -t <template-directory> -p <payload-json-file> -o <output-directory>
+```
+
+Currently available options:
+- `-t, --template <directory>` - meta template folder
+- `-o, --output <directory>` - output folder
+- `-p, --payload <json file>` - payload (context) to render templates in JSON format
+- `-d, --dry-run` - dry run mode
+- `-v, --verbose` - enable debugging mode (detailed output)
+- `-h, --help` - display help for command
+
+
+
+## Javascript API
+
+The javascipt interface repeats CLI one. The library includes TypeScript type definitions and JSDoc comments.
+
+```ts
+import { MetaGenerator } from '@metagen/core';
+
+new MetaGenerator('./templateFolder').generate({
+  destination: './output',
+  payload: {
+    modules: ['users', 'orders', 'prices']
+  },
+  isDryRun: false,
+});
+```

@@ -1,0 +1,35 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+# Escaping
+
+Each double curly brace will be interpreted as a single one to the output.
+
+<Tabs>
+<TabItem value="input" label="Input">
+
+```
+{{filename}}.ext
+```
+
+</TabItem>
+<TabItem value="payload" label="Payload">
+
+```json
+{ "filename": "value" }
+```
+
+</TabItem>
+<TabItem value="output" label="Output">
+
+```
+{filename}.ext
+```
+
+</TabItem>
+</Tabs>

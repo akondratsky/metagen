@@ -1,0 +1,48 @@
+{
+  "name": "@metagen/core",
+  "version": "0.0.1",
+  "description": "File tree template engine",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akondratsky/metagen.git"
+  },
+  "keywords": [
+    "generator",
+    "templates",
+    "files",
+    "tree"
+  ],
+  "author": "Aleksandr Kondratskii",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akondratsky/metagen/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "bun test",
+    "build": "rimraf ./dist && bun run build:tsc && bun ./dist.ts",
+    "build:tsc": "bun run build:tsc:esm && bun run build:tsc:cjs",
+    "build:tsc:esm": "tsc --project tsconfig.lib.esm.json",
+    "build:tsc:cjs": "tsc --project tsconfig.lib.cjs.json",
+    "prepare": "husky install"
+  },
+  "homepage": "https://github.com/akondratsky/metagen#readme",
+  "devDependencies": {
+    "@commitlint/cli": "17.8.0",
+    "@commitlint/config-conventional": "17.8.0",
+    "@types/lodash": "4.14.199",
+    "bun-types": "1.0.4",
+    "commitizen": "4.3.0",
+    "cz-conventional-changelog": "3.3.0",
+    "husky": "^8.0.0",
+    "rimraf": "5.0.5"
+  },
+  "dependencies": {
+    "commander": "11.1.0",
+    "handlebars": "4.7.8",
+    "lodash": "4.17.21",
+    "typescript": "5.2.2"
+  }
+}
