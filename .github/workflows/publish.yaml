@@ -28,7 +28,7 @@ jobs:
       - name: Install
         run: bun install
       - name: Build
-        run: bun build
+        run: bun run build
 
       # publish
       - name: Publish
