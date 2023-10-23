@@ -21,28 +21,28 @@ Metagen is a simple templating engine which helps to automate creation of entire
 <TabItem value="npm" label="npm">
 
 ```shell
-npm i -g metagen
+npm i -g @metagen/core
 ```
 
 </TabItem>
 <TabItem value="yarn" label="yarn">
 
 ```shell
-yarn add -g metagen
+yarn add -g @metagen/core
 ```
 
 </TabItem>
 <TabItem value="pnpm" label="pnpm">
 
 ```shell
-pnpm add -g metagen
+pnpm add -g @metagen/core
 ```
 
 </TabItem>
 <TabItem value="bun" label="bun">
 
 ```shell
-bun add -g metagen
+bun add -g @metagen/core
 ```
 
 </TabItem>
@@ -72,7 +72,7 @@ Currently available options:
 The javascipt interface repeats CLI one. The library includes TypeScript type definitions and JSDoc comments.
 
 ```ts
-import { MetaGenerator } from 'metagen';
+import { MetaGenerator } from '@metagen/core';
 
 new MetaGenerator('./templateFolder').generate({
   destination: './output',
