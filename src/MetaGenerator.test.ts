@@ -5,7 +5,6 @@ import { directory, file, sortChildren, sortTreeRecursively } from './fixtures.t
 import { MetaGenerator } from './MetaGenerator';
 import { logger } from './logger';
 import { FsTreeReader } from './FsTreeReader';
-import { JsonArray, Tree } from './core';
 
 
 process.chdir('./integration');

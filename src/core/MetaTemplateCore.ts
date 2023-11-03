@@ -9,14 +9,14 @@ import {
   CopyFlagNode
 } from './syntax';
 import { Tree } from './Tree';
-import type { JsonObject } from './json';
+import type { PayloadObject } from './Payload';
 import { PayloadUtil } from './PayloadUtil';
 import hbs from 'handlebars';
 import { logger } from '../logger';
 
 type Template = {
   filename: string;
-  payload: JsonObject;
+  payload: PayloadObject;
 }
 
 export class MetaTemplateCore {
@@ -27,7 +27,7 @@ export class MetaTemplateCore {
   private readonly nodesParser = new NodesParser();
 
 
-  public renderTree(payload: JsonObject): Tree[] {
+  public renderTree(payload: PayloadObject): Tree[] {
     if (this.metaTemplate.isDirectory) {
       const result: Tree[] = [];
       this.metaTemplate.children.forEach((child) => {
@@ -38,11 +38,11 @@ export class MetaTemplateCore {
     return this.renderMetaTemplate(this.metaTemplate, payload);
   }
 
-  public renderJson(payload: JsonObject): Array<JsonObject> {
+  public renderJson(payload: PayloadObject): Array<PayloadObject> {
     return this.renderTree(payload).map(tree => tree.toJson());
   }
 
-  private renderMetaTemplate(metaTemplate: Tree, metaPayload: JsonObject): Tree[] {
+  private renderMetaTemplate(metaTemplate: Tree, metaPayload: PayloadObject): Tree[] {
     logger.debug(`rendering meta template "${metaTemplate.name}"`);
 
     const result: Tree[] = [];
@@ -82,7 +82,7 @@ export class MetaTemplateCore {
     return result;
   }
 
-  private getTemplatesByNodes(nodes: AbstractNode[], payload: JsonObject): Template[] {
+  private getTemplatesByNodes(nodes: AbstractNode[], payload: PayloadObject): Template[] {
     let nodeIndex = 0;
 
     do {
@@ -100,7 +100,7 @@ export class MetaTemplateCore {
 
         payloads.forEach((currentPayload) => {
           if (typeof currentPayload === 'object') {
-            const templatePayload = PayloadUtil.merge(payload, currentPayload as JsonObject);
+            const templatePayload = PayloadUtil.merge(payload, currentPayload as PayloadObject);
             templates.push(...this.getTemplatesByNodes([...nodes], templatePayload));
           } else {
             const currentNode = new TextNode(String(currentPayload));

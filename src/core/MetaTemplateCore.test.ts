@@ -1,6 +1,6 @@
 import { describe, test, expect, spyOn } from 'bun:test';
 import { MetaTemplateCore } from './MetaTemplateCore';
-import { JsonObject } from './json';
+import { PayloadObject } from './Payload';
 import { Tree } from './Tree';
 
 
@@ -10,7 +10,7 @@ describe('MetaTemplateCore', () => {
     type FileMetaTemplateTestCase = {
       templateName: string;
       templateContent: string;
-      payload: JsonObject;
+      payload: PayloadObject;
       expectedNodes: Array<{ name: string, content: string }>
     };
 

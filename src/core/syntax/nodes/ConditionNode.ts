@@ -1,4 +1,4 @@
-import { JsonObject } from '../../json';
+import type { PayloadObject } from '../../Payload';
 import { PayloadUtil } from '../../PayloadUtil';
 
 /**
@@ -10,7 +10,7 @@ export class ConditionNode {
     private readonly path: string,
   ) {}
 
-  public checkCondition(payload: JsonObject) {
+  public checkCondition(payload: PayloadObject) {
     return Boolean(PayloadUtil.getValue(payload, this.path));
   }
 }

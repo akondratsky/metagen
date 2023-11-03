@@ -4,7 +4,7 @@
  * there is no method overrides which may implement different methods for different argument types. It means, that we
  * need to figure out the type of out object and switch methods manually. 
  */
-import { JsonObject } from './json';
+import { PayloadObject } from './Payload';
 import path from 'node:path';
 
 export class Tree {
@@ -62,9 +62,9 @@ export class Tree {
     return this.#content;
   }
 
-  public static toJson(trees: Tree | Tree[]): JsonObject | JsonObject[] {
+  public static toJson(trees: Tree | Tree[]): PayloadObject | PayloadObject[] {
     if (Array.isArray(trees)) {
-      return trees.map(tree => tree.toJson()) as JsonObject[];
+      return trees.map(tree => tree.toJson()) as PayloadObject[];
     }
     return {
       isDirectory: trees.isDirectory,
@@ -101,8 +101,8 @@ export class Tree {
 
 
 
-  public toJson(): JsonObject {
-    return Tree.toJson(this) as JsonObject;
+  public toJson(): PayloadObject {
+    return Tree.toJson(this) as PayloadObject;
   }
 
 
