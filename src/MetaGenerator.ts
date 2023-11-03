@@ -1,5 +1,5 @@
 import { FsTreeReader } from './FsTreeReader';
-import { JsonObject, MetaTemplateCore, Tree } from './core';
+import { PayloadObject, MetaTemplateCore, Tree } from './core';
 import fs from 'node:fs';
 import path from 'node:path';
 import { logger } from './logger';
@@ -8,7 +8,7 @@ type Options = {
   /** output folder */
   destination: string;
   /** payload (context) to render templates in JSON format */
-  payload: JsonObject;
+  payload: PayloadObject;
   /** dry run mode */
   isDryRun?: boolean;
   /** enable debugging mode (detailed output) */
@@ -17,7 +17,7 @@ type Options = {
 
 type Output = {
   trees: Tree[];
-  json: JsonObject[];
+  json: PayloadObject[];
 };
 
 
@@ -48,7 +48,7 @@ export class MetaGenerator {
     const templateTree = this.fsTreeReader.read(this.templatePath);
     const template = new MetaTemplateCore(templateTree);
     const trees = template.renderTree(payload);
-    const json = Tree.toJson(trees) as JsonObject[];
+    const json = Tree.toJson(trees) as PayloadObject[];
     const files = Tree.toList(trees, destination);
 
     console.log('Next files will be created:\n');

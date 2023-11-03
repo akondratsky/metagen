@@ -1,6 +1,6 @@
-import { JsonObject } from '../../json';
-import { ITextNode } from './ITextNode';
 import { PayloadUtil } from '../../PayloadUtil';
+import type { PayloadObject } from '../../Payload';
+import type { ITextNode } from './ITextNode';
 
 /**
  * Interpolates name from the given payload
@@ -13,7 +13,7 @@ export class InterpolationNode implements ITextNode {
 
   private interpolatedText: string | null = null;
 
-  public interpolate(payload: JsonObject) {
+  public interpolate(payload: PayloadObject) {
     this.interpolatedText = String(PayloadUtil.getValue(payload, this.path));
   }
 

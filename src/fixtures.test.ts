@@ -1,25 +1,25 @@
-import type { JsonObject } from './core';
+import type { PayloadObject } from './core';
 
-export const directory = (name: string, ...objects: JsonObject[]): JsonObject => ({
+export const directory = (name: string, ...objects: PayloadObject[]): PayloadObject => ({
   name,
   isDirectory: true,
   children: objects,
 });
 
-export const file = (name: string, content: string): JsonObject => ({
+export const file = (name: string, content: string): PayloadObject => ({
   isDirectory: false,
   name,
   content,
 });
 
 
-export const sortChildren = (children: JsonObject[]) => children.sort((a, b) => {
+export const sortChildren = (children: PayloadObject[]) => children.sort((a, b) => {
   return (a.name as string).localeCompare(b.name as string);
 });
 
-export const sortTreeRecursively = (tree: JsonObject): JsonObject => {
+export const sortTreeRecursively = (tree: PayloadObject): PayloadObject => {
   console.log('sorting: ', tree.name);
-  const result: JsonObject = {
+  const result: PayloadObject = {
     isDirectory: tree.isDirectory,
     name: tree.name  
   };
@@ -27,7 +27,7 @@ export const sortTreeRecursively = (tree: JsonObject): JsonObject => {
   if (!tree.isDirectory) {
     result.content = tree.content;
   } else {
-    const sorted = sortChildren(tree.children as JsonObject[]);
+    const sorted = sortChildren(tree.children as PayloadObject[]);
     result.children = sorted.map(child => sortTreeRecursively(child));
   }
 
