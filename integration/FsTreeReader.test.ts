@@ -11,9 +11,9 @@ describe('FsTreeReader', () => {
   const treeConverter = new TreeConverter();
 
   describe('read()', () => {
-    test('./template1/{person}.hbs', () => {
+    test('./template1-simple-interpolation/{person}.hbs', () => {
       const tree = fsTreeReader.read(
-        join(import.meta.dir, '../integration', './template1/{person}.hbs'),
+        join(import.meta.dir, '../integration', './template1-simple-interpolation/{person}.hbs'),
       );
       expect(treeConverter.toObject(tree)).toEqual({
         isDirectory: false,
@@ -22,9 +22,9 @@ describe('FsTreeReader', () => {
       });
     });
 
-    test('./template2', () => {
+    test('./template2-iteration-inclusion', () => {
       const root = fsTreeReader.read(
-        join(import.meta.dir, '../integration', 'template2'),
+        join(import.meta.dir, '../integration', 'template2-iteration-inclusion'),
       ) as Tree;
 
       const actual = sortTreeRecursively(
@@ -32,7 +32,7 @@ describe('FsTreeReader', () => {
       );
 
       const expected = sortTreeRecursively({
-        name: 'template2',
+        name: 'template2-iteration-inclusion',
         isDirectory: true,
         children: [
           {

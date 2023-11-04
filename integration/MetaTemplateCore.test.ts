@@ -12,8 +12,8 @@ describe('MetaTemplateCore integration tests', () => {
    * {person}.hbs
    * file.hbs
    */
-  test('./template1', () => {
-    const templatePath = join(import.meta.dir, '../integration', 'template1');
+  test('./template1-simple-interpolation', () => {
+    const templatePath = join(import.meta.dir, '../integration', 'template1-simple-interpolation');
     const inputTree = fsTreeReader.read(templatePath);
 
     const template = new MetaTemplateCore(inputTree);
@@ -34,8 +34,8 @@ describe('MetaTemplateCore integration tests', () => {
    * └── {song}.hbs
    * musicians.hbs
    */
-  test('./template2', () => {
-    const templatePath = join(import.meta.dir, '../integration', 'template2');
+  test('./template2-iteration-inclusion', () => {
+    const templatePath = join(import.meta.dir, '../integration', 'template2-iteration-inclusion');
     const inputTree = fsTreeReader.read(templatePath);
 
     const template = new MetaTemplateCore(inputTree);
@@ -67,8 +67,8 @@ describe('MetaTemplateCore integration tests', () => {
   //  * └── {#each skills}{skillName}.txt
   //  * index.txt
   //  */
-  test('./template3', () => {
-    const templatePath = join(import.meta.dir, '../integration', 'template3');
+  test('./template3-iteration-render', () => {
+    const templatePath = join(import.meta.dir, '../integration', 'template3-iteration-render');
     const inputTree = fsTreeReader.read(templatePath);
     const template = new MetaTemplateCore(inputTree);
 
@@ -100,8 +100,8 @@ describe('MetaTemplateCore integration tests', () => {
     ]));
   });
 
-  test('./template4', () => {
-    const templatePath = join(import.meta.dir, '../integration', 'template4');
+  test('./template4-iteration-index', () => {
+    const templatePath = join(import.meta.dir, '../integration', 'template4-iteration-index');
     const inputTree = fsTreeReader.read(templatePath);
 
     const template = new MetaTemplateCore(inputTree);
@@ -117,8 +117,8 @@ describe('MetaTemplateCore integration tests', () => {
     ]);
   });
 
-  test('./template5', () => {
-    const templatePath = join(import.meta.dir, '../integration', 'template5');
+  test('./template5-iteration-strings', () => {
+    const templatePath = join(import.meta.dir, '../integration', 'template5-iteration-strings');
     const inputTree = fsTreeReader.read(templatePath);
     const template = new MetaTemplateCore(inputTree);
 
@@ -133,8 +133,8 @@ describe('MetaTemplateCore integration tests', () => {
     ]));
   });
 
-  test('./template6', () => {
-    const templatePath = join(import.meta.dir, '../integration', 'template6');
+  test('./template6-copy-directive', () => {
+    const templatePath = join(import.meta.dir, '../integration', 'template6-copy-directive');
     const inputTree = fsTreeReader.read(templatePath);
     const template = new MetaTemplateCore(inputTree);
 

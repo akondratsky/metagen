@@ -20,7 +20,7 @@ describe('MetaGenerator', () => {
 
 
   test('generates json output', () => {
-    const generator = new MetaGenerator('./template1');
+    const generator = new MetaGenerator('./template1-simple-interpolation');
     const outputs = generator.generate({
       destination: '.',
       payload: { person: 'john' },
@@ -35,14 +35,14 @@ describe('MetaGenerator', () => {
 
   test('checks if destination is a folder', () => {
     console.log(process.cwd());
-    const generator = new MetaGenerator('./template1');
+    const generator = new MetaGenerator('./template1-simple-interpolation');
     expect(
       () => generator.generate({ destination: './stub.txt', payload: {} }),
     ).toThrow('MetaGenerator: destination path is not a folder: "./stub.txt"');
   });
 
   test('checks if destination folder exists', () => {
-    const generator = new MetaGenerator('./template1');
+    const generator = new MetaGenerator('./template1-simple-interpolation');
 
     expect(
       () => generator.generate({ destination: './non-existing-folder', payload: {} }),
@@ -57,7 +57,7 @@ describe('MetaGenerator', () => {
     }
     fs.mkdirSync(destination);
 
-    const generator = new MetaGenerator('./template2');
+    const generator = new MetaGenerator('./template2-iteration-inclusion');
     generator.generate({
       destination,
       payload: {
