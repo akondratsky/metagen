@@ -1,6 +1,6 @@
 import { logger } from '../../../logger';
 import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
-import { CopyFlagNode } from '../nodes/CopyFlagNode';
+import { TemplatingFlagNode } from '../nodes/TemplatingFlagNode';
 import { TokensParser } from './TokensParser';
 
 export class NodesParser {
@@ -39,7 +39,7 @@ export class NodesParser {
 
       if (statement.length === 1) {
         if (statement[0] === '#copy') {
-          return new CopyFlagNode();
+          return new TemplatingFlagNode();
         }
         return new InterpolationNode(statement[0]);
       }

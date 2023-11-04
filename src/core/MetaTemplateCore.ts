@@ -6,7 +6,7 @@ import {
   IterationNode,
   NodesParser,
   TextNode,
-  CopyFlagNode
+  TemplatingFlagNode
 } from './syntax';
 import { Tree } from './Tree';
 import type { PayloadObject } from './Payload';
@@ -55,7 +55,7 @@ export class MetaTemplateCore {
 
     const result: Tree[] = [];
     const nodes = this.nodesParser.parse(metaTemplate.name);
-    const isCopy = nodes.some(node => node instanceof CopyFlagNode);
+    const isCopy = nodes.some(node => node instanceof TemplatingFlagNode);
 
     logger.debug(`handlebars templating ${isCopy ? 'disabled' : 'enabled'}`);
     logger.debug(`generating template instances for meta template "${metaTemplate.name}":`);
@@ -96,7 +96,7 @@ export class MetaTemplateCore {
     do {
       const node = nodes[nodeIndex];
 
-      if (node instanceof CopyFlagNode) {
+      if (node instanceof TemplatingFlagNode) {
         nodes.splice(nodeIndex, 1);
         continue;
       }
