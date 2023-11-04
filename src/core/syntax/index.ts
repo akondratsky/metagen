@@ -1,7 +1,7 @@
 export type { AbstractNode } from './nodes/AbstractNode';
 export type { ITextNode } from './nodes/ITextNode';
 
-export { CopyFlagNode } from './nodes/CopyFlagNode';
+export { TemplatingFlagNode } from './nodes/TemplatingFlagNode';
 export { ConditionNode } from './nodes/ConditionNode';
 export { InterpolationNode } from './nodes/InterpolationNode';
 export { IterationNode } from './nodes/IterationNode';

@@ -1,7 +1,7 @@
 import { describe, it, expect, spyOn, jest, afterAll, beforeAll } from 'bun:test';
 import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
 import { NodesParser } from './NodesParser';
-import { CopyFlagNode } from '../nodes/CopyFlagNode';
+import { TemplatingFlagNode } from '../nodes/TemplatingFlagNode';
 import { logger } from '../../../logger';
 
 
@@ -83,7 +83,7 @@ describe('NodesParser', () => {
 
     it('parses complex names', () => {
       const [copy, iteration, condition, interpolation, text] = nodesParser.parse('{#copy}{#each persons}{#includeif musician}{name}42');
-      expect(copy).toBeInstanceOf(CopyFlagNode);
+      expect(copy).toBeInstanceOf(TemplatingFlagNode);
       expect(iteration).toBeInstanceOf(IterationNode);
       expect(condition).toBeInstanceOf(ConditionNode);
       expect(interpolation).toBeInstanceOf(InterpolationNode);
