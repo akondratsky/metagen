@@ -21,6 +21,8 @@ type Template = {
   payload: PayloadObject;
 };
 
+type RenderMethod = (payload: PayloadObject) => Buffer;
+
 /**
  * Renders Tree objects with payload
  */
@@ -56,10 +58,6 @@ export class MetaTemplateCore {
     const result: Tree[] = [];
     const nodes = this.nodesParser.parse(metaTemplate.name);
 
-    const templatingFlagNode = nodes.find(node => node instanceof TemplatingFlagNode) as TemplatingFlagNode;
-    const isCopy = Boolean(templatingFlagNode && !templatingFlagNode.useHbs);
-
-    logger.debug(`handlebars templating ${isCopy ? 'disabled' : 'enabled'}`);
     logger.debug(`generating template instances for meta template "${metaTemplate.name}":`);
     const templates = this.getTemplatesByNodes(nodes, metaPayload);
 
@@ -77,14 +75,12 @@ export class MetaTemplateCore {
       });
     } else {
       logger.debug(`meta template "${metaTemplate.name}" is a file, rendering...`);
-      const render = isCopy
-        ? () => metaTemplate.content
-        : hbs.compile(metaTemplate.content.toString());
+      const render = this.getRenderMethod(metaTemplate, [...nodes]);
 
       templates.forEach(({ filename, payload }) => {
         logger.debug(`rendering "${filename}" with payload ${JSON.stringify(payload)}`);
         const file = new Tree.File(filename);
-        file.content = Buffer.from(render(payload));
+        file.content = render(payload);
         result.push(file);
       });
     }
@@ -92,29 +88,56 @@ export class MetaTemplateCore {
     return result;
   }
 
+  /**
+   * Get method (use handlebars or copy) to render template content
+   */
+  private getRenderMethod(metaTemplate: Tree, nodes: AbstractNode[]): RenderMethod {
+    const templatingFlagNode = nodes.find(node => node instanceof TemplatingFlagNode) as TemplatingFlagNode;
+
+    const isCopy = Boolean(templatingFlagNode && !templatingFlagNode.useHbs);
+
+    logger.debug(`handlebars templating ${isCopy ? 'disabled' : 'enabled'}`);
+
+    if (isCopy) {
+      return () => metaTemplate.content;
+    }
+
+    const renderTemplate = hbs.compile(metaTemplate.content.toString());
+
+    return (payload: PayloadObject) => Buffer.from(renderTemplate(payload));
+  }
+
+  /**
+   * Get number of instances for some meta template with some payload
+   */
   private getTemplatesByNodes(nodes: AbstractNode[], payload: PayloadObject): Template[] {
     let nodeIndex = 0;
 
+    // this list mutates in this method, copying it:
+    const nodesList = [...nodes];
+
     do {
-      const node = nodes[nodeIndex];
+      const node = nodesList[nodeIndex];
 
       if (node instanceof TemplatingFlagNode) {
-        nodes.splice(nodeIndex, 1);
+        nodesList.splice(nodeIndex, 1);
         continue;
       }
 
       if (node instanceof IterationNode) {
-        nodes.splice(nodeIndex, 1);
+        nodesList.splice(nodeIndex, 1);
         const payloads = PayloadUtil.getPayloads(payload, node.iterator);
         const templates: Template[] = [];
 
         payloads.forEach((currentPayload) => {
           if (typeof currentPayload === 'object') {
+            // render #each instance separately according to the payload
             const templatePayload = PayloadUtil.merge(payload, currentPayload as PayloadObject);
-            templates.push(...this.getTemplatesByNodes([...nodes], templatePayload));
+            templates.push(...this.getTemplatesByNodes(nodesList, templatePayload));
           } else {
-            const currentNode = new TextNode(String(currentPayload));
-            templates.push(...this.getTemplatesByNodes([currentNode, ...nodes], payload));
+            // replace with text node from array
+            const textNode = new TextNode(String(currentPayload));
+            templates.push(...this.getTemplatesByNodes([textNode, ...nodesList], payload));
           }
         });
 
@@ -122,9 +145,9 @@ export class MetaTemplateCore {
       }
 
       if (node instanceof ConditionNode) {
-        nodes.splice(nodeIndex, 1);
+        nodesList.splice(nodeIndex, 1);
         if (node.checkCondition(payload)) {
-          return this.getTemplatesByNodes([...nodes], payload);
+          return this.getTemplatesByNodes(nodesList, payload);
         } else {
           return [];
         }
@@ -138,9 +161,9 @@ export class MetaTemplateCore {
 
       nodeIndex++;
       continue;
-    } while (nodeIndex < nodes.length);
+    } while (nodeIndex < nodesList.length);
 
-    const filename = (nodes as ITextNode[])
+    const filename = (nodesList as ITextNode[])
       .map(({ text }) => text)
       .join('');
 
