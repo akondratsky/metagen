@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
     "composite": true,
-    "types": ["bun-types"],
+    "lib": ["ESNext"],
+    "types": [
+      "node"
+    ],
     "strict": true,
     "outDir": "./dist",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "exclude": ["docs"],
+  "exclude": [
+    "docs"
+  ],
   "references": [
     {
       "path": "tsconfig.lib.esm.json"
