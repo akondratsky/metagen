@@ -23,8 +23,8 @@ describe('NodesParser', () => {
           '{#each array}',
           '{skillName}',
           '{obj.arr[0].value}',
-          'gg'
-        ]
+          'gg',
+        ],
       )('valid expression: "%s"', (name) => {
         expect(() => nodesParser.parse(name)).not.toThrow();
       });
@@ -36,7 +36,7 @@ describe('NodesParser', () => {
           '{#copy}{#copy}',
           '{#copy}{#hbs}',
           '{#hbs}{#hbs}',
-        ]
+        ],
       )('invalid expression: "%s"', (name) => {
         expect(() => nodesParser.parse(name)).toThrow();
       });
@@ -47,17 +47,17 @@ describe('NodesParser', () => {
         const [node] = nodesParser.parse('42');
         expect(node).toBeInstanceOf(TextNode);
       });
-  
+
       it('ConditionalNode for expressions "{#includeif condition}"', () => {
         const [node] = nodesParser.parse('{#includeif condition}');
         expect(node).toBeInstanceOf(ConditionNode);
-      })
-  
+      });
+
       it('InterpolationNode for expression "{value}"', () => {
         const [node] = nodesParser.parse('{value}');
         expect(node).toBeInstanceOf(InterpolationNode);
       });
-  
+
       it('IterationNode for expression "{#each array}"', () => {
         const [node] = nodesParser.parse('{#each array}');
         expect(node).toBeInstanceOf(IterationNode);
@@ -65,12 +65,11 @@ describe('NodesParser', () => {
 
       it.each([
         '{#hbs}',
-        '{#copy}'
+        '{#copy}',
       ])('TemplatingFlagNode for expression "%s"', (expression) => {
         const [node] = nodesParser.parse(expression);
         expect(node).toBeInstanceOf(TemplatingFlagNode);
-      })
-
+      });
     });
 
     describe('returns correctly created nodes', () => {
@@ -107,7 +106,9 @@ describe('NodesParser', () => {
     });
 
     it('parses complex names', () => {
-      const [copy, iteration, condition, interpolation, text] = nodesParser.parse('{#copy}{#each persons}{#includeif musician}{name}42');
+      const [copy, iteration, condition, interpolation, text] = nodesParser.parse(
+        '{#copy}{#each persons}{#includeif musician}{name}42',
+      );
       expect(copy).toBeInstanceOf(TemplatingFlagNode);
       expect(iteration).toBeInstanceOf(IterationNode);
       expect(condition).toBeInstanceOf(ConditionNode);
@@ -115,6 +116,4 @@ describe('NodesParser', () => {
       expect(text).toBeInstanceOf(TextNode);
     });
   });
-
-
 });

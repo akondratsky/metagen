@@ -12,7 +12,7 @@ describe('logger', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
-  
+
   it('prints errors', () => {
     logger.isVerbose = false;
     logger.error('test');
@@ -30,8 +30,5 @@ describe('logger', () => {
       logger.debug('test');
       expect(logSpy).not.toHaveBeenCalled();
     });
-
-    
-
   });
 });

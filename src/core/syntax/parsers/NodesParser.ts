@@ -7,7 +7,7 @@ export class NodesParser {
   private readonly tokensParser = new TokensParser();
 
   private invalidTokenError(name: string, token: string): Error {
-    const message = `Invalid token "${token}" in template name "${name}"`
+    const message = `Invalid token "${token}" in template name "${name}"`;
     logger.error(message);
     return new Error(message);
   }
@@ -21,10 +21,10 @@ export class NodesParser {
 
   /** parses meta template name and returns array of syntax nodes */
   public parse(name: string): AbstractNode[] {
-    const tokens =  this.tokensParser.parse(name);
-  
+    const tokens = this.tokensParser.parse(name);
+
     const nodes = tokens.map(({ token, isExpression }) => {
-      logger.debug(`mapping token to a node: "${token}"`)
+      logger.debug(`mapping token to a node: "${token}"`);
 
       if (!isExpression) {
         return new TextNode(token);

@@ -7,4 +7,4 @@ export { InterpolationNode } from './nodes/InterpolationNode';
 export { IterationNode } from './nodes/IterationNode';
 export { TextNode } from './nodes/TextNode';
 
-export { NodesParser } from './parsers/NodesParser'
+export { NodesParser } from './parsers/NodesParser';

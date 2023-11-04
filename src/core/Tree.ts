@@ -11,19 +11,19 @@ export class Tree {
     constructor(name: string) {
       super(name, true);
     }
-  }
+  };
 
   public static File = class TreeFile extends Tree {
     constructor(name: string) {
       super(name, false);
     }
-  }
+  };
 
   public static TypeError = class NodeTypeError extends Error {
     constructor(node: Tree) {
       super(`Incorrect operation: ${node.name} is a ${node.isDirectory ? 'directory' : 'file'}`);
     }
-  }
+  };
 
   public get children() {
     if (!this.isDirectory) {

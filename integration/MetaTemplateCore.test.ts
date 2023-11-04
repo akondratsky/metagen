@@ -19,7 +19,7 @@ describe('MetaTemplateCore integration tests', () => {
     const template = new MetaTemplateCore(inputTree);
 
     const output = template.renderObject({
-      person: 'ivan'
+      person: 'ivan',
     });
 
 
@@ -46,19 +46,19 @@ describe('MetaTemplateCore integration tests', () => {
         { name: 'anatoliy', isMusician: false },
         { name: 'john', isMusician: true, song: 'venom' },
       ],
-      title: 'list of musicians'
+      title: 'list of musicians',
     });
 
     expect(sortChildren(output)).toEqual(sortChildren(
       [
         directory('ivan notes',
-          file('strangers in the night.hbs', 'la-la-la!')
+          file('strangers in the night.hbs', 'la-la-la!'),
         ),
         directory('john notes',
-          file('venom.hbs', 'la-la-la!')
+          file('venom.hbs', 'la-la-la!'),
         ),
         file('musicians.hbs', 'list of musicians\nivan\nanatoliy\njohn\n'),
-      ]
+      ],
     ));
   });
 
@@ -83,8 +83,8 @@ describe('MetaTemplateCore integration tests', () => {
           name: 'Isabella',
           surname: 'Sold',
           skills: [{ skillName: 'dance' }, { skillName: 'swim' }],
-        }
-      ]
+        },
+      ],
     });
 
     expect(sortChildren(output)).toEqual(sortChildren([
@@ -97,7 +97,7 @@ describe('MetaTemplateCore integration tests', () => {
         file('swim.txt', 'Mr/Ms Sold has mastered his/her skill: swim'),
       ),
       file('index.txt', '-'),
-    ]))
+    ]));
   });
 
   test('./template4', () => {
@@ -108,8 +108,8 @@ describe('MetaTemplateCore integration tests', () => {
 
     const output = template.renderObject({
       obj: {
-        arr: [{ value: '42' }]
-      }
+        arr: [{ value: '42' }],
+      },
     });
 
     expect(output).toEqual([

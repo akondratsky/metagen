@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "bun test",
-    "lint": "eslint src",
+    "lint": "eslint src integration",
     "build": "rimraf ./dist && bun run build:tsc && bun ./dist.ts",
     "build:tsc": "bun run build:tsc:esm && bun run build:tsc:cjs",
     "build:tsc:esm": "tsc --project tsconfig.lib.esm.json",

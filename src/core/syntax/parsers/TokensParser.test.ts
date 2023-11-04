@@ -26,19 +26,19 @@ describe('TokenParser', () => {
     test.each([
       [
         '{#hbs}',
-        [{ token: '#hbs', isExpression: true }]
+        [{ token: '#hbs', isExpression: true }],
       ],
       [
         '{#copy}',
-        [{ token: '#copy', isExpression: true }]
+        [{ token: '#copy', isExpression: true }],
       ],
       [
         '{#includeif}',
-        [{ token: '#includeif', isExpression: true }]
+        [{ token: '#includeif', isExpression: true }],
       ],
       [
         '{#each}',
-        [{ token: '#each', isExpression: true }]
+        [{ token: '#each', isExpression: true }],
       ],
     ])('recognizes token %s', (input, expected) => {
       const actual = tokenParser.parse(input);
@@ -51,15 +51,15 @@ describe('TokenParser', () => {
         [
           { token: 'a', isExpression: true },
           { token: '{b}', isExpression: false },
-        ]
+        ],
       ],
       [
         '{{{a}}}',
         [
           { token: '{', isExpression: false },
           { token: 'a', isExpression: true },
-          { token: '}', isExpression: false }
-        ]
+          { token: '}', isExpression: false },
+        ],
       ],
       [
         '{a}',
@@ -67,12 +67,12 @@ describe('TokenParser', () => {
       ],
       [
         '{{a',
-        [{ token: '{a', isExpression: false }]
+        [{ token: '{a', isExpression: false }],
       ],
       [
         '{skillName}',
-        [{ token: 'skillName', isExpression: true }]
-      ]
+        [{ token: 'skillName', isExpression: true }],
+      ],
     ])('splits "%s"', (input, expected) => {
       const actual = tokenParser.parse(input);
       expect(actual).toEqual(expected);
@@ -82,7 +82,7 @@ describe('TokenParser', () => {
       '{a',
       '{a{a}',
       'aaa}}}',
-      '{abc{sfd}as}'
+      '{abc{sfd}as}',
     ])('throws an error for "%s"', (input) => {
       expect(() => tokenParser.parse(input)).toThrow();
     });

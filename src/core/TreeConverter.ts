@@ -8,7 +8,7 @@ type ObjectResult<T extends Tree | Tree[]> = T extends Tree ? TreeObject : TreeO
 
 export class TreeConverter {
   public toObject<T extends Tree | Tree[]>(
-    trees: T
+    trees: T,
   ): ObjectResult<T> {
     if (Array.isArray(trees)) {
       return trees.map(tree => this.toObject(tree)) as ObjectResult<T>;
@@ -43,11 +43,11 @@ export class TreeConverter {
         files.push(currentPath);
       }
       return files;
-    }
+    };
 
     return trees.reduce((list, tree) => {
       list.push(...getFiles(tree, destination));
       return list;
-    }, [] as string[])
+    }, [] as string[]);
   }
 }
