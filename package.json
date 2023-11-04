@@ -22,7 +22,8 @@
   },
   "scripts": {
     "test": "bun test",
-    "lint": "eslint src integration",
+    "lint": "bun run lint:tsc && eslint src integration",
+    "lint:tsc": "tsc --project tsconfig.test.json --noEmit && tsc --project tsconfig.lib.esm.json --noEmit",
     "build": "rimraf ./dist && bun run build:tsc && bun ./dist.ts",
     "build:tsc": "bun run build:tsc:esm && bun run build:tsc:cjs",
     "build:tsc:esm": "tsc --project tsconfig.lib.esm.json",
@@ -35,6 +36,7 @@
     "@commitlint/config-conventional": "17.8.0",
     "@stylistic/eslint-plugin": "1.0.0",
     "@types/lodash": "4.14.199",
+    "bun-types": "1.0.8",
     "commitizen": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "8.53.0",
