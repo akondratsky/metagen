@@ -13,18 +13,24 @@ import type { PayloadObject } from './Payload';
 import { PayloadUtil } from './PayloadUtil';
 import hbs from 'handlebars';
 import { logger } from '../logger';
+import { TreeConverter } from './TreeConverter';
+import type { TreeObject } from './TreeObject';
 
 type Template = {
   filename: string;
   payload: PayloadObject;
 }
 
+/**
+ * Renders Tree objects with payload
+ */
 export class MetaTemplateCore {
   constructor(
     private readonly metaTemplate: Tree,
   ) {}
 
   private readonly nodesParser = new NodesParser();
+  private readonly treeConverter = new TreeConverter();
 
 
   public renderTree(payload: PayloadObject): Tree[] {
@@ -38,8 +44,10 @@ export class MetaTemplateCore {
     return this.renderMetaTemplate(this.metaTemplate, payload);
   }
 
-  public renderJson(payload: PayloadObject): Array<PayloadObject> {
-    return this.renderTree(payload).map(tree => tree.toJson());
+  public renderObject(payload: PayloadObject): TreeObject[] {
+    return this.treeConverter.toObject(
+      this.renderTree(payload),
+    );
   }
 
   private renderMetaTemplate(metaTemplate: Tree, metaPayload: PayloadObject): Tree[] {
@@ -69,12 +77,12 @@ export class MetaTemplateCore {
       logger.debug(`meta template "${metaTemplate.name}" is a file, rendering...`);
       const render = isCopy
         ? () => metaTemplate.content
-        : hbs.compile(metaTemplate.content);
+        : hbs.compile(metaTemplate.content.toString());
 
       templates.forEach(({ filename, payload }) => {
         logger.debug(`rendering "${filename}" with payload ${JSON.stringify(payload)}`)
         const file = new Tree.File(filename);
-        file.content = render(payload)
+        file.content = Buffer.from(render(payload));
         result.push(file);
       });
     }

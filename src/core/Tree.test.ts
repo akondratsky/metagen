@@ -20,7 +20,7 @@ describe('Tree', () => {
         expect(() => node.content).toThrow();
       });
       it('is written', () => {
-        expect(() => node.content = 'value').toThrow();
+        expect(() => node.content = Buffer.from('value')).toThrow();
       })
     });
   });
@@ -30,9 +30,9 @@ describe('Tree', () => {
       const node = new Tree.File('name');
       
       expect(() => {
-        node.content = 'content';
+        node.content = Buffer.from('content');
       }).not.toThrow();
-      expect(node.content).toBe('content');
+      expect(node.content.toString()).toBe('content');
     });
 
     describe('throws an error when children', () => {
@@ -46,39 +46,4 @@ describe('Tree', () => {
       })
     });
   });
-
-
-  describe('toList()', () => {
-    it('converts trees into the list of files and folders', () => {
-      const root1 = new Tree.Directory('root1');
-      const subDir = new Tree.Directory('subDir');
-      subDir.children.push(new Tree.File('subDirChild'));
-      root1.children.push(
-        new Tree.File('sub1'),
-        new Tree.File('sub2'),
-        subDir,
-      );
-  
-      const root2 = new Tree.Directory('root2');
-      root2.children.push(
-        new Tree.File('sub3'),
-      );
-      const root3 = new Tree.File('root3');
-  
-      const actual = Tree.toList([root1, root2, root3], './output')
-  
-      expect(actual).toEqual([
-        'output/root1/',
-        'output/root1/sub1',
-        'output/root1/sub2',
-        'output/root1/subDir/',
-        'output/root1/subDir/subDirChild',
-        'output/root2/',
-        'output/root2/sub3',
-        'output/root3',
-      ]);
-    });
-  });
-
-  
 });

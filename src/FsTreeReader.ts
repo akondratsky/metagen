@@ -22,7 +22,7 @@ export class FsTreeReader {
       return directory;
     } else {
       const file = new Tree.File(name);
-      file.content = readFileSync(filePath, 'utf-8');
+      file.content = readFileSync(filePath);
       return file;
     }
   }

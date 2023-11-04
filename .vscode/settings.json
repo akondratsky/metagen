@@ -1,3 +1,6 @@
 {
-  "jestrunner.jestCommand": "bun test"
+  "jestrunner.jestCommand": "bun test",
+  "cSpell.words": [
+    "istextorbinary"
+  ]
 }
