@@ -55,7 +55,9 @@ export class MetaTemplateCore {
 
     const result: Tree[] = [];
     const nodes = this.nodesParser.parse(metaTemplate.name);
-    const isCopy = nodes.some(node => node instanceof TemplatingFlagNode);
+
+    const templatingFlagNode = nodes.find(node => node instanceof TemplatingFlagNode) as TemplatingFlagNode;
+    const isCopy = Boolean(templatingFlagNode && !templatingFlagNode.useHbs);
 
     logger.debug(`handlebars templating ${isCopy ? 'disabled' : 'enabled'}`);
     logger.debug(`generating template instances for meta template "${metaTemplate.name}":`);
