@@ -13,7 +13,7 @@ export class FsTreeReader {
     const isDirectory = statSync(filePath).isDirectory();
 
     if (isDirectory) {
-      const directory = new Tree.Directory(name)
+      const directory = new Tree.Directory(name);
       readdirSync(filePath).forEach((childPath) => {
         directory.children.push(
           this.read(path.join(filePath, childPath)),

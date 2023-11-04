@@ -54,9 +54,9 @@ describe('TreeConverter', () => {
         children: [{
           isDirectory: false,
           name: 'filename',
-          content: Buffer.from('file_content')
+          content: Buffer.from('file_content'),
         }],
-      })
+      });
     });
   });
 
@@ -70,18 +70,18 @@ describe('TreeConverter', () => {
         new Tree.File('sub2'),
         subDir,
       );
-  
+
       const root2 = new Tree.Directory('root2');
       root2.children.push(
         new Tree.File('sub3'),
       );
       const root3 = new Tree.File('root3');
-  
+
 
       const treeConverter = new TreeConverter();
 
-      const actual = treeConverter.toList([root1, root2, root3], './output')
-  
+      const actual = treeConverter.toList([root1, root2, root3], './output');
+
       expect(actual).toEqual([
         'output/root1/',
         'output/root1/sub1',
@@ -94,6 +94,4 @@ describe('TreeConverter', () => {
       ]);
     });
   });
-
-  
 });

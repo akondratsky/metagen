@@ -19,45 +19,42 @@ describe('FsTreeReader', () => {
         isDirectory: false,
         name: '{person}.hbs',
         content: Buffer.from('{{ person }} content'),
-      })
+      });
     });
 
     test('./template2', () => {
       const root = fsTreeReader.read(
-        join(import.meta.dir, '../integration', 'template2')
+        join(import.meta.dir, '../integration', 'template2'),
       ) as Tree;
 
       const actual = sortTreeRecursively(
         treeConverter.toObject(root),
       );
 
-        console.log('------------')
-
       const expected = sortTreeRecursively({
-        name: "template2",
+        name: 'template2',
         isDirectory: true,
         children: [
           {
-            name: "{#each persons}{#includeif isMusician}{name} notes",
+            name: '{#each persons}{#includeif isMusician}{name} notes',
             isDirectory: true,
             children: [
               {
-                name: "{song}.hbs",
+                name: '{song}.hbs',
                 isDirectory: false,
-                content: Buffer.from("la-la-la!")
-              }
-            ]
+                content: Buffer.from('la-la-la!'),
+              },
+            ],
           },
           {
-            name: "musicians.hbs",
+            name: 'musicians.hbs',
             isDirectory: false,
-            content: Buffer.from("{{title}}\n{{#each persons}}\n{{this.name}}\n{{/each}}")
-          }, 
-        ]
+            content: Buffer.from('{{title}}\n{{#each persons}}\n{{this.name}}\n{{/each}}'),
+          },
+        ],
       });
 
       expect(actual).toEqual(expected);
     });
-
   });
 });

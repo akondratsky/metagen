@@ -23,7 +23,7 @@ program
 
   .description(
     'Generates files and folders with Metagen template engine\n' +
-    'https://github.com/akondratsky/metagen'
+    'https://github.com/akondratsky/metagen',
   )
   .usage('-t <template-directory> -p <payload-json-file> -o <output-directory>')
 
@@ -42,10 +42,10 @@ program
 
   .action(({ template, output, payload, dryRun, verbose }) => {
     const payloadContent = tryRun(`Error while reading the file "${payload}". Check if it exists`,
-      () => fs.readFileSync(payload, 'utf-8')
+      () => fs.readFileSync(payload, 'utf-8'),
     );
     const payloadObject = tryRun(`Error while parsing the JSON file "${payload}"`,
-      () => JSON.parse(payloadContent)
+      () => JSON.parse(payloadContent),
     );
     new MetaGenerator(template).generate({
       destination: output,

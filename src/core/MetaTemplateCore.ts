@@ -6,7 +6,7 @@ import {
   IterationNode,
   NodesParser,
   TextNode,
-  TemplatingFlagNode
+  TemplatingFlagNode,
 } from './syntax';
 import { Tree } from './Tree';
 import type { PayloadObject } from './Payload';
@@ -19,7 +19,7 @@ import type { TreeObject } from './TreeObject';
 type Template = {
   filename: string;
   payload: PayloadObject;
-}
+};
 
 /**
  * Renders Tree objects with payload
@@ -82,7 +82,7 @@ export class MetaTemplateCore {
         : hbs.compile(metaTemplate.content.toString());
 
       templates.forEach(({ filename, payload }) => {
-        logger.debug(`rendering "${filename}" with payload ${JSON.stringify(payload)}`)
+        logger.debug(`rendering "${filename}" with payload ${JSON.stringify(payload)}`);
         const file = new Tree.File(filename);
         file.content = Buffer.from(render(payload));
         result.push(file);
@@ -135,7 +135,7 @@ export class MetaTemplateCore {
       }
 
       // TextNode does not require special action
-      
+
       nodeIndex++;
       continue;
     } while (nodeIndex < nodes.length);
@@ -144,7 +144,7 @@ export class MetaTemplateCore {
       .map(({ text }) => text)
       .join('');
 
-    logger.debug(`- "${filename}" with payload "${JSON.stringify(payload)}"`)
+    logger.debug(`- "${filename}" with payload "${JSON.stringify(payload)}"`);
     return [{ filename, payload }];
   }
 }

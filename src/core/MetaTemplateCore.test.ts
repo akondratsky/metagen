@@ -7,7 +7,6 @@ import { TreeFile } from './TreeObject';
 
 describe('MetaTemplateCore', () => {
   describe('rendering files', () => {
-
     type FileMetaTemplateTestCase = {
       templateName: string;
       templateContent: string;
@@ -21,7 +20,7 @@ describe('MetaTemplateCore', () => {
         templateName: 'filename',
         templateContent: '{{value}}',
         payload: { value: 42 },
-        expectedNodes: [{ name: 'filename', content: '42' }]
+        expectedNodes: [{ name: 'filename', content: '42' }],
       },
       {
         // test case #2
@@ -38,9 +37,9 @@ describe('MetaTemplateCore', () => {
         templateName: '{#each persons}{#includeif musician}{name}.txt',
         templateContent: '{{name}} {{#if musician}}is a musician{{/if}}',
         payload: {
-          persons: [{ name: 'ivan', musician: true }, { name: 'anatoliy', musician: false }]
+          persons: [{ name: 'ivan', musician: true }, { name: 'anatoliy', musician: false }],
         },
-        expectedNodes: [{ name: 'ivan.txt', content: 'ivan is a musician' }]
+        expectedNodes: [{ name: 'ivan.txt', content: 'ivan is a musician' }],
       },
       {
         // test case #4
@@ -49,15 +48,15 @@ describe('MetaTemplateCore', () => {
         payload: {
           a: [
             { b: [{ name: '1' }, { name: '2' }] },
-            { b: [{ name: '3' }, { name: '4' }] }
-          ]
+            { b: [{ name: '3' }, { name: '4' }] },
+          ],
         },
         expectedNodes: [
           { name: '1.txt', content: '1' },
           { name: '2.txt', content: '2' },
           { name: '3.txt', content: '3' },
           { name: '4.txt', content: '4' },
-        ]
+        ],
       },
     ];
 
@@ -84,8 +83,8 @@ describe('MetaTemplateCore', () => {
       const payload = {
         a: [
           { b: [{ name: '1' }, { name: '2' }] },
-          { b: [{ name: '3' }, { name: '4' }] }
-        ]
+          { b: [{ name: '3' }, { name: '4' }] },
+        ],
       };
       const inputFile = new Tree.File('{#each a}{#each b}{name}.txt');
       inputFile.content = Buffer.from('{{name}}');
@@ -98,8 +97,8 @@ describe('MetaTemplateCore', () => {
         { isDirectory: false, name: '2.txt', content: Buffer.from('2') },
         { isDirectory: false, name: '3.txt', content: Buffer.from('3') },
         { isDirectory: false, name: '4.txt', content: Buffer.from('4') },
-      ])
-    })
+      ]);
+    });
   });
 
   describe('template name rules', () => {
@@ -116,7 +115,7 @@ describe('MetaTemplateCore', () => {
         }]);
       });
     });
-  
+
     describe('interpolation', () => {
       test('{name}', () => {
         const templateTree = new Tree.File('{name}');
@@ -126,11 +125,11 @@ describe('MetaTemplateCore', () => {
         expect(output).toEqual([{
           isDirectory: false,
           name: 'ivan',
-          content: Buffer.from('')
+          content: Buffer.from(''),
         }]);
       });
     });
-  
+
     describe('condition', () => {
       test('"{#includeif condition}file", condition: true', () => {
         const templateTree = new Tree.File('{#includeif condition}file');
@@ -142,7 +141,7 @@ describe('MetaTemplateCore', () => {
           content: Buffer.from(''),
         }]);
       });
-  
+
       test('"{#includeif condition}file", condition: false', () => {
         const templateTree = new Tree.File('{#includeif condition}file');
         const template = new MetaTemplateCore(templateTree);
@@ -150,12 +149,12 @@ describe('MetaTemplateCore', () => {
         expect(output).toEqual([]);
       });
     });
-  
+
     describe('iterations', () => {
       const persons = [{ name: 'ivan' }, { name: 'anatoliy' }];
-      
+
       test('{#each persons}{name}42', () => {
-        const templateTree = new Tree.File('{#each persons}{name}42')
+        const templateTree = new Tree.File('{#each persons}{name}42');
         templateTree.content = Buffer.from('{{name}}');
 
         const template = new MetaTemplateCore(templateTree);
@@ -166,8 +165,8 @@ describe('MetaTemplateCore', () => {
           { isDirectory: false, name: 'anatoliy42', content: Buffer.from('anatoliy') },
         ]);
       });
-  
-  
+
+
       test('"{#each persons}{#each skills}{name}_{skillName}"', () => {
         const templateTree = new Tree.File('{#each persons}{#each skills}{name} - {skillName}');
 
@@ -188,7 +187,7 @@ describe('MetaTemplateCore', () => {
           { isDirectory: false, content: Buffer.from(''), name: 'me - sleep' },
           { isDirectory: false, content: Buffer.from(''), name: 'moms friend son - be rich' },
           { isDirectory: false, content: Buffer.from(''), name: 'moms friend son - travel' },
-        ])
+        ]);
       });
     });
   });

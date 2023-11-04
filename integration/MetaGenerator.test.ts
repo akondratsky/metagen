@@ -37,7 +37,7 @@ describe('MetaGenerator', () => {
     console.log(process.cwd());
     const generator = new MetaGenerator('./template1');
     expect(
-      () => generator.generate({ destination: './stub.txt', payload: {} })
+      () => generator.generate({ destination: './stub.txt', payload: {} }),
     ).toThrow('MetaGenerator: destination path is not a folder: "./stub.txt"');
   });
 
@@ -45,8 +45,8 @@ describe('MetaGenerator', () => {
     const generator = new MetaGenerator('./template1');
 
     expect(
-      () => generator.generate({ destination: './non-existing-folder', payload: {} })
-    ).toThrow('MetaGenerator: destination path does not exist: "./non-existing-folder"')
+      () => generator.generate({ destination: './non-existing-folder', payload: {} }),
+    ).toThrow('MetaGenerator: destination path does not exist: "./non-existing-folder"');
   });
 
   test('writes files to output', () => {

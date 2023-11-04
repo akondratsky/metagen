@@ -36,8 +36,8 @@ export class MetaGenerator {
     logger.error(msg);
     return new Error(msg);
   }
-  
-  public generate({ destination, payload, isDryRun, isVerbose, }: Options): Output {
+
+  public generate({ destination, payload, isDryRun, isVerbose }: Options): Output {
     logger.isVerbose = isVerbose ?? false;
 
     if (!fs.existsSync(destination)) {
@@ -56,9 +56,9 @@ export class MetaGenerator {
 
     console.log('Next files will be created:\n');
     files.forEach((file) => console.log(file));
-    
+
     if (!isDryRun) {
-      logger.debug(`writing result to the disk`);
+      logger.debug('writing result to the disk');
       trees.forEach(output => this.writeTree(output, destination));
     }
 
@@ -66,11 +66,10 @@ export class MetaGenerator {
   }
 
 
-
   protected writeTree(node: Tree, destination: string) {
     const filename = path.join(destination, node.name);
     logger.debug(`writing ${filename}`);
-    
+
     if (node.isDirectory) {
       logger.debug(`creating directory ${filename}`);
       fs.mkdirSync(filename);
