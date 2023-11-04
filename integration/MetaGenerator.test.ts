@@ -2,10 +2,10 @@ import { describe, test, expect, spyOn, jest, afterAll, beforeAll } from 'bun:te
 import fs from 'node:fs';
 import { directory, file, sortChildren, sortTreeRecursively } from './fixtures.test';
 
-import { MetaGenerator } from './MetaGenerator';
-import { logger } from './logger';
-import { FsTreeReader } from './FsTreeReader';
-import { TreeConverter } from './core/TreeConverter';
+import { MetaGenerator } from '../src/MetaGenerator';
+import { logger } from '../src/logger';
+import { FsTreeReader } from '../src/FsTreeReader';
+import { TreeConverter } from '../src/core/TreeConverter';
 
 
 process.chdir('./integration');

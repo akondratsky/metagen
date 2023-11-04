@@ -1,9 +1,10 @@
 import { describe, test, expect } from 'bun:test';
 import { join } from 'node:path';
-import { Tree } from './core';
-import { FsTreeReader } from './FsTreeReader';
+
+import { Tree } from '../src/core';
+import { FsTreeReader } from '../src/FsTreeReader';
 import { sortTreeRecursively } from './fixtures.test';
-import { TreeConverter } from './core/TreeConverter';
+import { TreeConverter } from '../src/core/TreeConverter';
 
 describe('FsTreeReader', () => {
   const fsTreeReader = new FsTreeReader();

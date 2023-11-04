@@ -1,7 +1,7 @@
-import { MetaTemplateCore } from './core';
+import { MetaTemplateCore } from '../src/core';
 import { describe, test, expect } from 'bun:test';
 import { join } from 'node:path';
-import { FsTreeReader } from './FsTreeReader';
+import { FsTreeReader } from '../src/FsTreeReader';
 import { directory, file, sortChildren } from './fixtures.test';
 
 

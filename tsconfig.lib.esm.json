@@ -2,13 +2,16 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "composite": true,
+    "rootDir": "src",
     "module": "ESNext",
     "target": "ESNext",
     "outDir": "dist/mjs",
     "moduleResolution": "node",
   },
-  "include": ["src/**/*.ts"],
+  "include": [
+    "src/**/*.ts"
+  ],
   "exclude": [
-    "src/**/*.test.ts"
+    "**/*.test.ts"
   ]
 }
