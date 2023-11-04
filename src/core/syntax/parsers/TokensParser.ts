@@ -5,7 +5,7 @@ export class TokensParser {
    * Parses meta template name and finds expression tokens in it, returns array of text and expression tokens
    * @param {string} name Meta template name
    */
-  public parse(name: string): Array<{ token: string, isExpression: boolean }> {
+  public parse(name: string): { token: string, isExpression: boolean }[] {
     logger.debug(`parsing name for tokens: "${name}"`);
 
     const SINGLE_OPEN = '\\{';

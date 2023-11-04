@@ -5,7 +5,7 @@ import { FsTreeReader } from './FsTreeReader';
 import { directory, file, sortChildren } from './fixtures.test';
 
 
-describe('MetaTemplate', () => {
+describe('MetaTemplateCore integration tests', () => {
   const fsTreeReader = new FsTreeReader();
 
   /**

@@ -1,10 +1,10 @@
 export const logger = {
   isVerbose: false,
 
-  debug(...msgs: any[]) {
+  debug(...msgs: unknown[]) {
     if (logger.isVerbose) console.log(...msgs);
   },
-  error(...msgs: any[]) {
+  error(...msgs: unknown[]) {
     console.error(...msgs);
   },
 };

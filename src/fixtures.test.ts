@@ -1,35 +1,39 @@
-import type { PayloadObject } from './core';
+import type { TreeDirectory, TreeFile } from './core';
+import type { TreeObject } from './core';
 
-export const directory = (name: string, ...objects: PayloadObject[]): PayloadObject => ({
+
+export const directory = (name: string, ...objects: TreeObject[]): TreeDirectory => ({
   name,
   isDirectory: true,
   children: objects,
 });
 
-export const file = (name: string, content: string): any => ({
+
+export const file = (name: string, content: string): TreeFile => ({
   isDirectory: false,
   name,
   content: Buffer.from(content),
 });
 
 
-export const sortChildren = (children: any[]) => children.sort((a, b) => {
+export const sortChildren = (children: TreeObject[]) => children.sort((a, b) => {
   return (a.name as string).localeCompare(b.name as string);
 });
 
-export const sortTreeRecursively = (tree: any): any => {
+
+export const sortTreeRecursively = (tree: TreeObject): TreeObject => {
   console.log('sorting: ', tree.name);
-  const result: PayloadObject = {
+  const result = {
     isDirectory: tree.isDirectory,
     name: tree.name  
   };
 
   if (!tree.isDirectory) {
-    result.content = tree.content;
+    (result as TreeFile).content = tree.content;
   } else {
     const sorted = sortChildren(tree.children);
-    result.children = sorted.map(child => sortTreeRecursively(child));
+    (result as TreeDirectory).children = sorted.map(child => sortTreeRecursively(child));
   }
 
-  return result;
+  return result as TreeObject;
 };

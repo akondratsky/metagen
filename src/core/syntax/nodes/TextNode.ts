@@ -1,4 +1,3 @@
-import { AbstractNode } from './AbstractNode';
 import { ITextNode } from './ITextNode';
 
 /**
