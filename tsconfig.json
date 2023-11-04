@@ -3,7 +3,6 @@
     "composite": true,
     "types": ["bun-types"],
     "strict": true,
-    "rootDir": "./src",
     "outDir": "./dist",
     "esModuleInterop": true,
     "experimentalDecorators": true,

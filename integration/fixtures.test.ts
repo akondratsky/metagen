@@ -1,5 +1,5 @@
-import type { TreeDirectory, TreeFile } from './core';
-import type { TreeObject } from './core';
+import type { TreeDirectory, TreeFile } from '../src/core';
+import type { TreeObject } from '../src/core';
 
 
 export const directory = (name: string, ...objects: TreeObject[]): TreeDirectory => ({
