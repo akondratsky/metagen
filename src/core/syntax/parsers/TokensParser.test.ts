@@ -25,6 +25,28 @@ describe('TokenParser', () => {
 
     test.each([
       [
+        '{#hbs}',
+        [{ token: '#hbs', isExpression: true }]
+      ],
+      [
+        '{#copy}',
+        [{ token: '#copy', isExpression: true }]
+      ],
+      [
+        '{#includeif}',
+        [{ token: '#includeif', isExpression: true }]
+      ],
+      [
+        '{#each}',
+        [{ token: '#each', isExpression: true }]
+      ],
+    ])('recognizes token %s', (input, expected) => {
+      const actual = tokenParser.parse(input);
+      expect(actual).toEqual(expected);
+    });
+
+    test.each([
+      [
         '{a}{{b}}',
         [
           { token: 'a', isExpression: true },

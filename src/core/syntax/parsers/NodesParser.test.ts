@@ -1,7 +1,6 @@
 import { describe, it, expect, spyOn, jest, afterAll, beforeAll } from 'bun:test';
-import { ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
+import { ConditionNode, InterpolationNode, IterationNode, TextNode, TemplatingFlagNode } from '../index';
 import { NodesParser } from './NodesParser';
-import { TemplatingFlagNode } from '../nodes/TemplatingFlagNode';
 import { logger } from '../../../logger';
 
 
@@ -29,8 +28,15 @@ describe('NodesParser', () => {
       )('valid expression: "%s"', (name) => {
         expect(() => nodesParser.parse(name)).not.toThrow();
       });
+
       it.each(
-        ['{42}', '{#abracadabra}']
+        [
+          '{42}',
+          '{#abracadabra}',
+          '{#copy}{#copy}',
+          '{#copy}{#hbs}',
+          '{#hbs}{#hbs}',
+        ]
       )('invalid expression: "%s"', (name) => {
         expect(() => nodesParser.parse(name)).toThrow();
       });
@@ -45,7 +51,7 @@ describe('NodesParser', () => {
       it('ConditionalNode for expressions "{#includeif condition}"', () => {
         const [node] = nodesParser.parse('{#includeif condition}');
         expect(node).toBeInstanceOf(ConditionNode);
-      });
+      })
   
       it('InterpolationNode for expression "{value}"', () => {
         const [node] = nodesParser.parse('{value}');
@@ -55,7 +61,16 @@ describe('NodesParser', () => {
       it('IterationNode for expression "{#each array}"', () => {
         const [node] = nodesParser.parse('{#each array}');
         expect(node).toBeInstanceOf(IterationNode);
+      });
+
+      it.each([
+        '{#hbs}',
+        '{#copy}'
+      ])('TemplatingFlagNode for expression "%s"', (expression) => {
+        const [node] = nodesParser.parse(expression);
+        expect(node).toBeInstanceOf(TemplatingFlagNode);
       })
+
     });
 
     describe('returns correctly created nodes', () => {
@@ -78,6 +93,16 @@ describe('NodesParser', () => {
       it('IterationNode', () => {
         const [node] = nodesParser.parse('{#each table.persons}') as IterationNode[];
         expect(node.iterator).toBe('table.persons');
+      });
+
+      it('TemplatingFlagNode for "#copy" directive', () => {
+        const [node] = nodesParser.parse('{#copy}') as TemplatingFlagNode[];
+        expect(node.useHbs).toBe(false);
+      });
+
+      it('TemplatingFlagNode for "#hbs" directive', () => {
+        const [node] = nodesParser.parse('{#hbs}') as TemplatingFlagNode[];
+        expect(node.useHbs).toBe(true);
       });
     });
 
