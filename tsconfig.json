@@ -3,13 +3,14 @@
     "composite": true,
     "lib": ["ESNext"],
     "types": [
-      "node"
+      "bun-types"
     ],
     "strict": true,
     "outDir": "./dist",
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "docs"

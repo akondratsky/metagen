@@ -11,7 +11,12 @@
   ],
   "root": true,
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "project": [
+      "tsconfig.lib.esm.json",
+      "tsconfig.scripts.json",
+      "tsconfig.test.json"
+    ]
   },
   "rules": {
     // They are just different and for different purposes, mkay?

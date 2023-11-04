@@ -5,7 +5,7 @@
     "rootDir": ".",
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "node"
   },
   "include": [
     "./integration/**/*.ts",
