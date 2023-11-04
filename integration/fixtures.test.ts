@@ -9,10 +9,10 @@ export const directory = (name: string, ...objects: TreeObject[]): TreeDirectory
 });
 
 
-export const file = (name: string, content: string): TreeFile => ({
+export const file = (name: string, content: string | Buffer): TreeFile => ({
   isDirectory: false,
   name,
-  content: Buffer.from(content),
+  content: typeof content === 'string' ? Buffer.from(content) : content,
 });
 
 
