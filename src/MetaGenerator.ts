@@ -3,6 +3,8 @@ import { PayloadObject, MetaTemplateCore, Tree } from './core';
 import fs from 'node:fs';
 import path from 'node:path';
 import { logger } from './logger';
+import { TreeConverter } from './core/TreeConverter';
+import { TreeObject } from './core/TreeObject';
 
 type Options = {
   /** output folder */
@@ -17,7 +19,7 @@ type Options = {
 
 type Output = {
   trees: Tree[];
-  json: PayloadObject[];
+  json: TreeObject[];
 };
 
 
@@ -28,6 +30,7 @@ export class MetaGenerator {
   ) {}
 
   private readonly fsTreeReader = new FsTreeReader();
+  private readonly treeConverter = new TreeConverter();
 
   private error(msg: string) {
     logger.error(msg);
@@ -48,8 +51,8 @@ export class MetaGenerator {
     const templateTree = this.fsTreeReader.read(this.templatePath);
     const template = new MetaTemplateCore(templateTree);
     const trees = template.renderTree(payload);
-    const json = Tree.toJson(trees) as PayloadObject[];
-    const files = Tree.toList(trees, destination);
+    const json = this.treeConverter.toObject(trees);
+    const files = this.treeConverter.toList(trees, destination);
 
     console.log('Next files will be created:\n');
     files.forEach((file) => console.log(file));

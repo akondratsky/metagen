@@ -3,19 +3,21 @@ import { join } from 'node:path';
 import { Tree } from './core';
 import { FsTreeReader } from './FsTreeReader';
 import { sortTreeRecursively } from './fixtures.test';
+import { TreeConverter } from './core/TreeConverter';
 
 describe('FsTreeReader', () => {
   const fsTreeReader = new FsTreeReader();
-  
+  const treeConverter = new TreeConverter();
+
   describe('read()', () => {
     test('./template1/{person}.hbs', () => {
       const tree = fsTreeReader.read(
         join(import.meta.dir, '../integration', './template1/{person}.hbs'),
       );
-      expect(tree.toJson()).toEqual({
+      expect(treeConverter.toObject(tree)).toEqual({
         isDirectory: false,
         name: '{person}.hbs',
-        content: '{{ person }} content',
+        content: Buffer.from('{{ person }} content'),
       })
     });
 
@@ -24,7 +26,9 @@ describe('FsTreeReader', () => {
         join(import.meta.dir, '../integration', 'template2')
       ) as Tree;
 
-      const actual = sortTreeRecursively(root.toJson());
+      const actual = sortTreeRecursively(
+        treeConverter.toObject(root),
+      );
 
         console.log('------------')
 
@@ -39,14 +43,14 @@ describe('FsTreeReader', () => {
               {
                 name: "{song}.hbs",
                 isDirectory: false,
-                content: "la-la-la!"
+                content: Buffer.from("la-la-la!")
               }
             ]
           },
           {
             name: "musicians.hbs",
             isDirectory: false,
-            content: "{{title}}\n{{#each persons}}\n{{this.name}}\n{{/each}}"
+            content: Buffer.from("{{title}}\n{{#each persons}}\n{{this.name}}\n{{/each}}")
           }, 
         ]
       });

@@ -6,18 +6,18 @@ export const directory = (name: string, ...objects: PayloadObject[]): PayloadObj
   children: objects,
 });
 
-export const file = (name: string, content: string): PayloadObject => ({
+export const file = (name: string, content: string): any => ({
   isDirectory: false,
   name,
-  content,
+  content: Buffer.from(content),
 });
 
 
-export const sortChildren = (children: PayloadObject[]) => children.sort((a, b) => {
+export const sortChildren = (children: any[]) => children.sort((a, b) => {
   return (a.name as string).localeCompare(b.name as string);
 });
 
-export const sortTreeRecursively = (tree: PayloadObject): PayloadObject => {
+export const sortTreeRecursively = (tree: any): any => {
   console.log('sorting: ', tree.name);
   const result: PayloadObject = {
     isDirectory: tree.isDirectory,
@@ -27,7 +27,7 @@ export const sortTreeRecursively = (tree: PayloadObject): PayloadObject => {
   if (!tree.isDirectory) {
     result.content = tree.content;
   } else {
-    const sorted = sortChildren(tree.children as PayloadObject[]);
+    const sorted = sortChildren(tree.children);
     result.children = sorted.map(child => sortTreeRecursively(child));
   }
 

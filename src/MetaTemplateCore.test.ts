@@ -18,7 +18,7 @@ describe('MetaTemplate', () => {
 
     const template = new MetaTemplateCore(inputTree);
 
-    const output = template.renderJson({
+    const output = template.renderObject({
       person: 'ivan'
     });
 
@@ -40,7 +40,7 @@ describe('MetaTemplate', () => {
 
     const template = new MetaTemplateCore(inputTree);
 
-    const output = template.renderJson({
+    const output = template.renderObject({
       persons: [
         { name: 'ivan', isMusician: true, song: 'strangers in the night' },
         { name: 'anatoliy', isMusician: false },
@@ -72,7 +72,7 @@ describe('MetaTemplate', () => {
     const inputTree = fsTreeReader.read(templatePath);
     const template = new MetaTemplateCore(inputTree);
 
-    const output = template.renderJson({
+    const output = template.renderObject({
       persons: [
         {
           name: 'John',
@@ -106,7 +106,7 @@ describe('MetaTemplate', () => {
 
     const template = new MetaTemplateCore(inputTree);
 
-    const output = template.renderJson({
+    const output = template.renderObject({
       obj: {
         arr: [{ value: '42' }]
       }
@@ -122,7 +122,7 @@ describe('MetaTemplate', () => {
     const inputTree = fsTreeReader.read(templatePath);
     const template = new MetaTemplateCore(inputTree);
 
-    const output = template.renderJson({
+    const output = template.renderObject({
       names: ['alex', 'john', 'optimus prime'],
     });
 
@@ -138,7 +138,7 @@ describe('MetaTemplate', () => {
     const inputTree = fsTreeReader.read(templatePath);
     const template = new MetaTemplateCore(inputTree);
 
-    const output = template.renderJson({
+    const output = template.renderObject({
       value: 'test failed',
     });
 

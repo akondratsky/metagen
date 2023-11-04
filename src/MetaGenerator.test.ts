@@ -5,6 +5,7 @@ import { directory, file, sortChildren, sortTreeRecursively } from './fixtures.t
 import { MetaGenerator } from './MetaGenerator';
 import { logger } from './logger';
 import { FsTreeReader } from './FsTreeReader';
+import { TreeConverter } from './core/TreeConverter';
 
 
 process.chdir('./integration');
@@ -66,9 +67,10 @@ describe('MetaGenerator', () => {
       },
     });
 
-    const output = new FsTreeReader()
-      .read(destination)
-      .toJson();
+    const outputTree = new FsTreeReader()
+      .read(destination);
+
+    const output = new TreeConverter().toObject(outputTree);
 
     fs.rmSync(destination, { force: true, recursive: true });
 
