@@ -1,3 +1,5 @@
+import hbs from 'handlebars';
+import { isBinary } from 'istextorbinary';
 import {
   AbstractNode,
   ConditionNode,
@@ -9,19 +11,16 @@ import {
   TemplatingFlagNode,
 } from './syntax';
 import { Tree } from './Tree';
-import type { PayloadObject } from './Payload';
 import { PayloadUtil } from './PayloadUtil';
-import hbs from 'handlebars';
 import { logger } from '../logger';
 import { TreeConverter } from './TreeConverter';
+import type { PayloadObject } from './Payload';
 import type { TreeObject } from './TreeObject';
 
 type Template = {
   filename: string;
   payload: PayloadObject;
 };
-
-type RenderMethod = (payload: PayloadObject) => Buffer;
 
 /**
  * Renders Tree objects with payload
@@ -75,36 +74,33 @@ export class MetaTemplateCore {
       });
     } else {
       logger.debug(`meta template "${metaTemplate.name}" is a file, rendering...`);
-      const render = this.getRenderMethod(metaTemplate, [...nodes]);
+      const templatingFlagNode = nodes.find(node => node instanceof TemplatingFlagNode) as TemplatingFlagNode;
+
+      const forceHbs = templatingFlagNode?.useHbs === true;
+      const forceCopy = templatingFlagNode?.useHbs === false;
+
+      let renderHbs: HandlebarsTemplateDelegate;
 
       templates.forEach(({ filename, payload }) => {
         logger.debug(`rendering "${filename}" with payload ${JSON.stringify(payload)}`);
         const file = new Tree.File(filename);
-        file.content = render(payload);
+
+        const isBinaryFilename = isBinary(filename, metaTemplate.content);
+
+        if (!forceHbs && (forceCopy || isBinaryFilename)) {
+          file.content = metaTemplate.content;
+        } else {
+          if (!renderHbs) {
+            renderHbs = hbs.compile(metaTemplate.content.toString());
+          }
+          file.content = Buffer.from(renderHbs(payload));
+        }
+
         result.push(file);
       });
     }
 
     return result;
-  }
-
-  /**
-   * Get method (use handlebars or copy) to render template content
-   */
-  private getRenderMethod(metaTemplate: Tree, nodes: AbstractNode[]): RenderMethod {
-    const templatingFlagNode = nodes.find(node => node instanceof TemplatingFlagNode) as TemplatingFlagNode;
-
-    const isCopy = Boolean(templatingFlagNode && !templatingFlagNode.useHbs);
-
-    logger.debug(`handlebars templating ${isCopy ? 'disabled' : 'enabled'}`);
-
-    if (isCopy) {
-      return () => metaTemplate.content;
-    }
-
-    const renderTemplate = hbs.compile(metaTemplate.content.toString());
-
-    return (payload: PayloadObject) => Buffer.from(renderTemplate(payload));
   }
 
   /**
