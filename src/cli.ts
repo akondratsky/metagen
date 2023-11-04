@@ -8,7 +8,7 @@ if (parseInt(process.version.slice(1), 10) < 18) {
 }
 
 
-const tryRun = <T extends (...args: any) => any>(msg: string, fn: T): ReturnType<T> => {
+const tryRun = <T extends (...args: unknown[]) => ReturnType<T>>(msg: string, fn: T): ReturnType<T> => {
   try {
     return fn();
   } catch (e) {

@@ -52,6 +52,4 @@ export class Tree {
     }
     return this.#content;
   }
-
-
 }

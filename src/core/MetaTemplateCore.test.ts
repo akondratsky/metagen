@@ -1,4 +1,4 @@
-import { describe, test, expect, spyOn } from 'bun:test';
+import { describe, test, expect } from 'bun:test';
 import { MetaTemplateCore } from './MetaTemplateCore';
 import { PayloadObject } from './Payload';
 import { Tree } from './Tree';
@@ -12,7 +12,7 @@ describe('MetaTemplateCore', () => {
       templateName: string;
       templateContent: string;
       payload: PayloadObject;
-      expectedNodes: Array<{ name: string, content: string }>
+      expectedNodes: { name: string, content: string }[]
     };
 
     const testCases: FileMetaTemplateTestCase[] = [

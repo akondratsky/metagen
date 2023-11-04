@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/strict",
+    "plugin:@typescript-eslint/stylistic"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "@stylistic"
+  ],
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    // They are just different and for different purposes, mkay?
+    "@typescript-eslint/consistent-type-definitions": "off",
+    // "Type alias 'PayloadObject' circularly references itself."
+    "@typescript-eslint/consistent-indexed-object-style": "off"
+  }
+}
