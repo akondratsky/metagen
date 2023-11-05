@@ -166,4 +166,16 @@ describe('MetaTemplateCore integration tests', () => {
       file('template1.hbs', 'TEST_DATA'),
     ]));
   });
+
+  test('./template8-hbs-escaping', () => {
+    const templatePath = join(import.meta.dir, '../integration', 'template8-hbs-escaping');
+    const inputTree = fsTreeReader.read(templatePath);
+    const template = new MetaTemplateCore(inputTree);
+
+    const output = template.renderObject({ useRaw: true, value: '42' });
+
+    expect(output).toEqual([
+      file('file.hbs', '{{escape{{value}}\n777\n'),
+    ]);
+  });
 });
