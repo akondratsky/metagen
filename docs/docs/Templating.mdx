@@ -1,0 +1,15 @@
+---
+sidebar_position: 2
+---
+
+# Templating
+
+By default, Metagen checks file type (using [istextorbinary](https://github.com/bevry/istextorbinary)). All the binary files are copied. All the text files are rendered with Handlebars. Therefore, you have to be careful regarding you files content. In some cases you may need to handle it manually. Consider next JSX code example:
+
+```jsx
+<Typography sx={{ ml: 3 }}>Text</Typography>
+```
+
+Being interpreted as Handlebars template, this code will throw the error. There are two ways to fix it. If you need just to copy the file, you can bypass templating engine and just copy file with [#copy](/docs/syntax/copy) directive. Otherwise, you have to use [escaping Handlebars expressions](https://handlebarsjs.com/guide/expressions.html#escaping-handlebars-expressions).
+
+You may also probably meet cases, when automatic file type recognition will fail, for example, if you output file has binary extension in its name, but you need to render it as a template. In this case you can use [#hbs](/docs/syntax/hbs) directive.
