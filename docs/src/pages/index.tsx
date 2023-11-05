@@ -11,8 +11,8 @@ export default function Home(): JSX.Element {
 
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      title="Home"
+      description="Templating engine which helps to automate creation of entire modules with files, folders and subfolders"
     >
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className={clsx('container', styles.container)}>

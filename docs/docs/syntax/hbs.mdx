@@ -1,17 +1,17 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# #copy
+# #hbs
 
-The **#copy** directive tells to the Metagen that the current file should not be processed by Handlebars. Such files will be just copied.
+The **#hbs** directive makes Metagen process the template content with Handlebars.
 
 <Tabs>
 <TabItem value="input" label="Input">
 
-```txt title="{#copy}template.hbs"
+```txt title="{#hbs}template.bin"
 {{value}}
 ```
 
@@ -26,7 +26,7 @@ The **#copy** directive tells to the Metagen that the current file should not be
 <TabItem value="output" label="Output">
 
 ```txt title="template.hbs"
-{{value}}
+42
 ```
 
 </TabItem>
