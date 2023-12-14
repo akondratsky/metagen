@@ -9,6 +9,7 @@ const packageJson = {
   ...JSON.parse(fs.readFileSync('package.json', 'utf-8')),
   main: 'cjs/index.js',
   module: 'mjs/index.js',
+  types: 'cjs/index.d.ts',
   bin: {
     metagen: 'metagen.js'
   },
