@@ -15,9 +15,9 @@ const packageJson = {
   },
   exports: {
     '.': {
-        import: './mjs/index.js',
-        require: './cjs/index.js'
-    }
+      import: './mjs/index.js',
+      require: './cjs/index.js',
+    },
   },
 };
 
