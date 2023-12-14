@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/akondratsky/metagen/compare/v2.0.0...v2.0.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* add types to package.json ([#8](https://github.com/akondratsky/metagen/issues/8)) ([dc3e57a](https://github.com/akondratsky/metagen/commit/dc3e57a655ecbef97fbd154ab53c94c6a57ddb47))
+
 ## [2.0.0](https://github.com/akondratsky/metagen/compare/v1.0.0...v2.0.0) (2023-11-05)
 
 
