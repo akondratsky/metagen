@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/akondratsky/metagen/compare/v2.0.1...v2.0.2) (2023-12-14)
+
+
+### Bug Fixes
+
+* fix published package content ([44ed951](https://github.com/akondratsky/metagen/commit/44ed95182e22d6ae459a5c1567c2cc14c8e5b644))
+
 ## [2.0.1](https://github.com/akondratsky/metagen/compare/v2.0.0...v2.0.1) (2023-12-14)
 
 
