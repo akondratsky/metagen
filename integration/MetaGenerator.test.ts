@@ -34,7 +34,6 @@ describe('MetaGenerator', () => {
   });
 
   test('checks if destination is a folder', () => {
-    console.log(process.cwd());
     const generator = new MetaGenerator('./template1-simple-interpolation');
     expect(
       () => generator.generate({ destination: './stub.txt', payload: {} }),

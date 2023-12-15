@@ -15,6 +15,8 @@ type Options = {
   isDryRun?: boolean;
   /** enable debugging mode (detailed output) */
   isVerbose?: boolean;
+  /** disable console output */
+  isSilent?: boolean;
 };
 
 type Output = {
@@ -37,8 +39,9 @@ export class MetaGenerator {
     return new Error(msg);
   }
 
-  public generate({ destination, payload, isDryRun, isVerbose }: Options): Output {
+  public generate({ destination, payload, isDryRun, isVerbose, isSilent }: Options): Output {
     logger.isVerbose = isVerbose ?? false;
+    logger.isSilent = isSilent ?? false;
 
     if (!fs.existsSync(destination)) {
       throw this.error(`MetaGenerator: destination path does not exist: "${destination}"`);
@@ -54,8 +57,8 @@ export class MetaGenerator {
     const json = this.treeConverter.toObject(trees);
     const files = this.treeConverter.toList(trees, destination);
 
-    console.log('Next files will be created:\n');
-    files.forEach((file) => console.log(file));
+    logger.info('Next files will be created:\n');
+    files.forEach(logger.info);
 
     if (!isDryRun) {
       logger.debug('writing result to the disk');

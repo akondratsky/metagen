@@ -35,6 +35,7 @@ program
 
   .option('-d, --dry-run', 'dry run mode')
   .option('-v, --verbose', 'enable debugging mode (detailed output)')
+  .option('-s, --silent', 'disable console output')
 
   .allowUnknownOption(false)
   .allowExcessArguments(false)

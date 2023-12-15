@@ -22,7 +22,6 @@ export const sortChildren = (children: TreeObject[]) => children.sort((a, b) => 
 
 
 export const sortTreeRecursively = (tree: TreeObject): TreeObject => {
-  console.log('sorting: ', tree.name);
   const result = {
     isDirectory: tree.isDirectory,
     name: tree.name,
