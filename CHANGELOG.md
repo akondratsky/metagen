@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/akondratsky/metagen/compare/v2.0.2...v2.1.0) (2023-12-15)
+
+
+### Features
+
+* **metagenerator:** add "silent" option to disable output ([531923d](https://github.com/akondratsky/metagen/commit/531923dcafbb1957652e9a23d8af0eeda434242f))
+
 ## [2.0.2](https://github.com/akondratsky/metagen/compare/v2.0.1...v2.0.2) (2023-12-14)
 
 
