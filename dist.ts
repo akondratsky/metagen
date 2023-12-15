@@ -4,6 +4,7 @@ fs.writeFileSync('./dist/cjs/package.json', '{ "type": "commonjs" }');
 fs.writeFileSync('./dist/mjs/package.json', '{ "type": "module" }');
 fs.copyFileSync('.npmignore', './dist/.npmignore');
 fs.copyFileSync('./bin/metagen.js', './dist/metagen.js');
+fs.copyFileSync('LICENSE', './dist/LICENSE');
 
 const packageJson = {
   ...JSON.parse(fs.readFileSync('package.json', 'utf-8')),
@@ -11,7 +12,7 @@ const packageJson = {
   module: 'mjs/index.js',
   types: 'cjs/index.d.ts',
   bin: {
-    metagen: 'metagen.js'
+    metagen: 'metagen.js',
   },
   exports: {
     '.': {
