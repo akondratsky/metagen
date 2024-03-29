@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'bun:test';
-import { Tree } from './Tree';
+import { Tree } from './Tree.js';
 
 describe('Tree', () => {
   describe('Directory', () => {

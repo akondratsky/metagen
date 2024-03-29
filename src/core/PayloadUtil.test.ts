@@ -1,4 +1,4 @@
-import { PayloadUtil } from './PayloadUtil';
+import { PayloadUtil } from './PayloadUtil.js';
 import { describe, it, expect } from 'bun:test';
 
 describe('PayloadUtil', () => {

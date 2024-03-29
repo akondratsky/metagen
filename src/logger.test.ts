@@ -1,4 +1,4 @@
-import { logger } from './logger';
+import { logger } from './logger.js';
 import { describe, it, expect, spyOn, afterEach, jest, afterAll } from 'bun:test';
 
 const logSpy = spyOn(console, 'log');

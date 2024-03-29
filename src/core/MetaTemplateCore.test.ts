@@ -1,8 +1,8 @@
 import { describe, test, expect } from 'bun:test';
-import { MetaTemplateCore } from './MetaTemplateCore';
-import { PayloadObject } from './Payload';
-import { Tree } from './Tree';
-import { TreeFile } from './TreeObject';
+import { MetaTemplateCore } from './MetaTemplateCore.js';
+import { PayloadObject } from './Payload.js';
+import { Tree } from './Tree.js';
+import { TreeFile } from './TreeObject.js';
 
 
 describe('MetaTemplateCore', () => {

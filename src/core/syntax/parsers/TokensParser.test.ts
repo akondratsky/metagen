@@ -1,6 +1,6 @@
-import { TokensParser } from './TokensParser';
+import { TokensParser } from './TokensParser.js';
 import { describe, test, expect, spyOn, jest, beforeAll, afterAll } from 'bun:test';
-import { logger } from '../../../logger';
+import { logger } from '../../../logger.js';
 
 
 describe('TokenParser', () => {

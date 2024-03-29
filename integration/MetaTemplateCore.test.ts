@@ -1,8 +1,8 @@
-import { MetaTemplateCore } from '../src/core';
+import { MetaTemplateCore } from '../src/core/index.js';
 import { describe, test, expect } from 'bun:test';
 import { join } from 'node:path';
-import { FsTreeReader } from '../src/FsTreeReader';
-import { directory, file, sortChildren } from './fixtures.test';
+import { FsTreeReader } from '../src/FsTreeReader.js';
+import { directory, file, sortChildren } from './fixtures.test.js';
 
 
 describe('MetaTemplateCore integration tests', () => {

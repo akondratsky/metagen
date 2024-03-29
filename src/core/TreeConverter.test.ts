@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'bun:test';
-import { TreeConverter } from './TreeConverter';
-import { Tree } from './Tree';
+import { TreeConverter } from './TreeConverter.js';
+import { Tree } from './Tree.js';
 
 describe('TreeConverter', () => {
   describe('toObject()', () => {

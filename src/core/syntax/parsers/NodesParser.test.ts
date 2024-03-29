@@ -1,7 +1,7 @@
 import { describe, it, expect, spyOn, jest, afterAll, beforeAll } from 'bun:test';
-import { ConditionNode, InterpolationNode, IterationNode, TextNode, TemplatingFlagNode } from '../index';
-import { NodesParser } from './NodesParser';
-import { logger } from '../../../logger';
+import { ConditionNode, InterpolationNode, IterationNode, TextNode, TemplatingFlagNode } from '../index.js';
+import { NodesParser } from './NodesParser.js';
+import { logger } from '../../../logger.js';
 
 
 describe('NodesParser', () => {
