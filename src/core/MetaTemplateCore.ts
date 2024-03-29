@@ -9,13 +9,13 @@ import {
   NodesParser,
   TextNode,
   TemplatingFlagNode,
-} from './syntax';
-import { Tree } from './Tree';
-import { PayloadUtil } from './PayloadUtil';
-import { logger } from '../logger';
-import { TreeConverter } from './TreeConverter';
-import type { PayloadObject } from './Payload';
-import type { TreeObject } from './TreeObject';
+} from './syntax/index.js';
+import { Tree } from './Tree.js';
+import { PayloadUtil } from './PayloadUtil.js';
+import { logger } from '../logger.js';
+import { TreeConverter } from './TreeConverter.js';
+import type { PayloadObject } from './Payload.js';
+import type { TreeObject } from './TreeObject.js';
 
 type Template = {
   filename: string;

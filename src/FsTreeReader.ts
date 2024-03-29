@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import path from 'node:path';
-import { Tree } from './core';
+import { Tree } from './core/Tree.js';
 
 export class FsTreeReader {
   public read(filePath: string): Tree {

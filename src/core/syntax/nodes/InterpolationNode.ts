@@ -1,6 +1,6 @@
-import { PayloadUtil } from '../../PayloadUtil';
-import type { PayloadObject } from '../../Payload';
-import type { ITextNode } from './ITextNode';
+import { PayloadUtil } from '../../PayloadUtil.js';
+import type { PayloadObject } from '../../Payload.js';
+import type { ITextNode } from './ITextNode.js';
 
 /**
  * Interpolates name from the given payload

@@ -19,10 +19,12 @@
     ]
   },
   "rules": {
-    // They are just different and for different purposes, mkay?
+    // interfaces and types have different purposes
     "@typescript-eslint/consistent-type-definitions": "off",
-    // "Type alias 'PayloadObject' circularly references itself."
+    // workaround for https://stackoverflow.com/a/42354422
     "@typescript-eslint/consistent-indexed-object-style": "off",
+
+    // stylistic rules
     "@stylistic/semi": "error",
     "@stylistic/max-len": ["error", { "code": 120 }],
     "@stylistic/no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0, "maxBOF": 0 }],

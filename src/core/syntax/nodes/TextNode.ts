@@ -1,4 +1,4 @@
-import { ITextNode } from './ITextNode';
+import { ITextNode } from './ITextNode.js';
 
 /**
  * Regular text node

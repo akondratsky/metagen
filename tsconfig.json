@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
     "composite": true,
-    "lib": ["ESNext"],
-    "types": [
-      "bun-types"
-    ],
-    "strict": true,
     "outDir": "./dist",
+    
+    "lib": ["ESNext"],
+    "types": ["bun-types"],
+
+    "strict": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

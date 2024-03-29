@@ -1,5 +1,5 @@
-import type { PayloadObject } from '../../Payload';
-import { PayloadUtil } from '../../PayloadUtil';
+import type { PayloadObject } from '../../Payload.js';
+import { PayloadUtil } from '../../PayloadUtil.js';
 
 /**
  * Includes or excludes file from the output using the boolean value

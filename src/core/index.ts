@@ -1,4 +1,4 @@
-export type { PayloadArray, PayloadObject, PayloadValue } from './Payload';
-export type { TreeObject, TreeDirectory, TreeFile } from './TreeObject';
-export { Tree } from './Tree';
-export { MetaTemplateCore } from './MetaTemplateCore';
+export type { PayloadArray, PayloadObject, PayloadValue } from './Payload.js';
+export type { TreeObject, TreeDirectory, TreeFile } from './TreeObject.js';
+export { Tree } from './Tree.js';
+export { MetaTemplateCore } from './MetaTemplateCore.js';

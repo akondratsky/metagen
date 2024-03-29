@@ -1,5 +1,5 @@
 import { program } from 'commander';
-import { MetaGenerator } from './MetaGenerator';
+import { MetaGenerator } from './MetaGenerator.js';
 import fs from 'node:fs';
 
 if (parseInt(process.version.slice(1), 10) < 18) {

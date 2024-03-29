@@ -1,7 +1,7 @@
-import { logger } from '../../../logger';
-import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '..';
-import { TemplatingFlagNode } from '../nodes/TemplatingFlagNode';
-import { TokensParser } from './TokensParser';
+import { logger } from '../../../logger.js';
+import { AbstractNode, ConditionNode, InterpolationNode, IterationNode, TextNode } from '../index.js';
+import { TemplatingFlagNode } from '../nodes/TemplatingFlagNode.js';
+import { TokensParser } from './TokensParser.js';
 
 export class NodesParser {
   private readonly tokensParser = new TokensParser();

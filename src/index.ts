@@ -1,9 +1,9 @@
-export { MetaGenerator } from './MetaGenerator';
+export { MetaGenerator } from './MetaGenerator.js';
 
-export { Tree } from './core/Tree';
+export { Tree } from './core/Tree.js';
 
 export type {
   PayloadArray,
   PayloadObject,
   PayloadValue,
-} from './core/Payload';
+} from './core/Payload.js';

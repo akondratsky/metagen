@@ -1,6 +1,6 @@
 import path from 'node:path';
-import { Tree } from './Tree';
-import { TreeDirectory, TreeFile, TreeObject } from './TreeObject';
+import { Tree } from './Tree.js';
+import { TreeDirectory, TreeFile, TreeObject } from './TreeObject.js';
 
 
 type ObjectResult<T extends Tree | Tree[]> = T extends Tree ? TreeObject : TreeObject[];

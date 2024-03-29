@@ -1,7 +1,7 @@
-import get from 'lodash/get';
-import merge from 'lodash/merge';
+import { get } from 'lodash';
+import { merge } from 'lodash';
 
-import { PayloadObject, PayloadValue } from './Payload';
+import { PayloadObject, PayloadValue } from './Payload.js';
 
 export const PayloadUtil = {
   /** Returns value from payload by path */

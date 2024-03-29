@@ -1,10 +1,10 @@
-import { FsTreeReader } from './FsTreeReader';
-import { PayloadObject, MetaTemplateCore, Tree } from './core';
+import { FsTreeReader } from './FsTreeReader.js';
+import { PayloadObject, MetaTemplateCore, Tree } from './core/index.js';
 import fs from 'node:fs';
 import path from 'node:path';
-import { logger } from './logger';
-import { TreeConverter } from './core/TreeConverter';
-import { TreeObject } from './core/TreeObject';
+import { logger } from './logger.js';
+import { TreeConverter } from './core/TreeConverter.js';
+import { TreeObject } from './core/TreeObject.js';
 
 type Options = {
   /** output folder */
