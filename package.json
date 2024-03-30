@@ -1,6 +1,6 @@
 {
   "name": "@metagen/core",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "File tree template engine",
   "repository": {
     "type": "git",

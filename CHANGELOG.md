@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/akondratsky/metagen/compare/v2.1.1...v2.1.2) (2024-03-30)
+
+
+### Bug Fixes
+
+* replace lodash with lodash-es ([6cc2e3d](https://github.com/akondratsky/metagen/commit/6cc2e3d2596dad943fa83432472984b530f6eb26))
+
 ## [2.1.1](https://github.com/akondratsky/metagen/compare/v2.1.0...v2.1.1) (2024-03-29)
 
 
