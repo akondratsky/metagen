@@ -1,6 +1,4 @@
-import { get } from 'lodash-es';
-import { merge } from 'lodash-es';
-
+import { get, merge } from '@technically/lodash';
 import { PayloadObject, PayloadValue } from './Payload.js';
 
 export const PayloadUtil = {

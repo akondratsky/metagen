@@ -36,7 +36,6 @@
     "@commitlint/cli": "17.8.0",
     "@commitlint/config-conventional": "17.8.0",
     "@stylistic/eslint-plugin": "1.0.0",
-    "@types/lodash-es": "4.17.12",
     "@typescript-eslint/eslint-plugin": "7.4.0",
     "@typescript-eslint/parser": "7.4.0",
     "bun-types": "1.0.8",
@@ -49,9 +48,9 @@
     "typescript": "5.4.3"
   },
   "dependencies": {
+    "@technically/lodash": "4.17.0",
     "commander": "11.1.0",
     "handlebars": "4.7.8",
-    "istextorbinary": "9.5.0",
-    "lodash-es": "^4.17.21"
+    "istextorbinary": "9.5.0"
   }
 }
