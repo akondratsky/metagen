@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/akondratsky/metagen/compare/v2.1.0...v2.1.1) (2024-03-29)
+
+
+### Bug Fixes
+
+* add ES modules support ([5ef2fa9](https://github.com/akondratsky/metagen/commit/5ef2fa925013655544bed7a3d8fcb0f190d3bb86))
+
 ## [2.1.0](https://github.com/akondratsky/metagen/compare/v2.0.2...v2.1.0) (2023-12-15)
 
 
