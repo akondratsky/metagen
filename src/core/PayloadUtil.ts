@@ -1,5 +1,5 @@
-import { get } from 'lodash';
-import { merge } from 'lodash';
+import { get } from 'lodash-es';
+import { merge } from 'lodash-es';
 
 import { PayloadObject, PayloadValue } from './Payload.js';
 
