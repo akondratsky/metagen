@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/akondratsky/metagen/compare/v2.1.2...v2.1.3) (2024-03-30)
+
+
+### Bug Fixes
+
+* replace lodash-es with @technically/lodash to improve jest support ([7bd5610](https://github.com/akondratsky/metagen/commit/7bd56103fab1b418f1f0f3bb3d691adc6f4f8bb5))
+
 ## [2.1.2](https://github.com/akondratsky/metagen/compare/v2.1.1...v2.1.2) (2024-03-30)
 
 
